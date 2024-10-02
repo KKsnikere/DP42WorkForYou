@@ -118,7 +118,7 @@
             <div
             v-for="job in jobs"
             :key="job._id.$oid"
-            class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl w-80 m-5 h-96 flex flex-col justify-between"
+            class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between"
             >
             <div>
                 <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
@@ -141,12 +141,10 @@
                 <button
                 @click="likeJob(job._id.$oid)"
                 class="h-9 w-9 ml-5"
-                :disabled="job.liked"
-                :class="{ 'opacity-50 cursor-not-allowed': job.liked }"
                 >
                 <div
                     :style="{
-                    backgroundImage: `url(${job.liked ? '/Like2.svg' : '/Like1.svg'})`
+                    backgroundImage: `url(${job.liked ? '../src/assets/Images/Like2.svg' : '../src/assets/Images/Like1.svg'})`
                     }"
                     class="bg-cover w-9 h-9 transform active:scale-75 transition-transform"
                 ></div>
