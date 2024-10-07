@@ -134,10 +134,11 @@
             <div class="flex">
                 <router-link
                 :to="'/Jobs/' + job.id"
-                class="bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform"
+                class="bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform"
                 >
                 See more
                 </router-link>
+
                 <button
                 @click="likeJob(job._id.$oid)"
                 class="h-9 w-9 ml-5"
@@ -157,7 +158,7 @@
     
     <script setup>
     import { ref, onMounted } from 'vue'
-    import axios from 'axios'
+    import axios from 'axios'  
     
     const jobs = ref([])
     const userEmail = localStorage.getItem('userEmail')
