@@ -5,6 +5,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: 'welcome',
+      component: () => import("../views/WelcomeView.vue")
+    },
+    {
       path: '/adverts',
       name: 'adverts',
       component: () => import("../views/AdvertsView.vue")
@@ -30,7 +35,7 @@ const router = createRouter({
       component: () => import("../views/RegisterView.vue")
     },
     {
-      path: '/',
+      path: '/profile',
       name:'profile',
       component: () => import("../views/ProfileView.vue")
     },
