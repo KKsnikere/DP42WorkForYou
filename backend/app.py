@@ -225,7 +225,9 @@ def get_favorites():
 
 def _build_cors_prelight_response():
     response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+    origin = request.headers.get('Origin')
+    if origin in ["http://localhost:5174", "http://localhost:5173"]:
+        response.headers.add("Access-Control-Allow-Origin", origin)  # Dynamically set allowed origin
     response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
     response.headers.add("Access-Control-Allow-Headers", "Content-Type")
     response.headers.add("Access-Control-Allow-Credentials", "true")
