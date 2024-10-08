@@ -11,6 +11,11 @@ from bson import json_util, ObjectId
 import json
 import random
 import string
+from bson import json_util, ObjectId
+
+app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:5174"}}, supports_credentials=True)
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(24)
@@ -182,8 +187,8 @@ def get_user_by_email():
 @app.route('/add-favorite', methods=['POST'])
 def add_favorite():
     data = request.get_json()
-    user_email = data.get('userEmail')
-    job_id = data.get('jobId')
+    user_email = data.get('email')
+    job_id = data.get('job_id')
 
     if not user_email or not job_id:
         return jsonify({"error": "Email and Job ID are required"}), 400
@@ -197,8 +202,12 @@ def add_favorite():
     db.Favorites.insert_one(favorite)
     return jsonify({"message": "Favorite added successfully"}), 201
 
-@app.route('/favorites', methods=['POST'])
+
+@app.route('/favourites', methods=['POST', 'OPTIONS'])
 def get_favorites():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
+    
     data = request.get_json()
     user_email = data.get('userEmail')
 
@@ -213,6 +222,14 @@ def get_favorites():
     favorite_jobs = list(db.JobAdvert.find({'_id': {'$in': [ObjectId(job_id) for job_id in job_ids]}}))
 
     return json_util.dumps(favorite_jobs), 200
+
+def _build_cors_prelight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5174")
+    response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    return response
 
 @app.route('/delete-favorite', methods=['POST'])
 def delete_favorite():

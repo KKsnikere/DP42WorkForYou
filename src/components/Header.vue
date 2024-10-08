@@ -4,7 +4,7 @@
     <div class="flex items-center gap-4 shrink-0">
       <div>
         <!-- Logo -->
-        <router-link to="/">
+        <router-link to="/home">
           <img src="../assets/Images/logo.png" alt="Logo" class="w-10" />
         </router-link>
       </div>

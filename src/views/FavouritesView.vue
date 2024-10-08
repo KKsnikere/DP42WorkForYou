@@ -52,7 +52,7 @@
         throw new Error('User email not found in localStorage')
       }
   
-      const response = await axios.post('http://127.0.0.1:5000/favourites', { userEmail })
+      const response = await axios.post('http://127.0.0.1:5000/favourites', { "userEmail": userEmail })
       favorites.value = response.data
     } catch (error) {
       console.error('Error fetching favorites:', error.response ? error.response.data : error.message)

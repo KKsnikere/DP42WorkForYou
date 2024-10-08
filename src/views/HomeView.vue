@@ -131,7 +131,7 @@
                 </div>
                 <p class="mt-4 line-clamp-[7]">{{ job.description }}</p>
             </div>
-            <div class="flex">
+            <div class="flex ">
                 <router-link
                 :to="'/Jobs/' + job.id"
                 class="bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform"
@@ -178,7 +178,7 @@
     
     const likeJob = (jobId) => {
         axios
-        .post('http://127.0.0.1:5000/add-favorite', { jobId, userEmail })
+        .post('http://127.0.0.1:5000/add-favorite', { "job_id": jobId, "email": userEmail })
         .then(() => {
             const jobIndex = jobs.value.findIndex((job) => job._id.$oid === jobId)
             if (jobIndex !== -1) {
