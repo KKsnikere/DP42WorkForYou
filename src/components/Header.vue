@@ -47,9 +47,9 @@
       </template>
       <template v-else>
         <li class="flex items-center cursor-pointer gap-3 text-gray-600 hover:text-blue-500">
-          <router-link to="/favorites" class="py-2 px-4 hover:bg-blue-200 flex items-center gap-3">
+          <router-link to="/favourites" class="py-2 px-4 hover:bg-blue-200 flex items-center gap-3">
             <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
-            <p class="text-base">Favorite</p>
+            <p class="text-base">Favourite</p>
           </router-link>
           <router-link to="/profile" class="flex items-center gap-3">
             <img src="../assets/Images/Profile.png" alt="Profile" width="30" height="30" />
@@ -92,11 +92,11 @@
         <div class="p-4 space-y-4">
           <template v-if="isAuthenticated">
             <router-link
-              to="/favorites"
+              to="/favourites"
               class="block py-2 px-4 hover:bg-blue-200 flex items-center gap-3"
             >
               <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
-              <p class="text-base">Favorite</p>
+              <p class="text-base">Favourite</p>
             </router-link>
             <router-link to="/profile" class="flex items-center gap-3">
               <img src="../assets/Images/Profile.png" alt="Profile" width="30" height="30" />
