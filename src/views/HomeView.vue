@@ -63,7 +63,7 @@
             <div>
                 <button
                 @click="toggleSortMenu"
-                class="inline-flex justify-between w-full rounded-md  border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 "
+                class="inline-flex justify-between w-full rounded-md shadow-xl transition-colors transform bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform "
                 id="options-menu"
                 aria-haspopup="true"
                 aria-expanded="true"

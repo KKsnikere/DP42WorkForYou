@@ -10,7 +10,7 @@
       </div>
       <div>
         <!-- Motto -->
-        <h2 class="text-xl font-bold uppercase">Uwork</h2>
+        <h2 class="text-xl font-bold uppercase">Work For You</h2>
         <p class="text-slate-500">Realize yourself</p>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <button
         @click="toggleMenu"
         @click.stop
-        class="p-2 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600 focus:outline-none flex items-center justify-center"
+        class="p-2 rounded-full bg-gradient-to-br from-primary to-accent hover:from-accent hover:to-primary hover:scale-105 focus:outline-none flex items-center justify-center transition duration-200"
       >
         <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
