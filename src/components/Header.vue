@@ -46,7 +46,7 @@
         </li>
       </template>
       <template v-else>
-        <li class="flex items-center cursor-pointer gap-3 text-gray-600 hover:text-blue-500">
+        <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-blue-500">
           <router-link to="/favourites" class="py-2 px-4 hover:bg-blue-200 flex items-center gap-3">
             <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
             <p class="text-base">Favourite</p>
