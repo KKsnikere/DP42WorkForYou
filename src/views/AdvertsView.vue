@@ -16,6 +16,16 @@
         <p class="text-blue-500 cursor-pointer text-xs" @click="openGoogleMaps(job.address)">
           View in Google Maps
         </p>
+        <button
+        class="mt-10  transform active:scale-100 transition-transform hover:scale-110"
+        >
+        <router-link
+          to="/home"
+          class="bg-red-500 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          >
+          Back
+        </router-link>
+      </button>
       </div>
     </div>
     <div v-else-if="error">
@@ -30,6 +40,7 @@
   import { ref, onMounted, computed } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router'
+import HomeView from './HomeView.vue';
   
   const route = useRoute()
   const jobId = route.params.id
