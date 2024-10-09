@@ -1,36 +1,36 @@
 <template>
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8 px-4">
       <div class="text-center mb-12">
-        <h1 class="text-5xl font-bold text-accent mb-4">Добро пожаловать на наш сайт поиска работы!</h1>
+        <h1 class="text-5xl font-bold text-accent mb-4">Welcome to our job search site!</h1>
         <p class="text-xl text-gray-600">
-          Найдите работу своей мечты или разместите вакансию прямо сейчас.
+          Find your dream job or post a job opening now.
         </p>
       </div>
       
       
       <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 class="text-2xl font-semibold mb-4">Быстрый поиск работы</h3>
+          <h3 class="text-2xl font-semibold mb-4">Quick job search</h3>
           <p class="text-gray-600">
-            Используйте фильтры, чтобы найти подходящие вакансии по типу работы, профессии, городу и времени.
+            Use the filters to find suitable vacancies by job type, profession, city and time.
           </p>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 class="text-2xl font-semibold mb-4">Размещение вакансий</h3>
+          <h3 class="text-2xl font-semibold mb-4">Posting vacancies</h3>
           <p class="text-gray-600">
-            Зарегистрируйтесь, чтобы легко размещать вакансии и привлекать подходящих кандидатов.
+            Register to easily post jobs and attract the right candidates.
           </p>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h3 class="text-2xl font-semibold mb-4">Избранные вакансии</h3>
+          <h3 class="text-2xl font-semibold mb-4">Selected vacancies</h3>
           <p class="text-gray-600">
-            Добавляйте вакансии в избранное и сохраняйте их для быстрого доступа позже.
+            Add jobs to your favorites and save them for quick access later.
           </p>
         </div>
       </div>
   
       <div class="mt-16">
-        <h2 class="text-3xl font-bold text-center mb-8">Популярные категории работы</h2>
+        <h2 class="text-3xl font-bold text-center mb-8">Popular categories of work</h2>
         <div class="flex flex-wrap justify-center space-x-4">
           <button
             v-for="category in popularCategories"
@@ -51,12 +51,12 @@
   
   const router = useRouter()
   const popularCategories = ref([
-    'Программисты',
-    'Инженеры',
-    'Маркетинг',
-    'Образование',
-    'Кибербезопасность',
-    'Искусственный интеллект'
+    'Programmers',
+    'Engineers',
+    'Marketing',
+    'Education',
+    'Cybersecurity',
+    'Artificial intelligence'
   ])
   
   const goToCategory = (category) => {
