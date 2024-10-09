@@ -243,6 +243,7 @@ export default {
           const responseData = await response.json()
           localStorage.setItem('userEmail', responseData.email)
           this.$emit('login')
+          this.$router.push('/home')
         } else {
           console.error('Registration failed')
         }
@@ -276,6 +277,7 @@ export default {
           const responseData = await response.json()
           localStorage.setItem('userEmail', responseData.email)
           this.$emit('login')
+          this.$router.push('/home')
         } else {
           this.loginError = true
         }

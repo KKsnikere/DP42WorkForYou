@@ -4,16 +4,36 @@
         <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
         <div v-if="user" class="space-y-4">
           <div class="flex justify-center mb-4">
-            <img
-              v-if="user.profileImageUrl"
-              :src="user.profileImageUrl"
-              alt="Profile Image"
-              class="w-32 h-32 rounded-full object-cover"
-            />
-            <div v-else class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-              <span>No Image</span>
-            </div>
-          </div>
+  <img
+    v-if="user.profileImageUrl"
+    :src="user.profileImageUrl"
+    alt="Profile Image"
+    class="w-32 h-32 rounded-full object-cover"
+  />
+  <div
+    v-else
+    class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"
+  >
+    <span>No Image</span>
+  </div>
+</div>
+
+<!-- Upload Profile Image button and hidden file input -->
+<div class="flex justify-center mb-4">
+  <button
+    @click="triggerFileUpload"
+    class="mt-2 bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+  >
+    Upload Profile Image
+  </button>
+  <input
+    type="file"
+    ref="fileInput"
+    accept="image/*"
+    @change="handleFileUpload"
+    class="hidden"
+  />
+</div>
           <!-- User information -->
           <div class="info-item">
             <span class="font-semibold">Email:</span>
@@ -329,6 +349,47 @@
     old_password: '',
     new_password: ''
   })
+  
+  const fileInput = ref(null) // Reference to the file input element
+
+// Method to trigger the file input click
+const triggerFileUpload = () => {
+  fileInput.value.click()
+}
+
+// Method to handle the file upload
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      // Загрузка файла на API
+      const response = await axios.post('https://gachi.gay/api/upload', formData)
+
+      const data = response.data
+      const imageUrl = data.link // Получаем URL изображения из ответа
+
+      // Сохраняем URL изображения на сервере
+      await axios.post('http://127.0.0.1:5000/update_profile_image', {
+        email: user.value.email,
+        profileImageUrl: imageUrl
+      })
+
+      // Обновляем URL изображения на клиенте, добавляя метку времени для предотвращения кэширования
+      user.value.profileImageUrl = `${imageUrl}?t=${new Date().getTime()}`
+
+    } catch (error) {
+      console.error(
+        'Ошибка при загрузке фото профиля:',
+        error.response ? error.response.data : error.message
+      )
+    }
+  }
+}
+
+
   
   const fetchUserData = async () => {
     try {
