@@ -36,7 +36,7 @@
 
     <ul class="flex items-center gap-10 hidden md:flex">
       <template v-if="!isAuthenticated">
-        <li class="flex items-center cursor-pointer gap-3 text-gray-600 hover:text-blue-500">
+        <li class="flex items-center cursor-pointer gap-3 text-gray-600 hover:text-green-500">
           <button
             @click="openAuthModal"
             class="text-base py-2 px-4 bg-accent text-white rounded-lg  transition duration-200 hover:scale-110"
@@ -46,12 +46,12 @@
         </li>
       </template>
       <template v-else>
-        <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-blue-500">
-          <router-link to="/favourites" class="py-2 px-4 hover:bg-blue-200 flex items-center gap-3">
+        <li class="flex items-center cursor-pointer gap-3 text-gray-500 hover:text-green-500">
+          <router-link to="/favourites" class="py-2 px-4 flex items-center gap-3">
             <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
             <p class="text-base">Favourite</p>
           </router-link>
-          <router-link to="/profile" class="flex items-center gap-3">
+          <router-link to="/profile" class="flex items-center gap-3 hover:text-green-500">
             <img src="../assets/Images/Profile.png" alt="Profile" width="30" height="30" />
             <p class="text-sm">Profile</p>
           </router-link>
@@ -64,6 +64,7 @@
         </li>
       </template>
     </ul>
+
 
     <!-- Popup Menu -->
     <transition name="slide">
