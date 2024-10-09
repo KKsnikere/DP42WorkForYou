@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-      <h1 class="text-3xl font-bold mb-4">Your Favorites</h1>
+      <h1 class="text-3xl font-bold mb-4 mt-4 ml-5">Your Favorites</h1>
       <div v-if="favorites.length === 0" class="text-center">No favorites yet.</div>
       <div v-else class="flex flex-wrap justify-center">
         <div
@@ -52,7 +52,7 @@
         throw new Error('User email not found in localStorage')
       }
   
-      const response = await axios.post('http://127.0.0.1:5000/favourites', { "userEmail": userEmail })
+      const response = await axios.post('http://127.0.0.1:5000/favourites', { userEmail })
       favorites.value = response.data
     } catch (error) {
       console.error('Error fetching favorites:', error.response ? error.response.data : error.message)
@@ -83,4 +83,3 @@
   </script>
   
   <style scoped></style>
-  
