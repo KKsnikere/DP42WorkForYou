@@ -167,6 +167,26 @@ def verify_token():
     else:
         return jsonify({'message': 'Token is missing!'}), 401
 
+
+@app.route('/update_profile_image', methods=['POST'])
+def update_profile_image():
+    data = request.get_json()
+    email = data.get('email')
+    profile_image_url = data.get('profileImageUrl')
+
+    if not email or not profile_image_url:
+        return jsonify({'message': 'Email and profile image URL are required'}), 400
+
+    user = users.find_one({'email': email})
+
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    users.update_one({'email': email}, {'$set': {'profileImageUrl': profile_image_url}})
+
+    return jsonify({'message': 'Profile image updated successfully'}), 200
+
+
 @app.route('/user', methods=['POST']) #For "Profile" page
 def get_user_by_email():
     if request.method == 'POST':
