@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-      <h1 class="text-3xl font-bold mb-4">Your Favorites</h1>
+      <h1 class="text-3xl font-bold mb-4 mt-4 ml-5">Your Favorites</h1>
       <div v-if="favorites.length === 0" class="text-center">No favorites yet.</div>
       <div v-else class="flex flex-wrap justify-center">
         <div

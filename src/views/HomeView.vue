@@ -180,6 +180,7 @@
   
   const jobs = ref([]);
   const userEmail = localStorage.getItem("userEmail");
+
   
   // Fetch user's favorite jobs
   const fetchFavorites = async () => {
