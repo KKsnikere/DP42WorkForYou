@@ -95,7 +95,7 @@
           <template v-if="isAuthenticated">
             <router-link
               to="/favourites"
-              class="block py-2 px-4 hover:bg-blue-200 flex items-center gap-3"
+              class="py-2 flex items-center gap-3"
             >
               <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
               <p class="text-base">Favourites</p>
