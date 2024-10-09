@@ -3,6 +3,17 @@
       <div class="bg-white shadow-md rounded-lg p-6">
         <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
         <div v-if="user" class="space-y-4">
+          <div class="flex justify-center mb-4">
+            <img
+              v-if="user.profileImageUrl"
+              :src="user.profileImageUrl"
+              alt="Profile Image"
+              class="w-32 h-32 rounded-full object-cover"
+            />
+            <div v-else class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+              <span>No Image</span>
+            </div>
+          </div>
           <!-- User information -->
           <div class="info-item">
             <span class="font-semibold">Email:</span>
@@ -44,7 +55,7 @@
           <!-- Change Password button -->
           <button
             @click="showChangePasswordModal = true"
-            class="mt-2 bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+            class="mt-2 bg-accent text-white font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200"
           >
             Change Password
           </button>
