@@ -75,7 +75,7 @@
           <button
             v-if="user.user_type === 'organisation'"
             @click="showJobAdvertModal = true"
-            class="mt-6 sm:mr-12 bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200 mb-4"
+            class="mt-6 sm:mr-12 bg-green-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200 mb-4 shadow-dark"
           >
             + Add Job Advert
           </button>
@@ -83,7 +83,7 @@
           <!-- Change Password button -->
           <button
             @click="showChangePasswordModal = true"
-            class="mt-2 bg-accent text-white font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200"
+            class="mt-2 bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shdow-dark"
           >
             Change Password
           </button>
@@ -101,7 +101,7 @@
                 <!-- Delete button -->
                 <button
                   @click="deleteAdvert(advert.id)"
-                  class="mt-2 bg-red-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200"
+                  class="mt-2 bg-red-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark" 
                 >
                   Delete
                 </button>
@@ -126,7 +126,7 @@
           >
             <button
               @click="showJobAdvertModal = false"
-              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
+              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 shadow-dark"
             >
               &times;
             </button>
@@ -278,7 +278,7 @@
               </div>
               <button
                 type="submit"
-                class="w-full bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                class="w-full bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
               >
                 Create Job Advert
               </button>
@@ -325,7 +325,7 @@
               </div>
               <button
                 type="submit"
-                class="w-full bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
               >
                 Change Password
               </button>
