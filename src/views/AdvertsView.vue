@@ -13,9 +13,11 @@
         <p class="text-gray-700"><strong>Email:</strong> {{ job.email }}</p>
         <p class="text-gray-700"><strong>Phone:</strong> {{ job.phone_number }}</p>
         <p class="text-gray-700"><strong>Adress:</strong> {{ job.address }}</p>
+        <p class="text-gray-700"><strong>Salary:</strong> {{ job.salary }}€</p>
         <p class="text-blue-500 cursor-pointer text-base" @click="openGoogleMaps(job.address)">
           View in Google Maps
         </p>
+        
         <button
         class="mt-10  transform active:scale-100 transition-transform hover:scale-110"
         >
