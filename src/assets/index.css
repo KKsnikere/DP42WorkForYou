@@ -7,3 +7,11 @@
     --secondary-color: #f3f4f6;
     --accent-color: #aed8ab;
   }
+
+  @layer base {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }

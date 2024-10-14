@@ -270,7 +270,7 @@
               <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Salary</label>
                 <input
-                  type="text"
+                  type="number"
                   v-model="jobAdvert.salary"
                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                   required

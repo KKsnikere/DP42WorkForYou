@@ -85,10 +85,17 @@ def get_jobs():
 def create_job_advert():
     if request.method == 'POST':
         product_data = request.json
+        
+        # Add a creation date if it's not provided
+        if not product_data.get('date'):
+            product_data['date'] = datetime.datetime.utcnow()
+
         if not product_data.get('id'):
             product_data['id'] = random.randint(100000, 1000000)
+        
         jobAdvert.insert_one(product_data)
         return json_util.dumps(product_data), 201
+
 
 @app.route('/register', methods=['POST'])
 def register():
