@@ -8,10 +8,10 @@
           @click.stop
           @click="togglePopup(index)"
           :class="{
-            'bg-accent hover:scale-110 text-white': showPopup === index,
+            'bg-accent hover:scale-110 text-slate-600': showPopup === index,
             'bg-gray-200': showPopup !== index,
           }"
-          class="px-3 py-2 rounded transition duration-150 ease-in-out mx-2 my-2 hover:scale-110"
+          class="px-3 py-2 rounded transition text-gray-700 font-medium duration-150 ease-in-out mx-2 my-2 hover:scale-110 shadow-dark"
         >
           {{ filter.name }}
         </button>
@@ -44,7 +44,7 @@
             </div>
             <button
               @click="togglePopup(null)"
-              class="mt-2 text-sm close-button"
+              class="mt-2 text-sm text-gray-700 close-button"
             >
               Close
             </button>
@@ -56,13 +56,13 @@
     <div class="flex justify-center items-center space-x-4 mt-4">
       <button
         @click="applyFilters"
-        class="shadow-xl transition-colors transform bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
+        class="shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
       >
         Submit
       </button>
       <button
         @click="clearFilters"
-        class="w-10 h-10 hover:scale-110 bg-white rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-100 shadow-lg transform active:scale-75 transition-transform"
+        class="w-10 h-10 hover:scale-110 bg-white rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
       >
         <img
           src="../assets/Images/clearF.png"
@@ -74,7 +74,7 @@
         <div>
           <button
             @click="toggleSortMenu"
-            class="inline-flex justify-between w-full rounded-md shadow-xl transition-colors transform bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
+            class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
             id="options-menu"
             aria-haspopup="true"
             aria-expanded="true"
@@ -150,7 +150,7 @@
         <div class="flex">
           <router-link
             :to="'/Jobs/' + job.id"
-            class="bg-accent hover:scale-110 text-white font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform"
+            class="bg-accent hover:scale-110 text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform shadow-dark"
           >
             See more
           </router-link>
