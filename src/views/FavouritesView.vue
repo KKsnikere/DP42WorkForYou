@@ -28,7 +28,7 @@
             </router-link>
             <button
               @click="removeFavorite(favorite._id.$oid)"
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform"
+              class="bg-red-500 hover:bg-red-700 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform shadow-dark"
             >
               Remove
             </button>
