@@ -8,6 +8,9 @@ module.exports = {
         primary: 'var(--primary-color)',
         secondary: 'var(--secondary-color)',
         accent: 'var(--accent-color)', 
+        'red': '#D8ABAB',
+        'green': '#abced9'
+
       },
       boxShadow: {
         'dark': '0 2px 3px rgba(0, 0, 0, 0.4)', // Customize the shadow color and spread
