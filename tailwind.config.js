@@ -9,7 +9,9 @@ module.exports = {
         secondary: 'var(--secondary-color)',
         accent: 'var(--accent-color)', 
         'red': '#D8ABAB',
-        'green': '#abced9'
+        'green': '#abced9',
+        'darker': '#97b6bf',
+        'greener': '#75967f'
 
       },
       boxShadow: {
