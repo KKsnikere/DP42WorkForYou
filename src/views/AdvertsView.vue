@@ -17,11 +17,11 @@
           View in Google Maps
         </p>
         <button
-        class="mt-10  transform active:scale-100 transition-transform hover:scale-110"
+        class="mt-10  transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
         >
         <router-link
           to="/home"
-          class="bg-red-500 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          class="bg-red-500 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
           >
           Back
         </router-link>
