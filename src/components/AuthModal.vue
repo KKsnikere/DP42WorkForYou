@@ -2,7 +2,7 @@
   <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <div class="flex justify-between items-center border-b pb-3 mb-4">
-        <h3 class="text-2xl font-semibold text-gray-800">Authentication</h3>
+        <h3 class="text-2xl font-semibold text-gray-800">Sign in options</h3>
         <button @click="$emit('close')" class="text-gray-600 hover:text-red-500 focus:outline-none">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -20,13 +20,13 @@
         <div v-if="loginError" class="text-red-500 text-sm mt-2">Incorrect password or email</div>
         <button
           @click="step = 'login'"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+          class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark"
         >
-          Login
+          Log In
         </button>
         <button
           @click="setRegisterChoice"
-          class="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+          class="w-full bg-accent text-gray-700 py-2 px-4 font-medium rounded-lg hover:bg-accent transition duration-200 shadow-dark"
         >
           Register
         </button>
@@ -44,8 +44,8 @@
           </button>
           <button
             @click="userType = 'organisation'"
-            :class="userType === 'organisation' ? 'bg-green-600' : 'bg-green-500'"
-            class="w-full text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+            :class="userType === 'organisation' ? 'bg-accent' : 'bg-accent'"
+            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
           >
             Organisation
           </button>
@@ -109,7 +109,7 @@
         <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
         <button
           @click="register"
-          class="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200 mt-8"
+          class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 mt-8 shadow-dark"
         >
           Register
         </button>
@@ -117,7 +117,7 @@
         <div class="text-center">
           <p class="text-gray-600">
             Already have an account?
-            <button @click="step = 'login'" class="text-blue-500 focus:outline-none">
+            <button @click="step = 'login'" class="text-greener focus:outline-none">
               Login here
             </button>
           </p>
@@ -130,14 +130,14 @@
           v-model="email"
           type="email"
           placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
         />
         <div v-if="emailError" class="text-red-500 text-sm mt-1">Email is required</div>
         <input
           v-model="password"
           type="password"
           placeholder="Password"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
         />
         <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
 
@@ -145,14 +145,14 @@
 
         <button
           @click="login"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+          class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg hover:bg-green transition duration-200 shadow-dark font-medium"
         >
           Login
         </button>
         <div class="text-center">
           <p class="text-gray-600">
             Don't have an account yet?
-            <button @click="step = 'registerChoice'" class="text-blue-500 focus:outline-none">
+            <button @click="step = 'registerChoice'" class="text-darker focus:outline-none">
               Register here
             </button>
           </p>

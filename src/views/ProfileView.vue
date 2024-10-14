@@ -1,46 +1,38 @@
 <template>
-    <div class="container mx-auto py-10 px-4">
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
-        <div v-if="user" class="space-y-4">
-          <div class="flex justify-center mb-4">
-<!-- Profile Image or placeholder -->
+  <div class="container mx-auto py-10 px-4">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
+      <div v-if="user" class="space-y-4">
+        <div class="flex justify-center mb-4">
+<img
+  v-if="user.profileImageUrl"
+  :src="user.profileImageUrl"
+  alt="Profile Image"
+  class="w-32 h-32 rounded-full object-cover"
+/>
 <div
-  class="relative w-32 h-32 rounded-full cursor-pointer"
-  @click="triggerFileUpload"
+  v-else
+  class="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"
 >
-  <!-- If there's a profile image -->
-  <img
-    v-if="user.profileImageUrl"
-    :src="user.profileImageUrl"
-    alt="Profile Image"
-    class="w-full h-full rounded-full object-cover"
-  />
-
-  <!-- If there's no profile image -->
-  <div
-    v-else
-    class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-full"
-  >
-    <span>No Image</span>
-  </div>
-
-  <!-- Overlay and "+" icon on hover -->
-  <div
-    class="absolute inset-0 flex w-32 h-32 items-center justify-center bg-black bg-opacity-0 text-white rounded-full transition duration-200 hover:bg-opacity-50"
-  >
-    <div class="text-5xl font-bold w-32 h-32 opacity-0 transition duration-200 hover:opacity-100 mb-2 text-center content-center active:scale-">+</div>
-  </div>
-
-  <!-- Hidden file input -->
-  <input
-    type="file"
-    ref="fileInput"
-    accept="image/*"
-    @change="handleFileUpload"
-    class="hidden"
-  />
+  <span>No Image</span>
 </div>
+</div>
+
+<!-- Upload Profile Image button and hidden file input -->
+<div class="flex justify-center mb-4">
+<button
+  @click="triggerFileUpload"
+  class="mt-2 bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
+>
+  Upload Profile Image
+</button>
+<input
+  type="file"
+  ref="fileInput"
+  accept="image/*"
+  @change="handleFileUpload"
+  class="hidden"
+/>
 </div>
           <!-- User information -->
           <div class="info-item">
@@ -372,147 +364,278 @@
 
 // Method to trigger the file input click
 const triggerFileUpload = () => {
-  fileInput.value.click()
+fileInput.value.click()
 }
 
 // Method to handle the file upload
 const handleFileUpload = async (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    try {
-      const formData = new FormData()
-      formData.append('file', file)
+const file = event.target.files[0]
+if (file) {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
 
-      // Загрузка файла на API
-      const response = await axios.post('https://gachi.gay/api/upload', formData)
+    // Загрузка файла на API
+    const response = await axios.post('https://gachi.gay/api/upload', formData)
 
-      const data = response.data
-      const imageUrl = data.link // Получаем URL изображения из ответа
+    const data = response.data
+    const imageUrl = data.link // Получаем URL изображения из ответа
 
-      // Сохраняем URL изображения на сервере
-      await axios.post('http://127.0.0.1:5000/update_profile_image', {
-        email: user.value.email,
-        profileImageUrl: imageUrl
-      })
+    // Сохраняем URL изображения на сервере
+    await axios.post('http://127.0.0.1:5000/update_profile_image', {
+      email: user.value.email,
+      profileImageUrl: imageUrl
+    })
 
-      // Обновляем URL изображения на клиенте, добавляя метку времени для предотвращения кэширования
-      user.value.profileImageUrl = `${imageUrl}?t=${new Date().getTime()}`
+    // Обновляем URL изображения на клиенте, добавляя метку времени для предотвращения кэширования
+    user.value.profileImageUrl = `${imageUrl}?t=${new Date().getTime()}`
 
-    } catch (error) {
-      console.error(
-        'Error adding profile page:',
-        error.response ? error.response.data : error.message
-      )
-    }
+  } catch (error) {
+    console.error(
+      'Ошибка при загрузке фото профиля:',
+      error.response ? error.response.data : error.message
+    )
   }
+}
 }
 
 
-  
-  const fetchUserData = async () => {
-    try {
-      const email = localStorage.getItem('userEmail')
-      if (!email) {
-        throw new Error('User email not found in localStorage')
-      }
-  
-      const response = await axios.post('http://127.0.0.1:5000/user', { email })
-      user.value = response.data
-      if (user.value.user_type === 'organisation') {
-        jobAdvert.value.Company_name = user.value.org_name
-        jobAdvert.value.reg_nr = user.value.reg_number
-        jobAdvert.value.address = user.value.location
-        jobAdvert.value.email = user.value.email
-      }
-  
-      await fetchUserAdverts(email)
-    } catch (error) {
-      console.error('Error fetching user data:', error.response ? error.response.data : error.message)
+
+const fetchUserData = async () => {
+  try {
+    const email = localStorage.getItem('userEmail')
+    if (!email) {
+      throw new Error('User email not found in localStorage')
     }
-  }
-  
-  const fetchUserAdverts = async (email) => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/my_adverts', { email })
-      adverts.value = response.data
-    } catch (error) {
-      console.error(
-        'Error fetching user adverts:',
-        error.response ? error.response.data : error.message
-      )
+
+    const response = await axios.post('http://127.0.0.1:5000/user', { email })
+    user.value = response.data
+    if (user.value.user_type === 'organisation') {
+      jobAdvert.value.Company_name = user.value.org_name
+      jobAdvert.value.reg_nr = user.value.reg_number
+      jobAdvert.value.address = user.value.location
+      jobAdvert.value.email = user.value.email
     }
+
+    await fetchUserAdverts(email)
+  } catch (error) {
+    console.error('Error fetching user data:', error.response ? error.response.data : error.message)
   }
-  
-  const createJobAdvert = async () => {
-    try {
-      if (
-        !jobAdvert.value.description ||
-        !jobAdvert.value.Job_title ||
-        !jobAdvert.value.phone_number ||
-        !jobAdvert.value.worktype ||
-        !jobAdvert.value.profession ||
-        !jobAdvert.value.typeOfwork ||
-        !jobAdvert.value.city ||
-        !jobAdvert.value.workTime ||
-        !jobAdvert.value.salary
-      ) {
-        formError.value = 'Please fill in all fields.'
-        return
-      }
-  
-      const response = await axios.post('http://127.0.0.1:5000/create_job_advert', jobAdvert.value)
-      console.log(response.data)
-      formError.value = ''
-      showJobAdvertModal.value = false
-      await fetchUserAdverts(user.value.email)
-    } catch (error) {
-      console.error(
-        'Error creating job advert:',
-        error.response ? error.response.data : error.message
-      )
+}
+
+const fetchUserAdverts = async (email) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/my_adverts', { email })
+    adverts.value = response.data
+  } catch (error) {
+    console.error(
+      'Error fetching user adverts:',
+      error.response ? error.response.data : error.message
+    )
+  }
+}
+
+const createJobAdvert = async () => {
+  try {
+    if (
+      !jobAdvert.value.description ||
+      !jobAdvert.value.Job_title ||
+      !jobAdvert.value.phone_number ||
+      !jobAdvert.value.worktype ||
+      !jobAdvert.value.profession ||
+      !jobAdvert.value.typeOfwork ||
+      !jobAdvert.value.city ||
+      !jobAdvert.value.workTime
+    ) {
+      formError.value = 'Please fill in all fields.'
+      return
     }
+
+    const response = await axios.post('http://127.0.0.1:5000/create_job_advert', jobAdvert.value)
+    console.log(response.data)
+    formError.value = ''
+    showJobAdvertModal.value = false
+    await fetchUserAdverts(user.value.email)
+  } catch (error) {
+    console.error(
+      'Error creating job advert:',
+      error.response ? error.response.data : error.message
+    )
   }
-  
-  const deleteAdvert = async (advertId) => {
-    try {
-      await axios.delete(`http://127.0.0.1:5000/jobs/${advertId}`)
-      await fetchUserAdverts(user.value.email)
-    } catch (error) {
-      console.error('Error deleting advert:', error.response ? error.response.data : error.message)
+}
+
+const deleteAdvert = async (advertId) => {
+  try {
+    await axios.delete(`http://127.0.0.1:5000/jobs/${advertId}`)
+    await fetchUserAdverts(user.value.email)
+  } catch (error) {
+    console.error('Error deleting advert:', error.response ? error.response.data : error.message)
+  }
+}
+
+const changePassword = async () => {
+  try {
+    if (!changePasswordForm.value.old_password || !changePasswordForm.value.new_password) {
+      passwordFormError.value = 'Please fill in all fields.'
+      return
     }
-  }
-  
-  const changePassword = async () => {
-    try {
-      if (!changePasswordForm.value.old_password || !changePasswordForm.value.new_password) {
-        passwordFormError.value = 'Please fill in all fields.'
-        return
-      }
-  
-      const email = localStorage.getItem('userEmail')
-      if (!email) {
-        throw new Error('User email not found in localStorage')
-      }
-  
-      const requestData = {
-        email,
-        old_password: changePasswordForm.value.old_password,
-        new_password: changePasswordForm.value.new_password
-      }
-  
-      const response = await axios.post('http://127.0.0.1:5000/password_change', requestData)
-  
-      if (response.data.error) {
-        passwordFormError.value = response.data.error
-      } else {
-        passwordFormError.value = ''
-        showChangePasswordModal.value = false
-      }
-    } catch (error) {
-      console.error('Error changing password:', error.response ? error.response.data : error.message)
+
+    const email = localStorage.getItem('userEmail')
+    if (!email) {
+      throw new Error('User email not found in localStorage')
     }
+
+    const requestData = {
+      email,
+      old_password: changePasswordForm.value.old_password,
+      new_password: changePasswordForm.value.new_password
+    }
+
+    const response = await axios.post('http://127.0.0.1:5000/password_change', requestData)
+
+    if (response.data.error) {
+      passwordFormError.value = response.data.error
+    } else {
+      passwordFormError.value = ''
+      showChangePasswordModal.value = false
+    }
+  } catch (error) {
+    console.error('Error changing password:', error.response ? error.response.data : error.message)
   }
-  
-  onMounted(fetchUserData)
-  </script>
-  
+}
+
+onMounted(fetchUserData)
+</script>
+
+<style scoped>
+/*Used style because couldnt make it in tailwind and for less code in "class" */
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item span {
+  display: block;
+}
+
+.fixed {
+  position: fixed;
+  inset: 0;
+}
+
+.bg-black {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.text-gray-700 {
+  color: #4a5568;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.focus\:outline-none {
+  outline: none;
+}
+
+.focus\:border-blue-500 {
+  border-color: #4299e1;
+}
+
+.bg-gray-200 {
+  background-color: #edf2f7;
+}
+
+.bg-gray-500 {
+  background-color: #a0aec0;
+}
+
+.hover\:bg-gray-600:hover {
+  background-color: #718096;
+}
+
+.bg-blue-500 {
+  background-color: #4299e1;
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: #3182ce;
+}
+
+.bg-green-500 {
+  background-color: #48bb78;
+}
+
+.hover\:bg-green-600:hover {
+  background-color: #38a169;
+}
+
+.bg-red-500 {
+  background-color: #f56565;
+}
+
+.hover\:bg-red-600:hover {
+  background-color: #e53e3e;
+}
+
+.text-red-500 {
+  color: #e53e3e;
+}
+
+.max-h-full {
+  max-height: calc(100vh - 2rem);
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+</style>
+
