@@ -23,7 +23,7 @@
         @click.stop
         class="p-2 rounded-full bg-gradient-to-br from-primary to-accent hover:from-accent hover:to-primary hover:scale-105 focus:outline-none flex items-center justify-center transition duration-200"
       >
-        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -39,7 +39,7 @@
         <li class="flex items-center cursor-pointer gap-3 text-gray-600 hover:text-green-500">
           <button
             @click="openAuthModal"
-            class="text-base py-2 px-4 bg-accent text-white rounded-lg  transition duration-200 hover:scale-110"
+            class="text-base py-2 px-4 bg-accent font-bold text-gray-700 rounded-lg  transition duration-200 hover:scale-110 shadow-dark"
           >
             Login/Register
           </button>
@@ -57,7 +57,7 @@
           </router-link>
           <button
             @click="logout"
-            class="text-base py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+            class="text-base py-2 px-4 font-bold bg-red-500 text-gray-700 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark"
           >
             Log Out
           </button>
@@ -78,7 +78,7 @@
         <div class="flex justify-end p-4">
           <button
             @click="closeMenuDirectly"
-            class="text-gray-600 hover:text-red-500 focus:outline-none"
+            class="text-gray-700 hover:text-red-500 focus:outline-none"
           >
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
@@ -106,7 +106,7 @@
             </router-link>
             <button
               @click="logout"
-              class="w-full text-base py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+              class="w-full text-base py-2 px-4 bg-red-500 font-bold text-gray-700 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark"
             >
               Log Out
             </button>
@@ -114,7 +114,7 @@
           <template v-else>
             <button
               @click="openAuthModal"
-              class="text-base py-2 px-4 bg-accent text-white rounded-lg transition duration-200 hover:scale-110"
+              class="text-base py-2 px-4 bg-accent text-gray-700 font-bold rounded-lg transition duration-200 hover:scale-110 shadow-dark"
             >
               Login/Register
             </button>
