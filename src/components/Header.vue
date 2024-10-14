@@ -57,7 +57,7 @@
           </router-link>
           <button
             @click="logout"
-            class="text-base py-2 px-4 font-medium bg-red-500 text-gray-700 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark"
+            class="text-base py-2 px-4 font-medium bg-red text-gray-700 rounded-lg hover:bg-red transition duration-200 shadow-dark"
           >
             Log Out
           </button>
@@ -106,7 +106,7 @@
             </router-link>
             <button
               @click="logout"
-              class="w-full text-base py-2 px-4 bg-red-500 font-medium text-gray-700 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark"
+              class="w-full text-base py-2 px-4 bg-red font-medium text-gray-700 rounded-lg hover:bg-red transition duration-200 shadow-dark"
             >
               Log Out
             </button>
