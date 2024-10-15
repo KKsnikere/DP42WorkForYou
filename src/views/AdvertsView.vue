@@ -23,7 +23,7 @@
         >
         <router-link
           to="/home"
-          class="bg-red-500 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
+          class="bg-red text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
           >
           Back
         </router-link>
