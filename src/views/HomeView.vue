@@ -74,8 +74,6 @@
           <div>
             <button
               @click="toggleSortMenu"
-              v-click-outside="closeSortMenu"
-              ref="SortMenu"
               class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
               id="options-menu"
               aria-haspopup="true"
@@ -307,10 +305,6 @@
   const toggleSortMenu = () => {
   isSortMenuOpen.value = !isSortMenuOpen.value;
 };
-
-  const closeSortMenu = () => {
-    isSortMenuOpen.value = !isSortMenuOpen.value
-  }
 
   const sortJobs = async (order) => {
   try {
