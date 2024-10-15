@@ -4,20 +4,18 @@ from flask_pymongo import PyMongo
 from pymongo import MongoClient
 import bcrypt
 import jwt
-import datetime
+from datetime import datetime, timedelta
 import os
 import secrets
 from bson import json_util, ObjectId
 import json
 import random
 import string
-from bson import json_util, ObjectId
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5174"}}, supports_credentials=True)
 
-app = Flask(__name__)
 app.secret_key = secrets.token_hex(24)
 app.config['MONGO_URI'] = 'mongodb+srv://23_DpMParums:J3imyzZW2lCp3mNx@uwork.wlvyybo.mongodb.net/?retryWrites=true&w=majority&appName=Uwork'
 mongo = PyMongo(app)
@@ -40,10 +38,8 @@ def manage_product_by_id(id):
         jobAdvert.delete_one({"id": int(id)})
         return '', 204
 
-
 @app.route('/jobs', methods=['GET', 'POST'])
 def get_jobs():
-
     if request.method == 'GET':
         filter_criteria = {}
 
@@ -80,7 +76,7 @@ def get_jobs():
             product_data['id'] = random.randint(100000, 1000000)
         jobAdvert.insert_one(product_data)
         return json_util.dumps(product_data), 201
-    
+
 @app.route('/create_job_advert', methods=['POST'])
 def create_job_advert():
     if request.method == 'POST':
@@ -88,14 +84,13 @@ def create_job_advert():
         
         # Add a creation date if it's not provided
         if not product_data.get('date'):
-            product_data['date'] = datetime.datetime.utcnow()
+            product_data['date'] = datetime.utcnow()
 
         if not product_data.get('id'):
             product_data['id'] = random.randint(100000, 1000000)
         
         jobAdvert.insert_one(product_data)
         return json_util.dumps(product_data), 201
-
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -122,7 +117,7 @@ def register():
     new_user = users.find_one({'email': data['email']})
     email = new_user['email']
 
-    token = jwt.encode({'email': data['email'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)}, app.secret_key, algorithm='HS256')
+    token = jwt.encode({'email': data['email'], 'exp': datetime.utcnow() + timedelta(days=1)}, app.secret_key, algorithm='HS256')
     tokenlist.insert_one({'token': token})
 
     response = make_response(jsonify({'message': 'User registered successfully', 'email': email}), 201)
@@ -136,7 +131,7 @@ def login():
     user = users.find_one({'email': data['email']})
 
     if user and bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
-        token = jwt.encode({'email': data['email'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)}, app.secret_key, algorithm='HS256')
+        token = jwt.encode({'email': data['email'], 'exp': datetime.utcnow() + timedelta(days=1)}, app.secret_key, algorithm='HS256')
         tokenlist.insert_one({'token': token})
 
         response = make_response(jsonify({'message': 'Login successful', 'email': data['email']}))
@@ -174,7 +169,6 @@ def verify_token():
     else:
         return jsonify({'message': 'Token is missing!'}), 401
 
-
 @app.route('/update_profile_image', methods=['POST'])
 def update_profile_image():
     data = request.get_json()
@@ -193,8 +187,7 @@ def update_profile_image():
 
     return jsonify({'message': 'Profile image updated successfully'}), 200
 
-
-@app.route('/user', methods=['POST']) #For "Profile" page
+@app.route('/user', methods=['POST'])  # For "Profile" page
 def get_user_by_email():
     if request.method == 'POST':
         data = request.get_json()
@@ -228,7 +221,6 @@ def add_favorite():
     # Add the favorite to the Favorites collection
     db.Favorites.insert_one(favorite)
     return jsonify({"message": "Favorite added successfully"}), 201
-
 
 @app.route('/favourites', methods=['POST', 'OPTIONS'])
 def get_favorites():
@@ -308,7 +300,6 @@ def my_adverts():
     result = list(jobAdvert.find({"email": email}))
 
     return json_util.dumps(result), 200
-
 
 if __name__ == "__main__":
     app.run(debug=True)
