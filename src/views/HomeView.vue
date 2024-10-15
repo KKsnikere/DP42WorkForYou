@@ -74,6 +74,8 @@
           <div>
             <button
               @click="toggleSortMenu"
+              v-click-outside="closeSortMenu"
+              ref="SortMenu"
               class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
               id="options-menu"
               aria-haspopup="true"
@@ -302,6 +304,27 @@
     }
   };
 
+  const toggleSortMenu = () => {
+  isSortMenuOpen.value = !isSortMenuOpen.value;
+};
+
+  const closeSortMenu = () => {
+    isSortMenuOpen.value = !isSortMenuOpen.value
+  }
+
+  const sortJobs = async (order) => {
+  try {
+    // Append the selected sort order to the query parameters
+    const queryString = buildQueryString();
+    const response = await axios.get(
+      `http://127.0.0.1:5000/jobs?${queryString}&sort=${order}`
+    );
+    jobs.value = response.data;  // Update the jobs list with sorted jobs
+  } catch (error) {
+    console.error("Error fetching sorted jobs:", error);
+  }
+};
+
   const closePopup = () => {
     showPopup.value = null;
   };
@@ -309,35 +332,6 @@
   const isSelected = (filterKey, option) => {
     return selectedFilters.value[filterKey].includes(option);
   };
-
-  const toggleSortMenu = () => {
-    isSortMenuOpen.value = !isSortMenuOpen.value;
-  };
-
-  const sortJobs = async (order) => {
-  try {
-    // Fetch favorite jobs
-    const favoriteJobs = await fetchFavorites();
-
-    // Build query string for sorting
-    const queryString = buildQueryString();
-    const sortParam = `&sort=${order}`;
-
-    // Fetch sorted jobs
-    const response = await axios.get(
-      `http://127.0.0.1:5000/jobs?${queryString}${sortParam}`
-    );
-
-    // Map over the jobs to mark the ones that are liked
-    jobs.value = response.data.map((job) => ({
-      ...job,
-      liked: favoriteJobs.includes(job._id.$oid),
-    }));
-  } catch (error) {
-    console.error("Error fetching sorted jobs:", error);
-  }
-};
-
 
   let selectedFilters = ref({
     worktype: [],

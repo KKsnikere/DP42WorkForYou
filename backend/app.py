@@ -43,15 +43,16 @@ def get_jobs():
     if request.method == 'GET':
         filter_criteria = {}
 
+        # Capture filtering parameters
         worktype = request.args.get('worktype')
         profession = request.args.get('profession')
         typeOfwork = request.args.get('typeOfwork')
         city = request.args.get('city')
         schedule = request.args.get('schedule')
         workTime = request.args.get('workTime')
-        sortOrder = request.args.get('sort', 'newest')
+        sort_order = request.args.get('sort')  # Capture the sort parameter (newest or oldest)
 
-
+        # Apply filters if present
         if worktype:
             filter_criteria['worktype'] = {'$in': worktype.split(',')}
         if profession:
@@ -65,14 +66,13 @@ def get_jobs():
         if workTime:
             filter_criteria['workTime'] = {'$in': workTime.split(',')}
 
+        print("Filter criteria received:", filter_criteria)  # Debug
 
-        print("Filter criteria received:", filter_criteria)  # Debug statement
+        # Determine sort order (newest or oldest)
+        sort_direction = -1 if sort_order == 'newest' else 1  # -1 for descending, 1 for ascending
+        result = jobAdvert.find(filter_criteria).sort('date', sort_direction)  # Sort by 'date'
 
-        sort_direction = -1 if sortOrder == 'newest' else 1
-
-        result = jobAdvert.find(filter_criteria)
         jobs = list(result)
-        
         return json_util.dumps(jobs)
     
     elif request.method == 'POST':
@@ -81,6 +81,7 @@ def get_jobs():
             product_data['id'] = random.randint(100000, 1000000)
         jobAdvert.insert_one(product_data)
         return json_util.dumps(product_data), 201
+
 
 @app.route('/create_job_advert', methods=['POST'])
 def create_job_advert():
