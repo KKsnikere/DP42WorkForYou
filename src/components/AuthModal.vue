@@ -37,14 +37,14 @@
         <div class="flex justify-center gap-4">
           <button
             @click="userType = 'individual'"
-            :class="userType === 'individual' ? 'bg-blue-600' : 'bg-blue-500'"
-            class="w-full text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+            :class="userType === 'individual' ? 'bg-accent' : 'bg-green'"
+            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
           >
             Private Person
           </button>
           <button
             @click="userType = 'organisation'"
-            :class="userType === 'organisation' ? 'bg-accent' : 'bg-accent'"
+            :class="userType === 'organisation' ? 'bg-accent' : 'bg-green'"
             class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
           >
             Organisation
