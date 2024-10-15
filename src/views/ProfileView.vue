@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="bg-white shadow-md rounded-lg p-6">
+    <div class="bg-white shadow-md rounded-3xl p-6 mx-52 mt-10 border border-slate-200">
       <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
       <div v-if="user" class="space-y-4">
         <div class="flex justify-center mb-4">
