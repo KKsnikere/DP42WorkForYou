@@ -49,6 +49,8 @@ def get_jobs():
         city = request.args.get('city')
         schedule = request.args.get('schedule')
         workTime = request.args.get('workTime')
+        sortOrder = request.args.get('sort', 'newest')
+
 
         if worktype:
             filter_criteria['worktype'] = {'$in': worktype.split(',')}
@@ -63,7 +65,10 @@ def get_jobs():
         if workTime:
             filter_criteria['workTime'] = {'$in': workTime.split(',')}
 
+
         print("Filter criteria received:", filter_criteria)  # Debug statement
+
+        sort_direction = -1 if sortOrder == 'newest' else 1
 
         result = jobAdvert.find(filter_criteria)
         jobs = list(result)
