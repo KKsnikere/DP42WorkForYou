@@ -141,7 +141,7 @@
         />
         <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
 
-        <div v-if="loginError" class="text-red-500 text-sm mt-2">Incorrect password or email</div>
+        <div v-if="loginError" class="text-red text-sm mt-2">Incorrect password or email</div>
 
         <button
           @click="login"

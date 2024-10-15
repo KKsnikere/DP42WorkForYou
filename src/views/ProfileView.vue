@@ -1,12 +1,12 @@
 <template>
-  <div class="container mx-auto py-10 px-4">
+  <div class="container mx-auto px-4">
     <div class="bg-white shadow-md rounded-lg p-6">
       <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
       <div v-if="user" class="space-y-4">
         <div class="flex justify-center mb-4">
 <!-- Profile Image or placeholder -->
 <div
-  class="relative w-32 h-32 rounded-full cursor-pointer"
+  class="relative w-32 h-32 rounded-full cursor-pointer mb-10"
   @click="triggerFileUpload"
 >
   <!-- If there's a profile image -->
@@ -90,9 +90,9 @@
   
           <!-- User adverts -->
           <div class="mt-8">
-            <h2 class="text-2xl font-bold mb-4">My Adverts</h2>
-            <div v-if="adverts.length > 0">
-              <div v-for="advert in adverts" :key="advert._id" class="border p-4 rounded-lg mb-4">
+            <h2 class="text-2xl font-bold mb-4 mt-20">My Adverts</h2>
+            <div v-if="adverts.length > 0" class="flex flex-wrap justify-center -ml-10">
+              <div v-for="advert in adverts" :key="advert._id" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
                 <h3 class="text-xl font-semibold overflow-ellipsis overflow-hidden">
                   {{ advert.Job_title }}
                 </h3>
@@ -101,7 +101,7 @@
                 <!-- Delete button -->
                 <button
                   @click="deleteAdvert(advert.id)"
-                  class="mt-2 bg-red-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red-600 transition duration-200 shadow-dark" 
+                  class="mt-2 bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110" 
                 >
                   Delete
                 </button>
