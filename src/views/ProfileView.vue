@@ -97,14 +97,26 @@
                   {{ advert.Job_title }}
                 </h3>
                 <p class="overflow-ellipsis overflow-hidden">{{ advert.description }}</p>
-                <p class="text-gray-600">City: {{ advert.city }}</p>
-                <!-- Delete button -->
-                <button
-                  @click="deleteAdvert(advert.id)"
-                  class="mt-2 bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110" 
-                >
-                  Delete
-                </button>
+                <p class="text-gray-600">City: {{ advert.city }}</p>°
+
+                <!-- Buttons container to align see more and delete button -->
+                <div class="flex justify-between mt-2">
+                  <!-- See more button -->
+                  <router-link
+                    :to="'/Jobs/' + advert.id"
+                    class="bg-accent hover:scale-110 text-center text-gray-700 font-medium py-2 px-4 rounded-lg cursor-pointer transform active:scale-100 transition-transform shadow-dark"
+                  >
+                    See more
+                  </router-link>
+
+                  <!-- Delete button -->
+                  <button
+                    @click="deleteAdvert(advert.id)"
+                    class="bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
             <div v-else>
