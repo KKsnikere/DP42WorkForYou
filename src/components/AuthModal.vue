@@ -55,13 +55,13 @@
             v-model="name"
             type="text"
             placeholder="Name"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           />
           <input
             v-model="surname"
             type="text"
             placeholder="Surname"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           />
           <div v-if="nameError" class="text-red-500 text-sm mt-1">Name is required</div>
           <div v-if="surnameError" class="text-red-500 text-sm mt-1">Surname is required</div>
@@ -71,19 +71,19 @@
             v-model="orgName"
             type="text"
             placeholder="Organisation Name"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           />
           <input
             v-model="regNumber"
             type="text"
             placeholder="Registration Number"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200 mt-6"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
           />
           <input
             v-model="location"
             type="text"
             placeholder="Location"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200 mt-6"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
           />
           <div v-if="orgNameError" class="text-red-500 text-sm mt-1">
             Organisation Name is required
@@ -97,14 +97,14 @@
           v-model="email"
           type="email"
           placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200 mt-6"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
         />
         <div v-if="emailError" class="text-red-500 text-sm mt-1">Email is required</div>
         <input
           v-model="password"
           type="password"
           placeholder="Password"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-blue-500 transition duration-200 mt-6"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
         />
         <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
         <button

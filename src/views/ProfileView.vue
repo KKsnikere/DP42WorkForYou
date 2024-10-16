@@ -75,7 +75,7 @@
           <button
             v-if="user.user_type === 'organisation'"
             @click="showJobAdvertModal = true"
-            class="mt-6 sm:mr-12 bg-green-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200 mb-4 shadow-dark"
+            class="mt-6 sm:mr-12 bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 mb-4 shadow-dark"
           >
             + Add Job Advert
           </button>
@@ -83,7 +83,7 @@
           <!-- Change Password button -->
           <button
             @click="showChangePasswordModal = true"
-            class="mt-2 bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shdow-dark"
+            class="mt-2 bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
             Change Password
           </button>
@@ -97,14 +97,26 @@
                   {{ advert.Job_title }}
                 </h3>
                 <p class="overflow-ellipsis overflow-hidden">{{ advert.description }}</p>
-                <p class="text-gray-600">City: {{ advert.city }}</p>
-                <!-- Delete button -->
-                <button
-                  @click="deleteAdvert(advert.id)"
-                  class="mt-2 bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110" 
-                >
-                  Delete
-                </button>
+                <p class="text-gray-600">City: {{ advert.city }}</p>°
+
+                <!-- Buttons container to align see more and delete button -->
+                <div class="flex justify-between mt-2">
+                  <!-- See more button -->
+                  <router-link
+                    :to="'/Jobs/' + advert.id"
+                    class="bg-accent hover:scale-110 text-center text-gray-700 font-medium py-2 px-4 rounded-lg cursor-pointer transform active:scale-100 transition-transform shadow-dark"
+                  >
+                    See more
+                  </router-link>
+
+                  <!-- Delete button -->
+                  <button
+                    @click="deleteAdvert(advert.id)"
+                    class="bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
             <div v-else>
@@ -126,7 +138,7 @@
           >
             <button
               @click="showJobAdvertModal = false"
-              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 shadow-dark"
+              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
             >
               &times;
             </button>
@@ -148,7 +160,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Description</label>
                 <textarea
                   v-model="jobAdvert.description"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 ></textarea>
               </div>
@@ -157,7 +169,7 @@
                 <input
                   type="text"
                   v-model="jobAdvert.Job_title"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -166,7 +178,7 @@
                 <input
                   type="text"
                   v-model="jobAdvert.phone_number"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -201,7 +213,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Work Type</label>
                 <select
                   v-model="jobAdvert.worktype"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Part-Time">Part-Time</option>
@@ -213,7 +225,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Profession</label>
                 <select
                   v-model="jobAdvert.profession"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Programmer">Programmer</option>
@@ -232,7 +244,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Type of Work</label>
                 <select
                   v-model="jobAdvert.typeOfwork"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Online">Online</option>
@@ -243,7 +255,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">City</label>
                 <select
                   v-model="jobAdvert.city"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Liepaja">Liepaja</option>
@@ -259,7 +271,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Work Time</label>
                 <select
                   v-model="jobAdvert.workTime"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Workdays">Workdays</option>
@@ -272,13 +284,13 @@
                 <input
                   type="number"
                   v-model="jobAdvert.salary"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
               <button
                 type="submit"
-                class="w-full bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
+                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
               >
                 Create Job Advert
               </button>
@@ -310,7 +322,7 @@
                 <input
                   type="password"
                   v-model="changePasswordForm.old_password"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -319,13 +331,13 @@
                 <input
                   type="password"
                   v-model="changePasswordForm.new_password"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
               <button
                 type="submit"
-                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
               >
                 Change Password
               </button>
