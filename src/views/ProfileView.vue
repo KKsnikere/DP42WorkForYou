@@ -75,7 +75,7 @@
           <button
             v-if="user.user_type === 'organisation'"
             @click="showJobAdvertModal = true"
-            class="mt-6 sm:mr-12 bg-green-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition duration-200 mb-4 shadow-dark"
+            class="mt-6 sm:mr-12 bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 mb-4 shadow-dark"
           >
             + Add Job Advert
           </button>
@@ -83,7 +83,7 @@
           <!-- Change Password button -->
           <button
             @click="showChangePasswordModal = true"
-            class="mt-2 bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shdow-dark"
+            class="mt-2 bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
             Change Password
           </button>
