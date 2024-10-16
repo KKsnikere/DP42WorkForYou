@@ -138,7 +138,7 @@
           >
             <button
               @click="showJobAdvertModal = false"
-              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 shadow-dark"
+              class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
             >
               &times;
             </button>
@@ -160,7 +160,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Description</label>
                 <textarea
                   v-model="jobAdvert.description"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 ></textarea>
               </div>
@@ -169,7 +169,7 @@
                 <input
                   type="text"
                   v-model="jobAdvert.Job_title"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -178,7 +178,7 @@
                 <input
                   type="text"
                   v-model="jobAdvert.phone_number"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -213,7 +213,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Work Type</label>
                 <select
                   v-model="jobAdvert.worktype"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Part-Time">Part-Time</option>
@@ -225,7 +225,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Profession</label>
                 <select
                   v-model="jobAdvert.profession"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Programmer">Programmer</option>
@@ -244,7 +244,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Type of Work</label>
                 <select
                   v-model="jobAdvert.typeOfwork"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Online">Online</option>
@@ -255,7 +255,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">City</label>
                 <select
                   v-model="jobAdvert.city"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Liepaja">Liepaja</option>
@@ -271,7 +271,7 @@
                 <label class="block text-gray-700 font-semibold mb-2">Work Time</label>
                 <select
                   v-model="jobAdvert.workTime"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 >
                   <option value="Workdays">Workdays</option>
@@ -284,13 +284,13 @@
                 <input
                   type="number"
                   v-model="jobAdvert.salary"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
               <button
                 type="submit"
-                class="w-full bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
+                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
               >
                 Create Job Advert
               </button>
@@ -322,7 +322,7 @@
                 <input
                   type="password"
                   v-model="changePasswordForm.old_password"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
@@ -331,13 +331,13 @@
                 <input
                   type="password"
                   v-model="changePasswordForm.new_password"
-                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                  class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                   required
                 />
               </div>
               <button
                 type="submit"
-                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
               >
                 Change Password
               </button>
