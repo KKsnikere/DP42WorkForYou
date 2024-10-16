@@ -17,7 +17,16 @@
         <p class="text-blue-500 cursor-pointer text-base" @click="openGoogleMaps(job.address)">
           View in Google Maps
         </p>
-        
+
+        <button class="transform hover:scale-110 transition">
+        <router-link 
+          to="/apply"
+          class="bg-accent mr-5 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer mt-10  transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
+          >
+          Apply
+        </router-link>
+      </button>
+
         <button
         class="mt-10  transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
         >
