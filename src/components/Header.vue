@@ -5,7 +5,7 @@
       <div>
         <!-- Logo -->
         <router-link to="/home">
-          <img src="../assets/Images/logo.png" alt="Logo" class="w-10" />
+          <img src="../assets/Images/logo2.ымп" alt="Logo" class="w-60" />
         </router-link>
       </div>
       <div>
