@@ -127,7 +127,7 @@
     </div>
     </div>
 <!-- Container for search input aligned to the left -->
-    <div class="flex justify-start mt-3 -ml-[62rem]">
+    <div class="flex justify-start mt-3">
       <input
         v-model="searchQuery"
         @input="debounceSearch"
@@ -140,7 +140,7 @@
 
     <div v-else-if="filteredJobs.length > 0">
       <div class="flex flex-wrap justify-center">
-        <div v-for="job in filteredJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
+        <div v-for="job in paginatedJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
           <div>
             <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
               {{ job.Job_title }}
@@ -180,6 +180,26 @@
       No search results found
     </div>
 
+      <!-- Pagination Controls -->
+  <div class="flex justify-center mt-4 space-x-2">
+    <button
+      @click="prevPage"
+      :disabled="currentPage === 1"
+      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
+    >
+      Previous
+    </button>
+    <span class="flex items-center">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+    <button
+      @click="nextPage"
+      :disabled="currentPage === totalPages"
+      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
+    >
+      Next
+    </button>
+  </div>
   </div>
 </template>
 
@@ -194,7 +214,29 @@
   const userEmail = localStorage.getItem("userEmail");
   const searchQuery = ref("");
   const loading = ref(false);
+  const itemsPerPage = 12; 
+  const currentPage = ref(1); 
 
+  const paginatedJobs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  return filteredJobs.value.slice(start, start + itemsPerPage);
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredJobs.value.length / itemsPerPage);
+});
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
 
   const debounceSearch = _.debounce(async () => {
   loading.value = true;

@@ -5,13 +5,8 @@
       <div>
         <!-- Logo -->
         <router-link to="/home">
-          <img src="../assets/Images/logo.png" alt="Logo" class="w-10" />
+          <img src="../assets/Images/logo2.svg" alt="Logo" class="w-60" />
         </router-link>
-      </div>
-      <div>
-        <!-- Motto -->
-        <h2 class="text-xl font-medium uppercase">Work For You</h2>
-        <p class="text-slate-500">Realize yourself</p>
       </div>
     </div>
 
