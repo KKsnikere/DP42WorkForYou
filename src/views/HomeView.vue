@@ -54,52 +54,11 @@
     </div>
     <!-- Action Buttons -->
     <div class="flex justify-center items-center space-x-4">
-      <input
-        v-model="searchQuery"
-        @input="debounceSearch"
-        placeholder="Search job advertisements..."
-        class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
 
-    <!-- Modify the existing template to include a loading state -->
-    <div v-if="loading" class="text-center">Searching...</div>
-
-    <div v-else-if="filteredJobs.length > 0">
-      <h2 class="text-xl font-bold mb-4">Search Results</h2>
-      <div class="flex flex-wrap justify-center">
-        <div v-for="job in filteredJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
-          <div>
-            <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
-              {{ job.Job_title }}
-            </h1>
-            <div class="flex items-center mt-2">
-              <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {{ job.Company_name }}
-              </h2>
-            </div>
-            <p class="mt-4 line-clamp-[7]">{{ job.description }}</p>
-          </div>
-          <div class="flex">
-            <router-link :to="'/Jobs/' + job.id" class="bg-accent hover:scale-110 text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform shadow-dark">
-              See more
-            </router-link>
-            <button @click="navigateToJob(job._id.$oid)" class="h-9 w-9 ml-5">
-              <div :style="{ backgroundImage: `url(${job.liked ? '../src/assets/Images/Like2.svg' : '../src/assets/Images/Like1.svg'})` }" class="bg-cover w-9 h-9 transform active:scale-75 transition-transform"></div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div v-else-if="filteredJobs.length === 0" class="text-center mt-4">
-      No search results found
-    </div>
-
-    <div class="flex justify-center items-center space-x-4 mt-4">
+      <div class="flex justify-center items-center space-x-4">
       <button
         @click="applyFilters"
-        class="shadow-dark bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
+        class="shadow-dark bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded transform active:scale-75 transition-transform"
       >
         Submit
       </button>
@@ -117,7 +76,7 @@
         <div>
           <button
             @click="toggleSortMenu"
-            class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 mb-2 transform active:scale-75 transition-transform"
+            class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
             id="options-menu"
             aria-haspopup="true"
             aria-expanded="true"
@@ -166,6 +125,59 @@
         </transition>
       </div>
     </div>
+    </div>
+
+    <input
+        v-model="searchQuery"
+        @input="debounceSearch"
+        placeholder="Search job advertisements..."
+        class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-3 w-80"
+      />
+    <!-- Modify the existing template to include a loading state -->
+    <div v-if="loading" class="text-center">Searching...</div>
+
+    <div v-else-if="filteredJobs.length > 0">
+      <div class="flex flex-wrap justify-center">
+        <div v-for="job in filteredJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
+          <div>
+            <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+              {{ job.Job_title }}
+            </h1>
+            <div class="flex items-center mt-2">
+              <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {{ job.Company_name }}
+              </h2>
+            </div>
+            <p class="mt-4 line-clamp-[7]">{{ job.description }}</p>
+          </div>
+          <div class="flex">
+            <router-link :to="'/Jobs/' + job.id" class="bg-accent hover:scale-110 text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform shadow-dark">
+              See more
+            </router-link>
+            <button
+              @click="toggleLikeJob(job._id.$oid)"
+              class="h-9 w-9 ml-5"
+            >
+              <div
+                :style="{
+                  backgroundImage: `url(${
+                    job.liked
+                      ? '../src/assets/Images/Like2.svg'
+                      : '../src/assets/Images/Like1.svg'
+                  })`,
+                }"
+                class="bg-cover w-9 h-9 transform active:scale-75 transition-transform"
+              ></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="filteredJobs.length === 0" class="text-center mt-4">
+      No search results found
+    </div>
+
   </div>
 </template>
 
