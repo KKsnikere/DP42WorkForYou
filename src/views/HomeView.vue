@@ -126,19 +126,21 @@
       </div>
     </div>
     </div>
-
-    <input
+<!-- Container for search input aligned to the left -->
+    <div class="flex justify-start mt-3 -ml-[62rem]">
+      <input
         v-model="searchQuery"
         @input="debounceSearch"
         placeholder="Search job advertisements..."
-        class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-3 w-80"
+        class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green w-96"
       />
+    </div>
     <!-- Modify the existing template to include a loading state -->
     <div v-if="loading" class="text-center">Searching...</div>
 
     <div v-else-if="filteredJobs.length > 0">
       <div class="flex flex-wrap justify-center">
-        <div v-for="job in paginatedJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
+        <div v-for="job in filteredJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
           <div>
             <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
               {{ job.Job_title }}
@@ -172,27 +174,7 @@
           </div>
         </div>
       </div>
-  <!-- Pagination Controls -->
-  <div class="flex justify-center mt-4 space-x-2">
-    <button
-      @click="prevPage"
-      :disabled="currentPage === 1"
-      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
-    >
-      Previous
-    </button>
-    <span class="flex items-center">
-      Page {{ currentPage }} of {{ totalPages }}
-    </span>
-    <button
-      @click="nextPage"
-      :disabled="currentPage === totalPages"
-      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
-    >
-      Next
-    </button>
-  </div>
-</div>
+    </div>
 
     <div v-else-if="filteredJobs.length === 0" class="text-center mt-4">
       No search results found
@@ -212,8 +194,6 @@
   const userEmail = localStorage.getItem("userEmail");
   const searchQuery = ref("");
   const loading = ref(false);
-  const itemsPerPage = 12; // Number of items per page
-  const currentPage = ref(1); // Current page
 
 
   const debounceSearch = _.debounce(async () => {
@@ -328,7 +308,6 @@
     console.error("Error applying filters:", error);
   }
   showPopup.value = null;
-  currentPage.value = 1; 
 };
 
 const clearFilters = async () => {
@@ -339,7 +318,6 @@ const clearFilters = async () => {
     city: [],
     workTime: [],
   };
-  currentPage.value = 1; 
   showPopup.value = null;
   searchQuery.value = "";
   try {
@@ -349,34 +327,6 @@ const clearFilters = async () => {
     console.error("Error clearing filters:", error);
   }
 };
-
-
-
-
-
-const paginatedJobs = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredJobs.value.slice(start, start + itemsPerPage);
-});
-
-const totalPages = computed(() => {
-  return Math.ceil(filteredJobs.value.length / itemsPerPage);
-});
-
-const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-};
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-  }
-};
-
-
-
 
 const filteredJobs = computed(() => {
   if (!searchQuery.value) return jobs.value;
