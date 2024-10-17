@@ -5,7 +5,7 @@
       <div>
         <!-- Logo -->
         <router-link to="/home">
-          <img src="../assets/Images/logo2.svg" alt="Logo" class="w-60 -ml-8">
+          <img src="../assets/Images/logo2.svg" alt="Logo" class="w-60 -ml-8" />
         </router-link>
       </div>
     </div>
