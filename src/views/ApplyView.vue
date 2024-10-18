@@ -12,7 +12,7 @@
             id="name" 
             v-model="form.name" 
             placeholder="Enter your first name"
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             required
           />
         </div>
@@ -25,7 +25,7 @@
             id="surname" 
             v-model="form.surname" 
             placeholder="Enter your surname"
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             required
           />
         </div>
@@ -38,7 +38,7 @@
             id="phone" 
             v-model="form.phone" 
             placeholder="Enter your phone number"
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             required
           />
         </div>
@@ -51,7 +51,7 @@
             id="email" 
             v-model="form.email" 
             placeholder="Enter your email address"
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             required
           />
         </div>
@@ -63,7 +63,7 @@
             id="message" 
             v-model="form.message" 
             placeholder="Enter your message" 
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
             rows="5"
             required
           ></textarea>
@@ -83,7 +83,7 @@
         <div class="mb-6">
           <button 
             type="button" 
-            class="w-full p-3 text-white bg-purple-600 rounded-lg focus:outline-none hover:bg-purple-500"
+            class="w-full p-3 text-white bg-accent rounded-lg focus:outline-none hover:bg-primary"
             @click="handleApply"
           >
             Apply

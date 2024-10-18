@@ -65,12 +65,4 @@
   }
   </script>
   
-  <style scoped>
-  .bg-accent {
-    background-color: #3498db; /* Основной цвет акцента */
-  }
-  .text-accent {
-    color: #3498db;
-  }
-  </style>
   

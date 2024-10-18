@@ -57,14 +57,14 @@
             placeholder="Name"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           />
+          <div v-if="nameError" class="text-xs"><span class="text-red">*</span>  Name is required</div>
           <input
             v-model="surname"
             type="text"
             placeholder="Surname"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           />
-          <div v-if="nameError" class="text-red-500 text-sm mt-1">Name is required</div>
-          <div v-if="surnameError" class="text-red-500 text-sm mt-1">Surname is required</div>
+          <div v-if="surnameError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Surname is required</div>
         </div>
         <div v-else>
           <input
@@ -85,13 +85,13 @@
             placeholder="Location"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
           />
-          <div v-if="orgNameError" class="text-red-500 text-sm mt-1">
-            Organisation Name is required
+          <div v-if="orgNameError" class="text-red-500 text-xs mt-1">
+            <span class="text-red">*</span> Organisation Name is required
           </div>
-          <div v-if="regNumberError" class="text-red-500 text-sm mt-1">
-            Registration Number is required
+          <div v-if="regNumberError" class="text-red-500 text-xs mt-1">
+            <span class="text-red">*</span> Registration Number is required
           </div>
-          <div v-if="locationError" class="text-red-500 text-sm mt-1">Location is required</div>
+          <div v-if="locationError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Location is required</div>
         </div>
         <input
           v-model="email"
@@ -99,14 +99,14 @@
           placeholder="Email"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
         />
-        <div v-if="emailError" class="text-red-500 text-sm mt-1">Email is required</div>
+        <div v-if="emailError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Email is required</div>
         <input
           v-model="password"
           type="password"
           placeholder="Password"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
         />
-        <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
+        <div v-if="passwordError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Password is required</div>
         <button
           @click="register"
           class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 mt-8 shadow-dark"
@@ -132,16 +132,16 @@
           placeholder="Email"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
         />
-        <div v-if="emailError" class="text-red-500 text-sm mt-1">Email is required</div>
+        <div v-if="emailError" class="text-red-500 text-xs mt-1">Email is required</div>
         <input
           v-model="password"
           type="password"
           placeholder="Password"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
         />
-        <div v-if="passwordError" class="text-red-500 text-sm mt-1">Password is required</div>
+        <div v-if="passwordError" class="text-red-500 text-xs mt-1">Password is required</div>
 
-        <div v-if="loginError" class="text-red text-sm mt-2">Incorrect password or email</div>
+        <div v-if="loginError" class="text-red text-xs">Incorrect password or email</div>
 
         <button
           @click="login"
@@ -161,7 +161,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -182,36 +181,64 @@ export default {
       orgNameError: false,
       regNumberError: false,
       locationError: false,
-      loginError: false
-    }
+      loginError: false,
+      emailErrorMessage: '',
+      passwordErrorMessage: '',
+    };
   },
   methods: {
     setRegisterChoice() {
-      this.step = 'registerChoice'
-      this.userType = 'individual'
+      this.step = 'registerChoice';
+      this.userType = 'individual';
+    },
+    validateEmail() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.email) {
+        this.emailError = true;
+        this.emailErrorMessage = 'Email is required';
+        return false;
+      } else if (!emailPattern.test(this.email)) {
+        this.emailError = true;
+        this.emailErrorMessage = 'Invalid email format';
+        return false;
+      }
+      this.emailError = false;
+      return true;
+    },
+    validatePassword() {
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      if (!this.password) {
+        this.passwordError = true;
+        this.passwordErrorMessage = 'Password is required';
+        return false;
+      } else if (!passwordPattern.test(this.password)) {
+        this.passwordError = true;
+        this.passwordErrorMessage = 'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number';
+        return false;
+      }
+      this.passwordError = false;
+      return true;
     },
     validateFields() {
-      this.emailError = !this.email
-      this.passwordError = !this.password
-      this.nameError = this.userType === 'individual' && !this.name
-      this.surnameError = this.userType === 'individual' && !this.surname
-      this.orgNameError = this.userType === 'organisation' && !this.orgName
-      this.regNumberError = this.userType === 'organisation' && !this.regNumber
-      this.locationError = this.userType === 'organisation' && !this.location
+      const isEmailValid = this.validateEmail();
+      const isPasswordValid = this.validatePassword();
+      this.nameError = this.userType === 'individual' && !this.name;
+      this.surnameError = this.userType === 'individual' && !this.surname;
+      this.orgNameError = this.userType === 'organisation' && !this.orgName;
+      this.regNumberError = this.userType === 'organisation' && !this.regNumber;
+      this.locationError = this.userType === 'organisation' && !this.location;
 
-      return !(
-        this.emailError ||
-        this.passwordError ||
+      return isEmailValid && isPasswordValid && !(
         this.nameError ||
         this.surnameError ||
         this.orgNameError ||
         this.regNumberError ||
         this.locationError
-      )
+      );
     },
     async register() {
       if (!this.validateFields()) {
-        return
+        return;
       }
 
       try {
@@ -219,15 +246,15 @@ export default {
           email: this.email,
           password: this.password,
           userType: this.userType
-        }
+        };
 
         if (this.userType === 'individual') {
-          payload.name = this.name
-          payload.surname = this.surname
+          payload.name = this.name;
+          payload.surname = this.surname;
         } else {
-          payload.orgName = this.orgName
-          payload.regNumber = this.regNumber
-          payload.location = this.location
+          payload.orgName = this.orgName;
+          payload.regNumber = this.regNumber;
+          payload.location = this.location;
         }
 
         const response = await fetch('http://localhost:5000/register', {
@@ -237,32 +264,30 @@ export default {
           },
           body: JSON.stringify(payload),
           credentials: 'include'
-        })
+        });
 
         if (response.ok) {
-          const responseData = await response.json()
-          localStorage.setItem('userEmail', responseData.email)
-          this.$emit('login')
-          this.$router.push('/home')
+          const responseData = await response.json();
+          localStorage.setItem('userEmail', responseData.email);
+          this.$emit('login');
+          this.$router.push('/home');
         } else {
-          console.error('Registration failed')
+          console.error('Registration failed');
         }
       } catch (error) {
-        console.error('Error registering:', error)
+        console.error('Error registering:', error);
       }
     },
     async login() {
-      if (!this.email || !this.password) {
-        this.emailError = !this.email
-        this.passwordError = !this.password
-        return
+      if (!this.validateEmail() || !this.validatePassword()) {
+        return;
       }
 
       try {
         const payload = {
           email: this.email,
           password: this.password
-        }
+        };
 
         const response = await fetch('http://localhost:5000/login', {
           method: 'POST',
@@ -271,23 +296,24 @@ export default {
           },
           body: JSON.stringify(payload),
           credentials: 'include'
-        })
+        });
 
         if (response.ok) {
-          const responseData = await response.json()
-          localStorage.setItem('userEmail', responseData.email)
-          this.$emit('login')
-          this.$router.push('/home')
+          const responseData = await response.json();
+          localStorage.setItem('userEmail', responseData.email);
+          this.$emit('login');
+          this.$router.push('/home');
         } else {
-          this.loginError = true
+          this.loginError = true;
         }
       } catch (error) {
-        console.error('Error logging in:', error)
-        this.loginError = true
+        console.error('Error logging in:', error);
+        this.loginError = true;
       }
     }
   }
-}
+};
 </script>
+
 
 <style scoped></style>
