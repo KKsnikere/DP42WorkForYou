@@ -36,7 +36,7 @@
             v-for="category in popularCategories"
             :key="category"
             @click="goToCategory(category)"
-            class="bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded hover:bg-gray-300 transition-colors shadow-dark"
+            class="bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded transition-colors shadow-dark"
           >
             {{ category }}
           </button>

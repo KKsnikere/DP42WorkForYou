@@ -307,5 +307,30 @@ def my_adverts():
 
     return json_util.dumps(result), 200
 
+@app.route('/update_name', methods=['POST'])
+def update_name():
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data.get('email')
+        name = data.get('name')
+        surname = data.get('surname')
+
+        # Validate input
+        if not email or not name or not surname:
+            return jsonify({'error': 'Email, name, and surname are required.'}), 400
+
+        user = users.find_one({'email': email})
+
+        if not user:
+            return jsonify({'error': 'User not found.'}), 404
+
+        # Update the user's name and surname
+        users.update_one(
+            {'email': email},
+            {'$set': {'name': name, 'surname': surname}}
+        )
+
+        return jsonify({'message': 'Name and surname updated successfully.'}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
