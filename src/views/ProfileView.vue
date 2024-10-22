@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4">
-    <div class="bg-white shadow-md rounded-3xl p-6 mx-4 md:mx-52 mt-10 border border-slate-200">
+    <div class="bg-white shadow-md rounded-3xl p-6 mx-4  mt-10 border border-slate-200">
       <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
       <div v-if="user" class="space-y-4">
         <div class="flex justify-center mb-4">
@@ -48,42 +48,43 @@
         </div>
         <!-- User information -->
         <div class="info-item">
-          <span class="font-semibold">Email:</span>
+          <span class="font-semibold">Email: </span>
           <span class="break-words">{{ user.email }}</span>
         </div>
         <div class="info-item">
-          <span class="font-semibold">User Type:</span>
+          <span class="font-semibold">User Type: </span>
           <span class="break-words">{{ user.user_type }}</span>
         </div>
         <div v-if="user.name" class="info-item">
-          <span class="font-semibold">Name:</span>
+          <span class="font-semibold">Name: </span>
           <span class="break-words">{{ user.name }}</span>
         </div>
         <div v-if="user.surname" class="info-item">
-          <span class="font-semibold">Surname:</span>
+          <span class="font-semibold">Surname: </span>
           <span class="break-words">{{ user.surname }}</span>
         </div>
         <div v-if="user.org_name" class="info-item">
-          <span class="font-semibold">Organization Name:</span>
+          <span class="font-semibold">Organization Name: </span>
           <span class="break-words">{{ user.org_name }}</span>
         </div>
         <div v-if="user.reg_number" class="info-item">
-          <span class="font-semibold">Registration Number:</span>
+          <span class="font-semibold">Registration Number: </span>
           <span class="break-words">{{ user.reg_number }}</span>
         </div>
         <div v-if="user.location" class="info-item">
-          <span class="font-semibold">Location:</span>
+          <span class="font-semibold">Location: </span>
           <span class="break-words">{{ user.location }}</span>
         </div>
         <!-- Buttons container -->
         <div
-          class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 mt-6 items-center"
-        >
+        class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-4 sm:space-y-0 mt-6 items-center">
+
+        
           <!-- Add Job Advert button -->
           <button
             v-if="user.user_type === 'organisation'"
             @click="showJobAdvertModal = true"
-            class="bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 mb-4 sm:mb-0 shadow-dark"
+            class="bg-green w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
             + Add Job Advert
           </button>
@@ -91,7 +92,7 @@
           <!-- Change Password button -->
           <button
             @click="showChangePasswordModal = true"
-            class="bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+            class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
             Change Password
           </button>
@@ -99,9 +100,9 @@
           <!-- Change Name button -->
           <button
             @click="showChangeNameModal = true"
-            class="bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+            class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
-            Change Name
+           Change Name 
           </button>
         </div>
         <!-- User adverts -->
@@ -415,7 +416,7 @@
             </div>
             <button
               type="submit"
-              class="w-full bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
+              class="w-full bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
             >
               Update Name
             </button>
