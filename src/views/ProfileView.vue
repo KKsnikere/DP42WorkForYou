@@ -415,7 +415,7 @@
             </div>
             <button
               type="submit"
-              class="w-full bg-blue-500 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
+              class="w-full bg-green text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-200 shadow-dark"
             >
               Update Name
             </button>
