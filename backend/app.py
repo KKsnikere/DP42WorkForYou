@@ -26,6 +26,11 @@ db = client.Uwork
 jobAdvert = db.JobAdvert
 users = db.Register
 tokenlist = db.tokenlist
+collection = db['applications']  # Change to your desired collection name
+
+# Directory to save uploaded files
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/jobs/<id>', methods=['GET', 'DELETE'])
 def manage_product_by_id(id):
@@ -331,6 +336,47 @@ def update_name():
         )
 
         return jsonify({'message': 'Name and surname updated successfully.'}), 200
+
+@app.route('/apply', methods=['POST'])
+def apply():
+    # Get form data
+    name = request.form.get('name')
+    surname = request.form.get('surname')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    message = request.form.get('message')
+
+    # Initialize a list to hold file paths
+    file_paths = []
+
+    # Save uploaded files
+    files = request.files.getlist('files')
+    for file in files:
+        if file:
+            file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(file_path)  # Save file to the directory
+            file_paths.append(file_path)  # Add file path to the list
+
+    # Create a document to insert into MongoDB
+    document = {
+        'name': name,
+        'surname': surname,
+        'phone': phone,
+        'email': email,
+        'message': message,
+        'files': file_paths
+    }
+
+    # Insert the data into MongoDB
+    result = collection.insert_one(document)
+    
+    if result.inserted_id:
+        return jsonify({"message": "Application submitted successfully!", "id": str(result.inserted_id)}), 201
+    else:
+        return jsonify({"error": "Failed to submit application."}), 500
+    
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
