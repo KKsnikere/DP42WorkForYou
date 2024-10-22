@@ -24,10 +24,10 @@
 
     <!-- Кнопки Apply и Back -->
     <div class="flex mt-10 space-x-4">
-      <!-- Кнопка Apply -->
+      <!-- Кнопка Apply --> 
       <button class="transform hover:scale-110 transition">
         <router-link 
-          to="/apply"
+          :to="`/apply/${jobId}`"
           class="bg-accent text-gray-700 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
         >
           Apply

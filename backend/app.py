@@ -345,6 +345,7 @@ def apply():
     phone = request.form.get('phone')
     email = request.form.get('email')
     message = request.form.get('message')
+    job_id = request.form.get('jobId')  # Retrieve the jobId
 
     # Initialize a list to hold file paths
     file_paths = []
@@ -364,6 +365,7 @@ def apply():
         'phone': phone,
         'email': email,
         'message': message,
+        'jobId': job_id,  # Store the jobId in the document
         'files': file_paths
     }
 
@@ -374,6 +376,7 @@ def apply():
         return jsonify({"message": "Application submitted successfully!", "id": str(result.inserted_id)}), 201
     else:
         return jsonify({"error": "Failed to submit application."}), 500
+
     
 
 
