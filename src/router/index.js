@@ -49,6 +49,11 @@ const router = createRouter({
       name: "apply",
       component: () => import("../views/ApplyView.vue"),
     },
+    {
+      path: '/applicants/:id',
+      name: 'Applicants',
+      component: () => import("../views/AplicantsView.vue"),
+    }
   ],
 });
 

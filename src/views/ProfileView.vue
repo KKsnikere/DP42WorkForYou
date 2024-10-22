@@ -1,160 +1,226 @@
 <template>
-  <div class="container mx-auto px-4">
-    <div class="bg-white shadow-md rounded-3xl p-6 mx-4  mt-10 border border-slate-200">
-      <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
-      <div v-if="user" class="space-y-4">
-        <div class="flex justify-center mb-4">
-          <!-- Profile Image or placeholder -->
-          <div
-            class="relative w-32 h-32 rounded-full cursor-pointer mb-10"
-            @click="triggerFileUpload"
-          >
-            <!-- If there's a profile image -->
-            <img
-              v-if="user.profileImageUrl"
-              :src="user.profileImageUrl"
-              alt="Profile Image"
-              class="w-full h-full rounded-full object-cover"
-            />
-
-            <!-- If there's no profile image -->
-            <div
-              v-else
-              class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-full"
-            >
-              <span>No Image</span>
-            </div>
-
-            <!-- Overlay and "+" icon on hover -->
-            <div
-              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 text-white rounded-full transition duration-200 hover:bg-opacity-50"
-            >
-              <div
-                class="text-5xl font-bold opacity-0 h-32 w-32 text-center content-center transition duration-200 hover:opacity-100"
-              >
-                +
-              </div>
-            </div>
-
-            <!-- Hidden file input -->
-            <input
-              type="file"
-              ref="fileInput"
-              accept="image/*"
-              @change="handleFileUpload"
-              class="hidden"
-            />
-          </div>
-        </div>
-        <!-- User information -->
-        <div class="info-item">
-          <span class="font-semibold">Email: </span>
-          <span class="break-words">{{ user.email }}</span>
-        </div>
-        <div class="info-item">
-          <span class="font-semibold">User Type: </span>
-          <span class="break-words">{{ user.user_type }}</span>
-        </div>
-        <div v-if="user.name" class="info-item">
-          <span class="font-semibold">Name: </span>
-          <span class="break-words">{{ user.name }}</span>
-        </div>
-        <div v-if="user.surname" class="info-item">
-          <span class="font-semibold">Surname: </span>
-          <span class="break-words">{{ user.surname }}</span>
-        </div>
-        <div v-if="user.org_name" class="info-item">
-          <span class="font-semibold">Organization Name: </span>
-          <span class="break-words">{{ user.org_name }}</span>
-        </div>
-        <div v-if="user.reg_number" class="info-item">
-          <span class="font-semibold">Registration Number: </span>
-          <span class="break-words">{{ user.reg_number }}</span>
-        </div>
-        <div v-if="user.location" class="info-item">
-          <span class="font-semibold">Location: </span>
-          <span class="break-words">{{ user.location }}</span>
-        </div>
-        <!-- Buttons container -->
+<div class="container mx-auto px-4">
+  <!-- Main profile container that will be hidden on small screens -->
+  <div class="bg-white shadow-md rounded-3xl p-6 mx-4 mt-10 border border-slate-200 md:block hidden">
+    <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
+    <div v-if="user" class="space-y-4">
+      <div class="flex justify-center mb-4">
+        <!-- Profile Image or placeholder -->
         <div
-        class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-4 sm:space-y-0 mt-6 items-center">
+          class="relative w-32 h-32 rounded-full cursor-pointer mb-10"
+          @click="triggerFileUpload"
+        >
+          <!-- If there's a profile image -->
+          <img
+            v-if="user.profileImageUrl"
+            :src="user.profileImageUrl"
+            alt="Profile Image"
+            class="w-full h-full rounded-full object-cover"
+          />
 
-        
-          <!-- Add Job Advert button -->
-          <button
-            v-if="user.user_type === 'organisation'"
-            @click="showJobAdvertModal = true"
-            class="bg-green w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
-          >
-            + Add Job Advert
-          </button>
-
-          <!-- Change Password button -->
-          <button
-            @click="showChangePasswordModal = true"
-            class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
-          >
-            Change Password
-          </button>
-
-          <!-- Change Name button -->
-          <button
-            @click="showChangeNameModal = true"
-            class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
-          >
-           Change Name 
-          </button>
-        </div>
-        <!-- User adverts -->
-        <div class="mt-8">
-          <h2 class="text-2xl font-bold mb-4 mt-20 text-center sm:text-left">
-            My Adverts
-          </h2>
+          <!-- If there's no profile image -->
           <div
-            v-if="adverts.length > 0"
-            class="flex flex-wrap justify-center sm:justify-start -ml-0 sm:-ml-10"
+            v-else
+            class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-full"
+          >
+            <span>No Image</span>
+          </div>
+
+          <!-- Overlay and "+" icon on hover -->
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 text-white rounded-full transition duration-200 hover:bg-opacity-50"
           >
             <div
-              v-for="advert in adverts"
-              :key="advert._id"
-              class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-full sm:w-80 m-5 h-auto flex flex-col justify-between"
+              class="text-5xl font-bold opacity-0 h-32 w-32 text-center content-center transition duration-200 hover:opacity-100"
             >
-              <h3 class="text-xl font-semibold overflow-ellipsis overflow-hidden">
-                {{ advert.Job_title }}
-              </h3>
-              <p class="overflow-ellipsis overflow-hidden">{{ advert.description }}</p>
-              <p class="text-gray-600">City: {{ advert.city }}</p>
-
-              <!-- Buttons container to align see more and delete button -->
-              <div class="flex justify-between mt-2">
-                <!-- See more button -->
-                <router-link
-                  :to="'/Jobs/' + advert.id"
-                  class="bg-accent hover:scale-110 text-center text-gray-700 font-medium py-2 px-4 rounded-lg cursor-pointer transform active:scale-100 transition-transform shadow-dark"
-                >
-                  See more
-                </router-link>
-
-                <!-- Delete button -->
-                <button
-                  @click="deleteAdvert(advert.id)"
-                  class="bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110"
-                >
-                  Delete
-                </button>
-              </div>
+              +
             </div>
           </div>
-          <div v-else>
-            <p>No adverts found.</p>
+
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            ref="fileInput"
+            accept="image/*"
+            @change="handleFileUpload"
+            class="hidden"
+          />
+        </div>
+      </div>
+      <!-- User information -->
+      <div class="info-item">
+        <span class="font-semibold">Email: </span>
+        <span class="break-words">{{ user.email }}</span>
+      </div>
+      <div class="info-item">
+        <span class="font-semibold">User Type: </span>
+        <span class="break-words">{{ user.user_type }}</span>
+      </div>
+      <div v-if="user.name" class="info-item">
+        <span class="font-semibold">Name: </span>
+        <span class="break-words">{{ user.name }}</span>
+      </div>
+      <div v-if="user.surname" class="info-item">
+        <span class="font-semibold">Surname: </span>
+        <span class="break-words">{{ user.surname }}</span>
+      </div>
+      <div v-if="user.org_name" class="info-item">
+        <span class="font-semibold">Organization Name: </span>
+        <span class="break-words">{{ user.org_name }}</span>
+      </div>
+      <div v-if="user.reg_number" class="info-item">
+        <span class="font-semibold">Registration Number: </span>
+        <span class="break-words">{{ user.reg_number }}</span>
+      </div>
+      <div v-if="user.location" class="info-item">
+        <span class="font-semibold">Location: </span>
+        <span class="break-words">{{ user.location }}</span>
+      </div>
+      <!-- Buttons container -->
+      <div class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-4 sm:space-y-0 mt-6 items-center">
+        <!-- Add Job Advert button -->
+        <button
+          v-if="user.user_type === 'organisation'"
+          @click="showJobAdvertModal = true"
+          class="bg-green w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+        >
+          + Add Job Advert
+        </button>
+
+        <!-- Change Password button -->
+        <button
+          @click="showChangePasswordModal = true"
+          class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+        >
+          Change Password
+        </button>
+
+        <!-- Change Name button -->
+        <button
+          @click="showChangeNameModal = true"
+          class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+        >
+          Change Name 
+        </button>
+      </div>
+      <!-- User adverts -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-bold mb-4 mt-20 text-center sm:text-left">
+          My Adverts
+        </h2>
+        <div
+          v-if="adverts.length > 0"
+          class="flex flex-wrap justify-center sm:justify-start -ml-0 sm:-ml-10"
+        >
+          <div
+            v-for="advert in adverts"
+            :key="advert._id"
+            class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-full sm:w-80 m-5 h-auto flex flex-col justify-between"
+          >
+            <h3 class="text-xl font-semibold overflow-ellipsis overflow-hidden">
+              {{ advert.Job_title }}
+            </h3>
+            <p class="overflow-ellipsis overflow-hidden">{{ advert.description }}</p>
+            <p class="text-gray-600">City: {{ advert.city }}</p>
+
+            <!-- Buttons container to align see more and delete button -->
+            <div class="flex justify-between mt-2">
+              <!-- See more button -->
+              <router-link
+                :to="'/applicants/' + advert.id"
+                class="bg-accent hover:scale-110 text-center w-36 h-10 items-center content-center xl:p-0 text-gray-700 font-medium py-2 px-4 rounded-lg cursor-pointer transform active:scale-100 transition-transform shadow-dark"
+              >
+                See applicants
+              </router-link>
+
+              <!-- Delete button -->
+              <button
+                @click="deleteAdvert(advert.id)"
+                class="bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <p>No adverts found.</p>
+        </div>
+      </div>
+    </div>
+    <div v-else class="text-center">
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <!-- Blank page for small screens -->
+  <div v-if="user" class="block md:hidden p-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
+    <div class="flex justify-center mb-4">
+      <div class="relative w-32 h-32 rounded-full cursor-pointer mb-10" @click="triggerFileUpload">
+        <img v-if="user.profileImageUrl" :src="user.profileImageUrl" alt="Profile Image" class="w-full h-full rounded-full object-cover" />
+        <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-full">
+          <span>No Image</span>
+        </div>
+        <input type="file" ref="fileInput" accept="image/*" @change="handleFileUpload" class="hidden" />
+      </div>
+    </div>
+    <div class="info-item">
+      <span class="font-semibold">Email: </span>
+      <span class="break-words">{{ user.email }}</span>
+    </div>
+    <div class="info-item">
+      <span class="font-semibold">User Type: </span>
+      <span class="break-words">{{ user.user_type }}</span>
+    </div>
+    <div v-if="user.name" class="info-item">
+      <span class="font-semibold">Name: </span>
+      <span class="break-words">{{ user.name }}</span>
+    </div>
+    <div v-if="user.surname" class="info-item">
+      <span class="font-semibold">Surname: </span>
+      <span class="break-words">{{ user.surname }}</span>
+    </div>
+    <div v-if="user.org_name" class="info-item">
+      <span class="font-semibold">Organization Name: </span>
+      <span class="break-words">{{ user.org_name }}</span>
+    </div>
+    <div v-if="user.reg_number" class="info-item">
+      <span class="font-semibold">Registration Number: </span>
+      <span class="break-words">{{ user.reg_number }}</span>
+    </div>
+    <div v-if="user.location" class="info-item">
+      <span class="font-semibold">Location: </span>
+      <span class="break-words">{{ user.location }}</span>
+    </div>
+    <div class="flex flex-col space-y-4 mt-6">
+      <button v-if="user.user_type === 'organisation'" @click="showJobAdvertModal = true" class="bg-green text-gray-700 font-semibold py-2 rounded-lg">+ Add Job Advert</button>
+      <button @click="showChangePasswordModal = true" class="bg-accent text-gray-700 font-semibold py-2 rounded-lg">Change Password</button>
+      <button @click="showChangeNameModal = true" class="bg-blue-500 text-gray-700 font-semibold py-2 rounded-lg">Change Name</button>
+    </div>
+    <div class="mt-8">
+      <h2 class="text-2xl font-bold mb-4 mt-6">My Adverts</h2>
+      <div v-if="adverts.length > 0" class="flex flex-wrap">
+        <div v-for="advert in adverts" :key="advert._id" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 m-2 w-full sm:w-80 flex flex-col">
+          <h3 class="text-xl font-semibold overflow-ellipsis overflow-hidden">{{ advert.Job_title }}</h3>
+          <p class="overflow-ellipsis overflow-hidden">{{ advert.description }}</p>
+          <p class="text-gray-600">City: {{ advert.city }}</p>
+          <div class="flex justify-between mt-2">
+            <router-link :to="'/applicants/' + advert.id" class="bg-accent text-gray-700 font-medium py-2 px-4 rounded-lg">See applicants</router-link>
+            <button @click="deleteAdvert(advert.id)" class="bg-red text-gray-700 font-semibold w-10 h-10 p-0 rounded-lg flex items-center justify-center">
+        <img src="../assets/Images/trash-can.svg" alt="Delete" class="w-6 h-6" />
+      </button>
           </div>
         </div>
       </div>
-      <div v-else class="text-center">
-        <p>Loading...</p>
+      <div v-else>
+        <p>No adverts found.</p>
       </div>
-
-
+    </div>
+  </div>
+  <div v-else class="text-center">
+    <p>Loading...</p>
+  </div>
 
       <!-- Job Advert Modal -->
       <div
@@ -361,6 +427,7 @@
                 v-model="changePasswordForm.new_password"
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                 required
+                minlength="8"
               />
             </div>
             <button
@@ -425,7 +492,6 @@
       </div>
 
     </div>
-  </div>
 </template>
 
 <script setup>

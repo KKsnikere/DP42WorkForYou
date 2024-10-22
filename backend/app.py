@@ -25,6 +25,7 @@ client = MongoClient(app.config['MONGO_URI'])
 db = client.Uwork
 jobAdvert = db.JobAdvert
 users = db.Register
+applications = db.applications
 tokenlist = db.tokenlist
 collection = db['applications']  # Change to your desired collection name
 
@@ -377,7 +378,30 @@ def apply():
     else:
         return jsonify({"error": "Failed to submit application."}), 500
 
-    
+
+@app.route('/applicants/<job_id>', methods=['GET'])
+def get_applicants(job_id):
+    user_email = request.headers.get('userEmail')
+    print(f"Received job ID: {job_id}")  # Log the job_id for debugging
+
+    # Query for the job advert using the job_id
+    job_advert = jobAdvert.find_one({"id": int(job_id)})  # Expect job_id to be an integer
+
+    if not job_advert:
+        print(f"Job advert with ID {job_id} not found.")
+        return jsonify({"error": "Job advert not found."}), 404
+
+    # Check if the user is authorized
+    if job_advert['email'] != user_email:
+        return jsonify({"error": "Unauthorized access. You are not the creator of this job advert."}), 403
+
+    # Fetch applicants related to this job
+    applicants = list(db.applications.find({"jobId": job_id}, {"_id": 0}))
+
+    if applicants:
+        return jsonify(applicants), 200
+    else:
+        return jsonify([]), 200
 
 
 
