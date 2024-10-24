@@ -5,66 +5,58 @@
         <h3 class="text-2xl font-semibold text-gray-800">Sign in options</h3>
         <button @click="$emit('close')" class="text-gray-600 hover:text-red-500 focus:outline-none">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
 
       <!-- Registration and login form -->
       <div v-if="step === 'choose'" class="space-y-4">
-        <div v-if="loginError" class="text-red-500 text-sm mt-2">Incorrect password or email</div>
-        <button
-          @click="step = 'login'"
-          class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark"
-        >
+        <div v-if="loginError" class="text-red text-sm mt-2">Incorrect password or email</div>
+        <button @click="step = 'login'" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark">
           Log In
         </button>
-        <button
-          @click="setRegisterChoice"
-          class="w-full bg-accent text-gray-700 py-2 px-4 font-medium rounded-lg hover:bg-accent transition duration-200 shadow-dark"
-        >
+        <button @click="setRegisterChoice" class="w-full bg-accent text-gray-700 py-2 px-4 font-medium rounded-lg hover:bg-accent transition duration-200 shadow-dark">
           Register
         </button>
       </div>
 
       <!-- Registration form for individual -->
-      <div v-if="step === 'registerChoice'" class="space-y-8">
+      <form v-if="step === 'registerChoice'" @submit.prevent="register" class="space-y-8">
         <div class="flex justify-center gap-4">
           <button
-            @click="userType = 'individual'"
+            type="button"
+            @click.prevent="userType = 'individual'"
             :class="userType === 'individual' ? 'bg-accent' : 'bg-green'"
             class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
           >
             Private Person
           </button>
           <button
-            @click="userType = 'organisation'"
+            type="button"
+            @click.prevent="userType = 'organisation'"
             :class="userType === 'organisation' ? 'bg-accent' : 'bg-green'"
             class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
           >
             Organisation
           </button>
         </div>
+
         <div v-if="userType === 'individual'" class="space-y-6">
           <input
             v-model="name"
             type="text"
             placeholder="Name"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            required
           />
-          <div v-if="nameError" class="text-xs"><span class="text-red">*</span>  Name is required</div>
           <input
             v-model="surname"
             type="text"
             placeholder="Surname"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            required
           />
-          <div v-if="surnameError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Surname is required</div>
         </div>
         <div v-else>
           <input
@@ -72,45 +64,59 @@
             type="text"
             placeholder="Organisation Name"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            required
           />
           <input
             v-model="regNumber"
             type="text"
             placeholder="Registration Number"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            required
           />
           <input
             v-model="location"
             type="text"
             placeholder="Location"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            required
           />
-          <div v-if="orgNameError" class="text-red-500 text-xs mt-1">
-            <span class="text-red">*</span> Organisation Name is required
-          </div>
-          <div v-if="regNumberError" class="text-red-500 text-xs mt-1">
-            <span class="text-red">*</span> Registration Number is required
-          </div>
-          <div v-if="locationError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Location is required</div>
         </div>
+
         <input
           v-model="email"
           type="email"
           placeholder="Email"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+          required
         />
-        <div v-if="emailError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Email is required</div>
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
-        />
-        <div v-if="passwordError" class="text-red-500 text-xs mt-1"><span class="text-red">*</span> Password is required</div>
-        <button
-          @click="register"
-          class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 mt-8 shadow-dark"
-        >
+
+        <!-- Password with Show/Hide Button -->
+        <div class="relative">
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            required
+            minlength="8"
+          />
+          <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <img
+              v-if="showPassword"
+              src="../assets/Images/showP.png"
+              alt="Show password"
+              class="h-6 w-6 mt-6"
+            />
+            <img
+              v-else
+              src="../assets/Images/hideP.png"
+              alt="Hide password"
+              class="h-6 w-6 mt-6"
+            />
+          </button>
+        </div>
+
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 mt-8 shadow-dark">
           Register
         </button>
 
@@ -122,33 +128,49 @@
             </button>
           </p>
         </div>
-      </div>
+      </form>
 
       <!-- Login form -->
-      <div v-if="step === 'login'" class="space-y-4">
+      <form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
         <input
           v-model="email"
           type="email"
           placeholder="Email"
           class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+          required
         />
-        <div v-if="emailError" class="text-red-500 text-xs mt-1">Email is required</div>
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-        />
-        <div v-if="passwordError" class="text-red-500 text-xs mt-1">Password is required</div>
+
+        <!-- Password with Show/Hide Button -->
+        <div class="relative">
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            required
+          />
+          <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <img
+              v-if="showPassword"
+              src="../assets/Images/showP.png"
+              alt="Show password"
+              class="h-6 w-6"
+            />
+            <img
+              v-else
+              src="../assets/Images/hideP.png"
+              alt="Hide password"
+              class="h-6 w-6"
+            />
+          </button>
+        </div>
 
         <div v-if="loginError" class="text-red text-xs">Incorrect password or email</div>
 
-        <button
-          @click="login"
-          class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg hover:bg-green transition duration-200 shadow-dark font-medium"
-        >
+        <button type="submit" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg hover:bg-green transition duration-200 shadow-dark font-medium">
           Login
         </button>
+
         <div class="text-center">
           <p class="text-gray-600">
             Don't have an account yet?
@@ -157,10 +179,11 @@
             </button>
           </p>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -174,16 +197,8 @@ export default {
       regNumber: '',
       location: '',
       userType: 'individual',
-      emailError: false,
-      passwordError: false,
-      nameError: false,
-      surnameError: false,
-      orgNameError: false,
-      regNumberError: false,
-      locationError: false,
       loginError: false,
-      emailErrorMessage: '',
-      passwordErrorMessage: '',
+      showPassword: false, // Added for toggling password visibility
     };
   },
   methods: {
@@ -191,61 +206,15 @@ export default {
       this.step = 'registerChoice';
       this.userType = 'individual';
     },
-    validateEmail() {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!this.email) {
-        this.emailError = true;
-        this.emailErrorMessage = 'Email is required';
-        return false;
-      } else if (!emailPattern.test(this.email)) {
-        this.emailError = true;
-        this.emailErrorMessage = 'Invalid email format';
-        return false;
-      }
-      this.emailError = false;
-      return true;
-    },
-    validatePassword() {
-      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-      if (!this.password) {
-        this.passwordError = true;
-        this.passwordErrorMessage = 'Password is required';
-        return false;
-      } else if (!passwordPattern.test(this.password)) {
-        this.passwordError = true;
-        this.passwordErrorMessage = 'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number';
-        return false;
-      }
-      this.passwordError = false;
-      return true;
-    },
-    validateFields() {
-      const isEmailValid = this.validateEmail();
-      const isPasswordValid = this.validatePassword();
-      this.nameError = this.userType === 'individual' && !this.name;
-      this.surnameError = this.userType === 'individual' && !this.surname;
-      this.orgNameError = this.userType === 'organisation' && !this.orgName;
-      this.regNumberError = this.userType === 'organisation' && !this.regNumber;
-      this.locationError = this.userType === 'organisation' && !this.location;
-
-      return isEmailValid && isPasswordValid && !(
-        this.nameError ||
-        this.surnameError ||
-        this.orgNameError ||
-        this.regNumberError ||
-        this.locationError
-      );
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
     },
     async register() {
-      if (!this.validateFields()) {
-        return;
-      }
-
       try {
         let payload = {
           email: this.email,
           password: this.password,
-          userType: this.userType
+          userType: this.userType,
         };
 
         if (this.userType === 'individual') {
@@ -260,10 +229,10 @@ export default {
         const response = await fetch('http://localhost:5000/register', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
-          credentials: 'include'
+          credentials: 'include',
         });
 
         if (response.ok) {
@@ -279,23 +248,19 @@ export default {
       }
     },
     async login() {
-      if (!this.validateEmail() || !this.validatePassword()) {
-        return;
-      }
-
       try {
         const payload = {
           email: this.email,
-          password: this.password
+          password: this.password,
         };
 
         const response = await fetch('http://localhost:5000/login', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
-          credentials: 'include'
+          credentials: 'include',
         });
 
         if (response.ok) {
@@ -310,10 +275,11 @@ export default {
         console.error('Error logging in:', error);
         this.loginError = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-
-<style scoped></style>
+<style scoped>
+/* Add any scoped styles here */
+</style>
