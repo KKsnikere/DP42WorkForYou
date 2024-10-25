@@ -215,6 +215,7 @@ def get_user_by_email():
             return json_util.dumps(result), 200
         else:
             return jsonify({"error": "User not found"}), 404
+ 
 
 @app.route('/add-favorite', methods=['POST'])
 def add_favorite():
