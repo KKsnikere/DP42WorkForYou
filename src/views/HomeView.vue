@@ -27,13 +27,14 @@
               :key="optionIndex"
               class="flex items-center space-x-2 py-1"
             >
-              <input
-                type="checkbox"
-                v-model="selectedFilters[filter.key]"
-                :value="option"
-                :id="`${filter.key}-${optionIndex}`"
-                class="form-checkbox h-4 w-4 text-acce border-gray-300 rounded focus:ring-2 focus:ring-accent transition duration-150 ease-in-out"
-              />
+            <input
+  type="checkbox"
+  v-model="selectedFilters[filter.key]"
+  :value="option"
+  :id="`${filter.key}-${optionIndex}`"
+  class="form-checkbox h-4 w-4 text-acce border-gray-300 rounded focus:ring-2 focus:ring-accent transition duration-150 ease-in-out"
+  @change="applyFilters"
+/>
               <label
                 :for="`${filter.key}-${optionIndex}`"
                 :class="{ 'font-bold': isSelected(filter.key, option) }"
@@ -57,14 +58,8 @@
 
       <div class="flex justify-center items-center space-x-4">
       <button
-        @click="applyFilters"
-        class="shadow-dark bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded transform active:scale-75 transition-transform"
-      >
-        Submit
-      </button>
-      <button
         @click="clearFilters"
-        class="w-10 h-10 hover:scale-110 bg-white rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
+        class="w-10 h-10 mt-2 hover:scale-110 bg-white rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
       >
         <img
           src="../assets/Images/clearF.png"
@@ -76,7 +71,8 @@
         <div>
           <button
             @click="toggleSortMenu"
-            class="inline-flex justify-between w-full rounded-md shadow-dark transition-colors transform bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
+            v-click-outside="closeSortMenu"
+            class="inline-flex justify-between w-full rounded-md shadow-dark bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
             id="options-menu"
             aria-haspopup="true"
             aria-expanded="true"
@@ -135,7 +131,20 @@
         class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green w-96"
       />
     </div>
-    <!-- Modify the existing template to include a loading state -->
+    <!--Items per page-->
+    <div class="flex justify-start">
+      <label for="itemsPerPage" class="mr-2 text-gray-700 font-medium mt-2">Items per page:</label>
+      <select
+        id="itemsPerPage"
+        v-model="itemsPerPage"
+        @change="currentPage = 1"
+        class="p-2 border border-gray-300 rounded"
+      >
+        <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
     <div v-if="loading" class="text-center">Searching...</div>
 
     <div v-else-if="filteredJobs.length > 0">
@@ -214,16 +223,17 @@
   const userEmail = localStorage.getItem("userEmail");
   const searchQuery = ref("");
   const loading = ref(false);
-  const itemsPerPage = 12; 
+  const itemsPerPageOptions = ref([6, 12, 24, 32, 48]);
+  const itemsPerPage = ref(itemsPerPageOptions.value[1]);
   const currentPage = ref(1); 
 
-  const paginatedJobs = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredJobs.value.slice(start, start + itemsPerPage);
+const paginatedJobs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  return filteredJobs.value.slice(start, start + itemsPerPage.value);
 });
 
 const totalPages = computed(() => {
-  return Math.ceil(filteredJobs.value.length / itemsPerPage);
+  return Math.ceil(filteredJobs.value.length / itemsPerPage.value);
 });
 
 const prevPage = () => {
@@ -387,6 +397,10 @@ const navigateToJob = (jobId) => {
   isSortMenuOpen.value = !isSortMenuOpen.value;
 };
 
+  const closeSortMenu = () => {
+    isSortMenuOpen.value = false;
+  }
+
   const sortJobs = async (order) => {
   try {
     // Append the selected sort order to the query parameters
@@ -424,7 +438,7 @@ const navigateToJob = (jobId) => {
     {
       name: "Work Type",
       key: "worktype",
-      options: ["Part-time", "Full-time", "One-time"],
+      options: ["Part-Time", "Full-time", "One-time"],
     },
     {
       name: "Profession",

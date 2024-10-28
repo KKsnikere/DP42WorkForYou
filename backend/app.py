@@ -442,6 +442,18 @@ def get_applicants(job_id):
         return jsonify(applicants), 200
     else:
         return jsonify([]), 200
+    
+
+def delete_old_jobs():
+    # Get the current date and calculate the cutoff date (6 months ago)
+    cutoff_date = datetime.now() - timedelta(days=6 * 30)  # Roughly 6 months
+    # Delete documents older than 6 months
+    result = jobAdvert.delete_many({"date": {"$lt": cutoff_date}})
+    print(f"Deleted {result.deleted_count} job advertisements older than 6 months.")
+
+# Run the delete function within the application context
+with app.app_context():
+    delete_old_jobs()
 
 
 

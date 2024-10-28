@@ -569,6 +569,7 @@
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                 :placeholder="user.name"
                 required
+                pattern="[A-Za-z ]+"
               />
             </div>
             <div class="mb-4">
@@ -579,6 +580,7 @@
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                 :placeholder="user.surname"
                 required
+                pattern="[A-Za-z ]+"
               />
             </div>
             <button

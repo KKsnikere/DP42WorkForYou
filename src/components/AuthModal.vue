@@ -49,6 +49,7 @@
             placeholder="Name"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
             required
+            pattern="[A-Za-z ]+"
           />
           <input
             v-model="surname"
@@ -56,6 +57,7 @@
             placeholder="Surname"
             class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
             required
+            pattern="[A-Za-z ]+"
           />
         </div>
         <div v-else>

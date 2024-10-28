@@ -1,11 +1,11 @@
 <template>
-  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-300 mt-8"> <!-- Добавлен класс mt-8 -->
+  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-300 mt-8">
     <h1 class="text-3xl font-bold mb-6 text-gray-800 border-b pb-4">{{ job.Job_title }}</h1>
     
     <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2 text-gray-700">{{ job.Company_name }}</h2>
+      <h2 class="text-xl font-semibold mb-2 text-gray-700"> Company: {{ job.Company_name }}</h2>
       <div class="flex items-center text-gray-500">
-        <span class="mr-2">{{ job.reg_nr }}</span>
+        <span class="mr-2"> Reg. №: {{ job.reg_nr }}</span>
         <span>{{ job.adress }}</span>
       </div>
     </div>
