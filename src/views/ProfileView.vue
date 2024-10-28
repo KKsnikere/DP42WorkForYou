@@ -103,6 +103,14 @@
         >
           Change Name 
         </button>
+        <!-- See aplications -->
+        <router-link to="/user-applications">
+      <button
+        class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+      >
+        My applications
+      </button>
+    </router-link>
       </div>
       <!-- User adverts -->
       <div class="mt-8">
@@ -206,6 +214,13 @@
       @click="showChangeNameModal = true" 
       class="bg-blue-500 text-gray-700 font-semibold py-2 rounded-lg">
       Change Name</button>
+
+      <router-link to="/user-applications">
+      <button
+      class="bg-accent text-gray-700 font-semibold py-2 rounded-lg w-full">
+        My applications
+      </button>
+      </router-link>
 
     </div>
     <div class="mt-8">

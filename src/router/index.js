@@ -53,7 +53,12 @@ const router = createRouter({
       path: '/applicants/:id',
       name: 'Applicants',
       component: () => import("../views/AplicantsView.vue"),
-    }
+    },
+    {
+      path: '/user-applications',
+      name: 'UserApplications',
+      component:() => import("../views/Myapplications.vue")
+    },
   ],
 });
 

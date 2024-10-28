@@ -33,6 +33,45 @@ collection = db['applications']  # Change to your desired collection name
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+@app.route('/user-applications', methods=['GET'])
+def get_user_applications():
+    # Get user email from headers
+    user_email = request.headers.get('userEmail')
+    print(f"Received request with userEmail: {user_email}")
+    
+    if not user_email:
+        print("No userEmail provided in the request headers.")
+        return jsonify({"error": "User email not provided."}), 400
+    
+    # Fetch applications for the user
+    user_applications = list(collection.find({"email": user_email}, {"_id": 0}))
+    print(f"Applications found for user: {user_applications}")
+
+    applications_with_job_details = []
+    
+    for application in user_applications:
+        job_id = application.get("jobId")
+        print(f"Fetching job details for jobId: {job_id}")
+
+        # Fetch job details from JobAdvert where `id` matches `jobId`
+        job_advert = jobAdvert.find_one({"id": int(job_id)}, {"_id": 0, "Company_name": 1, "Job_title": 1, "salary": 1})
+
+        if job_advert:
+            print(f"Job details found for jobId {job_id}: {job_advert}")
+            # Merge job details into the application document
+            application["Company_name"] = job_advert.get("Company_name")
+            application["Job_title"] = job_advert.get("Job_title")
+            application["salary"] = job_advert.get("salary")
+        else:
+            print(f"No job details found for jobId: {job_id}")
+
+        applications_with_job_details.append(application)
+    
+    print(f"Final applications data sent to frontend: {applications_with_job_details}")
+    return jsonify(applications_with_job_details), 200
+
+
+
 @app.route('/jobs/<id>', methods=['GET', 'DELETE'])
 def manage_product_by_id(id):
     if request.method == 'GET':
