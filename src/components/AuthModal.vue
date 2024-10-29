@@ -193,6 +193,10 @@
 
 <script>
 import axios from 'axios';
+import { useRouter } from "vue-router";
+import { ref, onMounted, computed } from 'vue'
+
+const router = useRouter(); 
 
 export default {
   data() {
@@ -272,8 +276,9 @@ export default {
         localStorage.setItem('userEmail', this.email);
         this.$emit('login'); 
         this.$emit('close');  // Close modal on successful login
+        this.$router.push({ name: 'home' });
       } catch (error) {
-        console.error('Login error:', error.response.data);
+        console.error('Login error:', error.response?.data || error.message);
         this.loginError = true;
       }
     }
