@@ -13,6 +13,8 @@ import random
 import string
 from flask_mail import Mail
 from flask_mail import Message
+from detoxify import Detoxify
+import re
 
 app = Flask(__name__)
 
@@ -30,14 +32,14 @@ jobAdvert = db.JobAdvert
 users = db.Register
 applications = db.applications
 tokenlist = db.tokenlist
-collection = db['applications']  # Change to your desired collection name
+collection = db['applications'] 
 
 #Mailing configuration
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'work4uauto@gmail.com'  # Use your actual Gmail address
-app.config['MAIL_PASSWORD'] = 'acbi clew dqrz ywwj'     # Use your generated App Password
+app.config['MAIL_USERNAME'] = 'work4uauto@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'acbi clew dqrz ywwj'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 otp_store = {}
@@ -48,6 +50,103 @@ mail.init_app(app)
 # Directory to save uploaded files
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Detoxify model - can be changed to multilingual or original
+detoxify_model = Detoxify('multilingual')
+
+def check_toxicity(message):
+    """Check if a message is toxic using Detoxify."""
+    scores = detoxify_model.predict(message)
+    # Define threshold levels; adjust as necessary
+    thresholds = {
+        'toxicity': 0.85,
+        'severe_toxicity': 0.75,
+        'obscene': 0.8,
+        'insult': 0.8,
+        'threat': 0.75
+    }
+    # Flag message as toxic if any score exceeds thresholds
+    for category, threshold in thresholds.items():
+        if scores.get(category, 0) >= threshold:
+            return True
+    return False
+
+def is_nonsensical(message):
+    """Check if the message contains nonsensical content."""
+    
+    # Check for repeated characters (e.g., 'fffff' or 'aaaaaaa')
+    if re.search(r'(.)\1{4,}', message):  # Matches any character that repeats 5 or more times
+        return True
+
+    # Check for too few words
+    words = message.split()
+    if len(words) < 3:  # Require at least 3 words
+        return True
+
+    # Check for excessive length
+    if len(message) > 200:  # Example max length check
+        return True
+
+    # Check character diversity (e.g., not too many repeated letters)
+    unique_chars = len(set(message))
+    total_chars = len(message)
+    if unique_chars / total_chars < 0.3:  # Less than 30% unique characters
+        return True
+
+    # Optional: Use a dictionary or a set of common words to check for validity
+    common_words = set(["the", "is", "in", "and", "to", "a"])  # Expand this set as needed
+    if not any(word in common_words for word in words):
+        return True
+    
+    return False
+
+@app.route('/apply', methods=['POST'])
+def apply():
+    # Get form data
+    name = request.form.get('name')
+    surname = request.form.get('surname')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    message = request.form.get('message')
+    job_id = request.form.get('jobId')  # Retrieve the jobId
+
+    # Check message toxicity
+    if check_toxicity(message):
+        return jsonify({"error": "Message contains toxic or offensive content."}), 400
+
+    # Check if the message is nonsensical
+    if is_nonsensical(message):
+        return jsonify({"error": "Message contains nonsensical content."}), 400
+
+    # Initialize a list to hold file paths
+    file_paths = []
+
+    # Save uploaded files
+    files = request.files.getlist('files')
+    for file in files:
+        if file:
+            file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+            file.save(file_path)  # Save file to the directory
+            file_paths.append(file_path)  # Add file path to the list
+
+    # Create a document to insert into MongoDB
+    document = {
+        'name': name,
+        'surname': surname,
+        'phone': phone,
+        'email': email,
+        'message': message,
+        'jobId': job_id,  # Store the jobId in the document
+        'files': file_paths
+    }
+
+    # Insert the data into MongoDB
+    result = collection.insert_one(document)
+    
+    if result.inserted_id:
+        return jsonify({"message": "Application submitted successfully!", "id": str(result.inserted_id)}), 201
+    else:
+        return jsonify({"error": "Failed to submit application."}), 500 
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -418,46 +517,6 @@ def update_name():
         )
 
         return jsonify({'message': 'Name and surname updated successfully.'}), 200
-
-@app.route('/apply', methods=['POST'])
-def apply():
-    # Get form data
-    name = request.form.get('name')
-    surname = request.form.get('surname')
-    phone = request.form.get('phone')
-    email = request.form.get('email')
-    message = request.form.get('message')
-    job_id = request.form.get('jobId')  # Retrieve the jobId
-
-    # Initialize a list to hold file paths
-    file_paths = []
-
-    # Save uploaded files
-    files = request.files.getlist('files')
-    for file in files:
-        if file:
-            file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-            file.save(file_path)  # Save file to the directory
-            file_paths.append(file_path)  # Add file path to the list
-
-    # Create a document to insert into MongoDB
-    document = {
-        'name': name,
-        'surname': surname,
-        'phone': phone,
-        'email': email,
-        'message': message,
-        'jobId': job_id,  # Store the jobId in the document
-        'files': file_paths
-    }
-
-    # Insert the data into MongoDB
-    result = collection.insert_one(document)
-    
-    if result.inserted_id:
-        return jsonify({"message": "Application submitted successfully!", "id": str(result.inserted_id)}), 201
-    else:
-        return jsonify({"error": "Failed to submit application."}), 500
 
 
 @app.route('/applicants/<job_id>', methods=['GET'])

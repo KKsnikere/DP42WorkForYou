@@ -38,26 +38,25 @@
         />
       </div>
 
-<div>
-  <label class="block text-gray-700 font-semibold mb-2">Phone</label>
-  <div class="flex items-center space-x-2">
-    <select v-model="selectedCountryCode" class="border border-gray-300 rounded-md px-1 py-2 text-sm">
-      <option v-for="code in countryCodes" :key="code.value" :value="code.value">
-        {{ code.label }} ({{ code.value }})
-      </option>
-    </select>
-    <input
-      type="text"
-      v-model="applicant.phone"
-      required
-      maxlength="10"
-      pattern="[0-9]*"
-      @input="applicant.phone = applicant.phone.replace(/[^0-9]/g, '').slice(0, 10)"
-      class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-    />
-  </div>
-</div>
-
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">Phone</label>
+        <div class="flex items-center space-x-2">
+          <select v-model="selectedCountryCode" class="border border-gray-300 rounded-md px-1 py-2 text-sm">
+            <option v-for="code in countryCodes" :key="code.value" :value="code.value">
+              {{ code.label }} ({{ code.value }})
+            </option>
+          </select>
+          <input
+            type="text"
+            v-model="applicant.phone"
+            required
+            maxlength="10"
+            pattern="[0-9]*"
+            @input="applicant.phone = applicant.phone.replace(/[^0-9]/g, '').slice(0, 10)"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          />
+        </div>
+      </div>
 
       <div>
         <label class="block text-gray-700 font-semibold mb-2">Message</label>
@@ -67,6 +66,11 @@
           class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
           placeholder="Tell us why you're a good fit"
         ></textarea>
+      </div>
+
+      <!-- Display Error Message for Backend Validation -->
+      <div v-if="backendError" class="text-red text-sm mt-1">
+        {{ backendError }}
       </div>
 
       <!-- File Upload -->
@@ -111,7 +115,7 @@
     </form>
   </div>
 
-  <div v-else-if="error" class="text-center text-red-500 mt-10">
+  <div v-else-if="error" class="text-center text-red mt-10">
     <p>Error loading job details. Please try again later.</p>
   </div>
 
@@ -138,7 +142,6 @@ const applicant = ref({
   email: '',
   message: ''
 })
-
 
 const selectedCountryCode = ref('+371') // Default country code
 const countryCodes = ref([
@@ -171,6 +174,7 @@ const countryCodes = ref([
 const job = ref(null)
 const error = ref(null)
 const files = ref([])
+const backendError = ref(null)
 
 // Fetch job details
 const fetchJobDetails = async () => {
@@ -236,8 +240,13 @@ const submitApplication = async () => {
       location.reload();
     }
   } catch (err) {
-    console.error('Error submitting application:', err)
-    alert('Failed to submit application.')
+    // Handle error from backend
+    if (err.response && err.response.data && err.response.data.error) {
+      backendError.value = err.response.data.error; // Display backend error message
+    } else {
+      console.error('Error submitting application:', err)
+      alert('Failed to submit application.');
+    }
   }
 }
 
