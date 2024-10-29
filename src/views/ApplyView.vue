@@ -230,6 +230,7 @@ const submitApplication = async () => {
 
     if (response.status === 201) {
       alert('Application submitted successfully!')
+      location.reload();
     }
   } catch (err) {
     console.error('Error submitting application:', err)
