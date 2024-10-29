@@ -139,18 +139,6 @@ const applicant = ref({
   message: ''
 })
 
-const isAuthenticated = () => {
-  // Check for JWT token in cookies or localStorage
-  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-  return token !== undefined;
-};
-
-onMounted(() => {
-  if (!isAuthenticated()) {
-    // Redirect to WelcomeView if not authenticated
-    router.push({ name: 'welcome' }); // Redirect to WelcomeView
-  }
-});
 
 const selectedCountryCode = ref('+371') // Default country code
 const countryCodes = ref([

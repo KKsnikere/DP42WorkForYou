@@ -68,24 +68,7 @@ import { useRouter } from "vue-router";
 import { ref, onMounted, computed } from 'vue'
 
 export default {
-  setup(){
 
-    const router = useRouter(); 
-
-    const isAuthenticated = () => {
-    // Check for JWT token in cookies or localStorage
-      const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-      return token !== undefined;
-    };
-
-    onMounted(() => {
-      if (!isAuthenticated()) {
-        // Redirect to WelcomeView if not authenticated
-        router.push({ name: 'welcome' }); // Redirect to WelcomeView
-      }
-    });
-  },
-  
   data() {
     return {
       applicants: [],

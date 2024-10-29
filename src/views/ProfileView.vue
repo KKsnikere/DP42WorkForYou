@@ -598,19 +598,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter(); 
 
-const isAuthenticated = () => {
-  // Check for JWT token in cookies or localStorage
-  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-  return token !== undefined;
-};
-
-onMounted(() => {
-  if (!isAuthenticated()) {
-    // Redirect to WelcomeView if not authenticated
-    router.push({ name: 'welcome' }); // Redirect to WelcomeView
-  }
-});
-
 const user = ref(null)
 const showJobAdvertModal = ref(false)
 const showChangePasswordModal = ref(false)

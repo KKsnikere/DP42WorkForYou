@@ -66,7 +66,6 @@
   const jobId = route.params.id
   const job = ref(null)
   const error = ref(null)
-  const router = useRouter ()
 
   const isAuthenticated = () => {
   // Check for JWT token in cookies or localStorage
@@ -74,12 +73,6 @@
   return token !== undefined;
 };
 
-onMounted(() => {
-  if (!isAuthenticated()) {
-    // Redirect to login page if not authenticated
-    router.push({ name: 'welcome' });
-  }
-});
   
   const fetchJobDetails = async () => {
     try {

@@ -227,21 +227,6 @@
   const currentPage = ref(1);
   const router = useRouter();  
 
-
-
-  const isAuthenticated = () => {
-  // Check for JWT token in cookies or localStorage
-  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-  return token !== undefined;
-};
-
-onMounted(() => {
-  if (!isAuthenticated()) {
-    // Redirect to login page if not authenticated
-    router.push({ name: 'welcome' });
-  }
-});
-
 const paginatedJobs = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
   return filteredJobs.value.slice(start, start + itemsPerPage.value);
