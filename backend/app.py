@@ -83,16 +83,6 @@ def is_nonsensical(message):
     if len(words) < 3:  # Require at least 3 words
         return True
 
-    # Check for excessive length
-    if len(message) > 200:  # Example max length check
-        return True
-
-    # Check character diversity (e.g., not too many repeated letters)
-    unique_chars = len(set(message))
-    total_chars = len(message)
-    if unique_chars / total_chars < 0.3:  # Less than 30% unique characters
-        return True
-
     # Optional: Use a dictionary or a set of common words to check for validity
     common_words = set(["the", "is", "in", "and", "to", "a"])  # Expand this set as needed
     if not any(word in common_words for word in words):

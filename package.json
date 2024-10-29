@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@unhead/vue": "^1.11.10",
     "axios": "^1.7.7",
     "lodash": "^4.17.21",
     "vue": "^3.4.29",
+    "vue-recaptcha": "^3.0.0-alpha.6",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
