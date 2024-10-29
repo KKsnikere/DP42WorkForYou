@@ -193,6 +193,7 @@ export default {
       }
       return null
     },
+    
     async verifyToken() {
       try {
         const response = await fetch('http://localhost:5000/verify-token', {

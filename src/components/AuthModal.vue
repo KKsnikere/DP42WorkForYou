@@ -88,17 +88,76 @@
           v-model="email"
           type="email"
           placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
           required
         />
-
-        <!-- Password with Show/Hide Button -->
+<!-- Password with Show/Hide Button -->
         <div class="relative">
           <input
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            required
+            minlength="8"
+          />
+          <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <img
+              v-if="showPassword"
+              src="../assets/Images/showP.png"
+              alt="Show password"
+              class="h-6 w-6"
+            />
+            <img
+              v-else
+              src="../assets/Images/hideP.png"
+              alt="Hide password"
+              class="h-6 w-6"
+            />
+          </button>
+        </div>
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+          Register
+        </button>
+
+        <div class="mt-4 text-sm text-gray-600">
+        <span>Don't have an account? </span>
+        <button @click="step = 'login'" class="text-blue-600">Login</button>
+      </div>
+      </form>
+
+      <!-- OTP Verification Form -->
+      <form v-if="step === 'verifyOtp'" @submit.prevent="verifyOtp" class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-800">Enter OTP</h3>
+        <input
+          v-model="otp"
+          type="text"
+          placeholder="Enter OTP sent to your email"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+          required
+        />
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+          Verify OTP
+        </button>
+        <div v-if="otpError" class="text-red-600 text-sm mt-2">{{ otpError }}</div>
+      </form>
+
+      <!-- Login form -->
+      <form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
+        <input
+          v-model="email"
+          type="email"
+          placeholder="Email"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+          required
+        />
+<!-- Password with Show/Hide Button -->
+        <div class="relative">
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
             required
             minlength="8"
           />
@@ -113,175 +172,112 @@
               v-else
               src="../assets/Images/hideP.png"
               alt="Hide password"
-              class="h-6 w-6 mt-6"
-            />
-          </button>
-        </div>
-
-        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 mt-8 shadow-dark">
-          Register
-        </button>
-
-        <div class="text-center">
-          <p class="text-gray-600">
-            Already have an account?
-            <button @click="step = 'login'" class="text-greener focus:outline-none">
-              Login here
-            </button>
-          </p>
-        </div>
-      </form>
-
-      <!-- Login form -->
-      <form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
-        <input
-          v-model="email"
-          type="email"
-          placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-          required
-        />
-
-        <!-- Password with Show/Hide Button -->
-        <div class="relative">
-          <input
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-            required
-          />
-          <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-            <img
-              v-if="showPassword"
-              src="../assets/Images/showP.png"
-              alt="Show password"
-              class="h-6 w-6"
-            />
-            <img
-              v-else
-              src="../assets/Images/hideP.png"
-              alt="Hide password"
               class="h-6 w-6"
             />
           </button>
         </div>
-
-        <div v-if="loginError" class="text-red text-xs">Incorrect password or email</div>
-
-        <button type="submit" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg hover:bg-green transition duration-200 shadow-dark font-medium">
-          Login
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+          Log In
         </button>
 
-        <div class="text-center">
-          <p class="text-gray-600">
-            Don't have an account yet?
-            <button @click="step = 'registerChoice'" class="text-darker focus:outline-none">
-              Register here
-            </button>
-          </p>
-        </div>
+        <div class="mt-4 text-sm text-gray-600">
+        <span>Don't have an account? </span>
+        <button @click="step = 'registerChoice'" class="text-blue-600">Register</button>
+      </div>
+
       </form>
+
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      step: 'choose',
-      email: '',
-      password: '',
+      step: 'choose', // 'choose', 'registerChoice', 'verifyOtp', 'login'
+      userType: 'individual', // 'individual' or 'organisation'
       name: '',
       surname: '',
       orgName: '',
       regNumber: '',
       location: '',
-      userType: 'individual',
+      email: '',
+      password: '',
+      password: '',
+      otp: '',
       loginError: false,
-      showPassword: false, // Added for toggling password visibility
+      otpError: '',
+      showPassword: false
     };
   },
   methods: {
     setRegisterChoice() {
       this.step = 'registerChoice';
-      this.userType = 'individual';
+      this.userType = 'individual'
     },
-    togglePasswordVisibility() {
+    togglePasswordVisibility(){
       this.showPassword = !this.showPassword;
     },
+
     async register() {
+      const registrationData = {
+        email: this.email,
+        password: this.password,
+        userType: this.userType,
+        ...(this.userType === 'individual' ? {
+          name: this.name,
+          surname: this.surname
+        } : {
+          orgName: this.orgName,
+          regNumber: this.regNumber,
+          location: this.location
+        })
+      };
+
       try {
-        let payload = {
-          email: this.email,
-          password: this.password,
-          userType: this.userType,
-        };
-
-        if (this.userType === 'individual') {
-          payload.name = this.name;
-          payload.surname = this.surname;
-        } else {
-          payload.orgName = this.orgName;
-          payload.regNumber = this.regNumber;
-          payload.location = this.location;
-        }
-
-        const response = await fetch('http://localhost:5000/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const responseData = await response.json();
-          localStorage.setItem('userEmail', responseData.email);
-          this.$emit('login');
-          this.$router.push('/home');
-        } else {
-          console.error('Registration failed');
-        }
+        await axios.post('http://localhost:5000/register', registrationData);
+        this.step = 'verifyOtp';  // Move to OTP verification step
       } catch (error) {
-        console.error('Error registering:', error);
+        console.error('Registration error:', error.response.data);
+        this.loginError = true;  // Optionally handle registration errors
+      }
+    },
+    async verifyOtp() {
+      const otpData = {
+        email: this.email,
+        otp: this.otp
+      };
+
+      try {
+        await axios.post('http://localhost:5000/verify_otp', otpData);
+        alert('Email verified successfully! You can now log in.');
+        this.step = 'login';  // Move to login step after successful OTP verification
+      } catch (error) {
+        console.error('OTP verification error:', error.response.data);
+        this.otpError = error.response.data.message;  // Display error message
       }
     },
     async login() {
+      const loginData = {
+        email: this.email,
+        password: this.password
+      };
+
       try {
-        const payload = {
-          email: this.email,
-          password: this.password,
-        };
-
-        const response = await fetch('http://localhost:5000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const responseData = await response.json();
-          localStorage.setItem('userEmail', responseData.email);
-          this.$emit('login');
-          this.$router.push('/home');
-        } else {
-          this.loginError = true;
-        }
+        await axios.post('http://localhost:5000/login', loginData, { withCredentials: true });
+        // Store email in localStorage after successful login
+        localStorage.setItem('userEmail', this.email);
+        this.$emit('login'); 
+        this.$emit('close');  // Close modal on successful login
       } catch (error) {
-        console.error('Error logging in:', error);
+        console.error('Login error:', error.response.data);
         this.loginError = true;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style scoped>
-/* Add any scoped styles here */
-</style>

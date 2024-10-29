@@ -4,15 +4,18 @@ from flask_pymongo import PyMongo
 from pymongo import MongoClient
 import bcrypt
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 import secrets
 from bson import json_util, ObjectId
 import json
 import random
 import string
+from flask_mail import Mail
+from flask_mail import Message
 
 app = Flask(__name__)
+
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5174"}}, supports_credentials=True)
 
@@ -29,9 +32,95 @@ applications = db.applications
 tokenlist = db.tokenlist
 collection = db['applications']  # Change to your desired collection name
 
+#Mailing configuration
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'work4uauto@gmail.com'  # Use your actual Gmail address
+app.config['MAIL_PASSWORD'] = 'acbi clew dqrz ywwj'     # Use your generated App Password
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+otp_store = {}
+
+mail = Mail(app)
+mail.init_app(app)
+
 # Directory to save uploaded files
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    existing_user = users.find_one({'email': data['email']})
+
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 400
+
+    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+    user = {
+        'email': data['email'],
+        'password': hashed_password,
+        'user_type': data['userType'],
+        'name': data.get('name'),
+        'surname': data.get('surname'),
+        'org_name': data.get('orgName'),
+        'reg_number': data.get('regNumber'),
+        'location': data.get('location'),
+        'email_confirmed': False  # Initially set to False
+    }
+    users.insert_one(user)
+
+    # Generate a 6-digit OTP
+    otp = ''.join(random.choices(string.digits, k=6))
+    otp_store[data['email']] = otp  # Store OTP for the user temporarily
+
+    # Send the OTP via email
+    msg = Message("Your OTP Code", sender="work4uauto@gmail.com", recipients=[data['email']])
+    msg.body = f"Your OTP code is: {otp}. Please enter this code to complete your registration."
+    
+    try:
+        mail.send(msg)
+    except Exception as e:
+        print("Failed to send email:", e)
+        return jsonify({'message': 'User registered, but failed to send OTP email.'}), 500
+
+    response = make_response(jsonify({'message': 'User registered successfully. Please check your email for the OTP.', 'email': data['email']}), 201)
+    return response
+
+@app.route('/verify_otp', methods=['POST'])
+def verify_otp():
+    data = request.get_json()
+    email = data['email']
+    otp = data['otp']
+
+    # Check if the OTP is correct
+    if otp_store.get(email) == otp:
+        # Mark email as confirmed
+        users.update_one({'email': email}, {'$set': {'email_confirmed': True}})
+        del otp_store[email]  # Remove OTP after verification
+        return jsonify({'message': 'Email confirmed successfully! You can now log in.'}), 200
+    else:
+        return jsonify({'message': 'Invalid OTP. Please try again.'}), 400
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    user = users.find_one({'email': data['email']})
+
+    if user and bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
+        if not user.get('email_confirmed', False):
+            return jsonify({'message': 'Please confirm your email before logging in.'}), 403
+        
+        token = jwt.encode({'email': data['email'], 'exp': datetime.utcnow() + timedelta(days=1)}, app.secret_key, algorithm='HS256')
+        tokenlist.insert_one({'token': token})
+        # Create a response with the token
+        response = make_response(jsonify({'message': 'Login successful', 'email': data['email']}))
+        response.set_cookie('token', token, httponly=True, samesite='Strict')
+
+        return response
+    else:
+        return jsonify({'message': 'Invalid credentials'}), 401
 
 @app.route('/user-applications', methods=['GET'])
 def get_user_applications():
@@ -143,54 +232,6 @@ def create_job_advert():
         jobAdvert.insert_one(product_data)
         return json_util.dumps(product_data), 201
 
-@app.route('/register', methods=['POST'])
-def register():
-    data = request.get_json()
-    existing_user = users.find_one({'email': data['email']})
-
-    if existing_user:
-        return jsonify({'message': 'User already exists'}), 400
-
-    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
-    user = {
-        'email': data['email'],
-        'password': hashed_password,
-        'user_type': data['userType'],
-        'name': data.get('name'),
-        'surname': data.get('surname'),
-        'org_name': data.get('orgName'),
-        'reg_number': data.get('regNumber'),
-        'location': data.get('location')
-    }
-    users.insert_one(user)
-
-    # Find the newly inserted user and extract the email
-    new_user = users.find_one({'email': data['email']})
-    email = new_user['email']
-
-    token = jwt.encode({'email': data['email'], 'exp': datetime.utcnow() + timedelta(days=1)}, app.secret_key, algorithm='HS256')
-    tokenlist.insert_one({'token': token})
-
-    response = make_response(jsonify({'message': 'User registered successfully', 'email': email}), 201)
-    response.set_cookie('token', token, httponly=True, samesite='Strict')
-
-    return response
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    user = users.find_one({'email': data['email']})
-
-    if user and bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
-        token = jwt.encode({'email': data['email'], 'exp': datetime.utcnow() + timedelta(days=1)}, app.secret_key, algorithm='HS256')
-        tokenlist.insert_one({'token': token})
-
-        response = make_response(jsonify({'message': 'Login successful', 'email': data['email']}))
-        response.set_cookie('token', token, httponly=True, samesite='Strict')
-
-        return response
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -297,7 +338,7 @@ def get_favorites():
 def _build_cors_prelight_response():
     response = make_response()
     origin = request.headers.get('Origin')
-    if origin in ["http://localhost:5174", "http://localhost:5173"]:
+    if origin in ["http://localhost:5174", "http://localhost:5173", "http://localhost:5000"]:
         response.headers.add("Access-Control-Allow-Origin", origin)  # Dynamically set allowed origin
     response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
     response.headers.add("Access-Control-Allow-Headers", "Content-Type")
