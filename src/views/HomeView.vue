@@ -214,10 +214,9 @@
 
   <script setup>
   import { ref, onMounted, computed } from "vue";
+  import { useRouter } from "vue-router";
   import axios from "axios";
   import _ from 'lodash';
-
-
 
   const jobs = ref([]);
   const userEmail = localStorage.getItem("userEmail");
@@ -225,7 +224,23 @@
   const loading = ref(false);
   const itemsPerPageOptions = ref([6, 12, 24, 32, 48]);
   const itemsPerPage = ref(itemsPerPageOptions.value[1]);
-  const currentPage = ref(1); 
+  const currentPage = ref(1);
+  const router = useRouter();  
+
+
+
+  const isAuthenticated = () => {
+  // Check for JWT token in cookies or localStorage
+  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+  return token !== undefined;
+};
+
+onMounted(() => {
+  if (!isAuthenticated()) {
+    // Redirect to login page if not authenticated
+    router.push({ name: 'welcome' });
+  }
+});
 
 const paginatedJobs = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;

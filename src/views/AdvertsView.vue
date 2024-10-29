@@ -57,14 +57,29 @@
   
   <script setup>
   import { ref, onMounted, computed } from 'vue'
+  import { useRouter } from "vue-router";
   import axios from 'axios'
   import { useRoute } from 'vue-router'
-import HomeView from './HomeView.vue';
+  import HomeView from './HomeView.vue';
   
   const route = useRoute()
   const jobId = route.params.id
   const job = ref(null)
   const error = ref(null)
+  const router = useRouter ()
+
+  const isAuthenticated = () => {
+  // Check for JWT token in cookies or localStorage
+  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+  return token !== undefined;
+};
+
+onMounted(() => {
+  if (!isAuthenticated()) {
+    // Redirect to login page if not authenticated
+    router.push({ name: 'welcome' });
+  }
+});
   
   const fetchJobDetails = async () => {
     try {

@@ -124,9 +124,11 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+import { useRouter } from "vue-router";
 
 const route = useRoute()
 const jobId = route.params.id
+const router = useRouter(); 
 
 // Define applicant data
 const applicant = ref({
@@ -136,6 +138,19 @@ const applicant = ref({
   email: '',
   message: ''
 })
+
+const isAuthenticated = () => {
+  // Check for JWT token in cookies or localStorage
+  const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+  return token !== undefined;
+};
+
+onMounted(() => {
+  if (!isAuthenticated()) {
+    // Redirect to WelcomeView if not authenticated
+    router.push({ name: 'welcome' }); // Redirect to WelcomeView
+  }
+});
 
 const selectedCountryCode = ref('+371') // Default country code
 const countryCodes = ref([
