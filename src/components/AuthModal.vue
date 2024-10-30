@@ -142,6 +142,7 @@
         <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
           Verify OTP
         </button>
+
         <div v-if="otpError" class="text-red text-sm mt-2">{{ otpError }}</div>
       </form>
 
@@ -271,6 +272,7 @@ export default {
       }
     },
     async verifyOtp() {
+
       const otpData = {
         email: this.email,
         otp: this.otp

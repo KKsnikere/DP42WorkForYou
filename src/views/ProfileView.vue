@@ -99,7 +99,7 @@
           <button
             v-if="user.user_type === 'individual'"
             @click="showChangeNameModal = true"
-            class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+            class="bg-accent w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
           >
             Change Name 
           </button>
@@ -107,14 +107,16 @@
           <router-link to="/user-applications">
         <button
           v-if="user.user_type === 'individual'"
-          class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+          class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
         >
           My applications
         </button>
       </router-link>
         </div>
         <!-- User adverts -->
-        <div class="mt-8">
+        <div 
+        v-if="user.user_type === 'organisation'"
+        class="mt-8">
           <h2 class="text-2xl font-bold mb-4 mt-20 text-center sm:text-left">
             My Adverts
           </h2>
@@ -213,7 +215,7 @@
         <button 
         v-if="user.user_type === 'individual'" 
         @click="showChangeNameModal = true" 
-        class="bg-blue-500 text-gray-700 font-semibold py-2 rounded-lg">
+        class="bg-accent text-gray-700 font-semibold py-2 rounded-lg">
         Change Name</button>
   
         <router-link to="/user-applications">
@@ -225,7 +227,9 @@
         </router-link>
   
       </div>
-      <div class="mt-8">
+      <div 
+      v-if="user.user_type === 'organisation'"
+      class="mt-8">
         <h2 class="text-2xl font-bold mb-4 mt-6">My Adverts</h2>
         <div v-if="adverts.length > 0" class="flex flex-wrap">
           <div v-for="advert in adverts" :key="advert._id" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 m-2 w-full sm:w-80 flex flex-col">

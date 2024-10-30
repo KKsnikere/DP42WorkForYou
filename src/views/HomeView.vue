@@ -128,7 +128,7 @@
         v-model="searchQuery"
         @input="debounceSearch"
         placeholder="Search job advertisements..."
-        class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green w-96"
+        class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green w-80"
       />
     </div>
     <!--Items per page-->
