@@ -2,6 +2,7 @@
 module.exports = {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
+  safelist: ['animate-[fade-in-down_1s_ease-in-out]'],
   theme: {
     extend: {
       colors:{

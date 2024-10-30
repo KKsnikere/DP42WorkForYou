@@ -124,7 +124,7 @@
         </button>
 
         <div class="mt-4 text-sm text-gray-600">
-        <span>Don't have an account? </span>
+        <span>Already have an account? </span>
         <button @click="step = 'login'" class="text-blue-600">Login</button>
       </div>
       </form>
@@ -184,7 +184,19 @@
 
     <!-- Error message section, displayed below the input field -->
     <div v-if="unauthorizedError" class="text-red text-sm mt-2">{{ unauthorizedError }}</div>
-    <div v-if="loginError" class="text-red text-sm mt-2">{{ loginError }}</div>
+
+  <div v-if="loginError" role="alert" class="pt-6">
+    <div class="bg-rose-400 text-white font-bold rounded-t px-4 py-1">
+      Alert
+    </div>
+    <div class="border border-t-0 border-rose-300 rounded-b bg-rose-100 px-4 py-2 text-rose-600">
+      {{ loginError }}
+    </div>
+  </div>
+
+
+
+
   </div>
 
   <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
@@ -307,3 +319,16 @@ export default {
 };
 </script>
 
+
+<style>
+  @keyframes slide-in {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+</style>
