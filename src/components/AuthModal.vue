@@ -3,7 +3,10 @@
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <div class="flex justify-between items-center border-b pb-3 mb-4">
         <h3 class="text-2xl font-semibold text-gray-800">Sign in options</h3>
-        <button @click="$emit('close')" class="text-gray-600 hover:text-red focus:outline-none">
+
+          <button 
+          v-if="step !== 'verifyOtp'"
+          @click="$emit('close')" class="text-gray-600 hover:text-red focus:outline-none">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
