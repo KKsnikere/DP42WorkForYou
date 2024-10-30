@@ -3,7 +3,7 @@
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <div class="flex justify-between items-center border-b pb-3 mb-4">
         <h3 class="text-2xl font-semibold text-gray-800">Sign in options</h3>
-        <button @click="$emit('close')" class="text-gray-600 hover:text-red-500 focus:outline-none">
+        <button @click="$emit('close')" class="text-gray-600 hover:text-red focus:outline-none">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -139,53 +139,60 @@
         <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
           Verify OTP
         </button>
-        <div v-if="otpError" class="text-red-600 text-sm mt-2">{{ otpError }}</div>
+        <div v-if="otpError" class="text-red text-sm mt-2">{{ otpError }}</div>
       </form>
 
       <!-- Login form -->
-      <form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
-        <input
-          v-model="email"
-          type="email"
-          placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-          required
+<form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
+  <input
+    v-model="email"
+    type="email"
+    placeholder="Email"
+    class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+    required
+  />
+
+  <!-- Password input with Show/Hide Button and Error Message -->
+  <div class="space-y-1">
+    <div class="relative flex items-center">
+      <input
+        v-model="password"
+        :type="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+        class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+        required
+        minlength="8"
+      />
+      <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+        <img
+          v-if="showPassword"
+          src="../assets/Images/showP.png"
+          alt="Show password"
+          class="h-6 w-6"
         />
-<!-- Password with Show/Hide Button -->
-        <div class="relative">
-          <input
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-            required
-            minlength="8"
-          />
-          <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-            <img
-              v-if="showPassword"
-              src="../assets/Images/showP.png"
-              alt="Show password"
-              class="h-6 w-6 mt-6"
-            />
-            <img
-              v-else
-              src="../assets/Images/hideP.png"
-              alt="Hide password"
-              class="h-6 w-6"
-            />
-          </button>
-        </div>
-        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
-          Log In
-        </button>
+        <img
+          v-else
+          src="../assets/Images/hideP.png"
+          alt="Hide password"
+          class="h-6 w-6"
+        />
+      </button>
+    </div>
 
-        <div class="mt-4 text-sm text-gray-600">
-        <span>Don't have an account? </span>
-        <button @click="step = 'registerChoice'" class="text-blue-600">Register</button>
-      </div>
+    <!-- Error message section, displayed below the input field -->
+    <div v-if="unauthorizedError" class="text-red text-sm mt-2">{{ unauthorizedError }}</div>
+    <div v-if="loginError" class="text-red text-sm mt-2">{{ loginError }}</div>
+  </div>
 
-      </form>
+  <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+    Log In
+  </button>
+
+  <div class="mt-4 text-sm text-gray-600">
+    <span>Don't have an account? </span>
+    <button @click="step = 'registerChoice'" class="text-blue-600">Register</button>
+  </div>
+</form>
 
     </div>
   </div>
@@ -196,7 +203,7 @@ import axios from 'axios';
 import { useRouter } from "vue-router";
 import { ref, onMounted, computed } from 'vue'
 
-const router = useRouter(); 
+const router = useRouter();
 
 export default {
   data() {
@@ -210,10 +217,10 @@ export default {
       location: '',
       email: '',
       password: '',
-      password: '',
       otp: '',
-      loginError: false,
+      loginError: '',
       otpError: '',
+      unauthorizedError: '', // New property for unauthorized email error
       showPassword: false
     };
   },
@@ -246,7 +253,6 @@ export default {
         this.step = 'verifyOtp';  // Move to OTP verification step
       } catch (error) {
         console.error('Registration error:', error.response.data);
-        this.loginError = true;  // Optionally handle registration errors
       }
     },
     async verifyOtp() {
@@ -265,21 +271,33 @@ export default {
       }
     },
     async login() {
+
+      this.loginError = '';
+      this.unauthorizedError = '';
+
       const loginData = {
         email: this.email,
         password: this.password
+        
       };
 
       try {
         await axios.post('http://localhost:5000/login', loginData, { withCredentials: true });
-        // Store email in localStorage after successful login
-        localStorage.setItem('userEmail', this.email);
+        localStorage.setItem('userEmail', this.email); // Store email in localStorage after successful login
         this.$emit('login'); 
         this.$emit('close');  // Close modal on successful login
         this.$router.push({ name: 'home' });
       } catch (error) {
         console.error('Login error:', error.response?.data || error.message);
-        this.loginError = true;
+        
+        // Check for unauthorized status or message and set error message
+        if (error.response?.status === 403) {
+          this.unauthorizedError = 'This email is not authorized.';
+        } else if (error.response?.status === 401) {
+          this.loginError = 'Incorrect email or password';
+        } else {
+          this.loginError = 'An unexpected error occurred. Please try again.';
+        }
       }
     }
   }
