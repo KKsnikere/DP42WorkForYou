@@ -97,20 +97,11 @@
 
         <!-- Change Name button -->
         <button
-          v-if="user.user_type === 'individual'"
           @click="showChangeNameModal = true"
           class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 text-nowrap px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
         >
           Change Name 
         </button>
-        <!-- See aplications -->
-        <router-link to="/user-applications">
-      <button
-        class="bg-blue-500 w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
-      >
-        My applications
-      </button>
-    </router-link>
       </div>
       <!-- User adverts -->
       <div class="mt-8">
@@ -204,24 +195,8 @@
     </div>
     <div class="flex flex-col space-y-4 mt-6">
       <button v-if="user.user_type === 'organisation'" @click="showJobAdvertModal = true" class="bg-green text-gray-700 font-semibold py-2 rounded-lg">+ Add Job Advert</button>
-      <button 
-      @click="showChangePasswordModal = true" 
-      class="bg-accent text-gray-700 font-semibold py-2 rounded-lg">
-      Change Password</button>
-
-      <button 
-      v-if="user.user_type === 'individual'" 
-      @click="showChangeNameModal = true" 
-      class="bg-blue-500 text-gray-700 font-semibold py-2 rounded-lg">
-      Change Name</button>
-
-      <router-link to="/user-applications">
-      <button
-      class="bg-accent text-gray-700 font-semibold py-2 rounded-lg w-full">
-        My applications
-      </button>
-      </router-link>
-
+      <button @click="showChangePasswordModal = true" class="bg-accent text-gray-700 font-semibold py-2 rounded-lg">Change Password</button>
+      <button @click="showChangeNameModal = true" class="bg-blue-500 text-gray-700 font-semibold py-2 rounded-lg">Change Name</button>
     </div>
     <div class="mt-8">
       <h2 class="text-2xl font-bold mb-4 mt-6">My Adverts</h2>
@@ -416,125 +391,55 @@
           </form>
         </div>
       </div>
-<!--Change Password Modal-->
-<div
-  v-if="showChangePasswordModal"
-  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
->
-  <div
-    class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full max-h-full overflow-y-auto relative mx-4"
-  >
-    <button
-      @click="showChangePasswordModal = false"
-      class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
-    >
-      &times;
-    </button>
-    <h2 class="text-2xl font-bold mb-4 text-center">Change Password</h2>
 
-    <!-- Error Message -->
-    <div
-      v-if="passwordFormError"
-      class="mb-4 p-4 bg-red-100 border border-red-400 text-red rounded-lg"
-    >
-      <svg class="inline-block h-5 w-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-        <path
-          fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-11.707a1 1 0 00-1.414 0L8 8.586 7.707 8.293a1 1 0 10-1.414 1.414L8 11l2.707-2.707a1 1 0 000-1.414z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      {{ passwordFormError }}
-    </div>
-
-    <!-- Form -->
-    <form @submit.prevent="changePassword">
-      <!-- Old Password Field -->
-      <div class="mb-4 relative">
-        <label class="block text-gray-700 font-semibold mb-2">Old Password</label>
-        <input
-          :type="showOldPassword ? 'text' : 'password'"
-          v-model="changePasswordForm.old_password"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
-          required
-        />
-        <button type="button" @click="toggleOldPasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-          <img
-            v-if="showOldPassword"
-            src="../assets/Images/showP.png"
-            alt="Show password"
-            class="h-6 w-6 mt-8"
-          />
-          <img
-            v-else
-            src="../assets/Images/hideP.png"
-            alt="Hide password"
-            class="h-6 w-6 mt-8"
-          />
-        </button>
-      </div>
-
-      <!-- New Password Field -->
-      <div class="mb-4 relative">
-        <label class="block text-gray-700 font-semibold mb-2">New Password</label>
-        <input
-          :type="showNewPassword ? 'text' : 'password'"
-          v-model="changePasswordForm.new_password"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
-          required
-          minlength="8"
-        />
-        <button type="button" @click="toggleNewPasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-          <img
-            v-if="showNewPassword"
-            src="../assets/Images/showP.png"
-            alt="Show password"
-            class="h-6 w-6 mt-8"
-          />
-          <img
-            v-else
-            src="../assets/Images/hideP.png"
-            alt="Hide password"
-            class="h-6 w-6 mt-8"
-          />
-        </button>
-      </div>
-
-      <!-- Confirm New Password Field -->
-      <div class="mb-4 relative">
-        <label class="block text-gray-700 font-semibold mb-2">Confirm New Password</label>
-        <input
-          :type="showConfirmPassword ? 'text' : 'password'"
-          v-model="changePasswordForm.confirm_password"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
-          required
-          minlength="8"
-        />
-        <button type="button" @click="toggleConfirmPasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-          <img
-            v-if="showConfirmPassword"
-            src="../assets/Images/showP.png"
-            alt="Show password"
-            class="h-6 w-6 mt-8"
-          />
-          <img
-            v-else
-            src="../assets/Images/hideP.png"
-            alt="Hide password"
-            class="h-6 w-6 mt-8"
-          />
-        </button>
-      </div>
-
-      <button
-        type="submit"
-        class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
+      <!-- Change Password Modal -->
+      <div
+        v-if="showChangePasswordModal"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
       >
-        Change Password
-      </button>
-    </form>
-  </div>
-</div>
+        <div
+          class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full max-h-full overflow-y-auto relative mx-4"
+        >
+          <button
+            @click="showChangePasswordModal = false"
+            class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
+          >
+            &times;
+          </button>
+          <h2 class="text-2xl font-bold mb-4 text-center">Change Password</h2>
+          <!-- Error Message -->
+          <p v-if="passwordFormError" class="text-red-500 mb-4">{{ passwordFormError }}</p>
+          <!-- Form -->
+          <form @submit.prevent="changePassword">
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2">Old Password</label>
+              <input
+                type="password"
+                v-model="changePasswordForm.old_password"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2">New Password</label>
+              <input
+                type="password"
+                v-model="changePasswordForm.new_password"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
+                required
+                minlength="8"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
+            >
+              Change Password
+            </button>
+          </form>
+        </div>
+      </div>
+
       <!-- Change Name Modal -->
       <div
         v-if="showChangeNameModal"
@@ -564,7 +469,6 @@
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                 :placeholder="user.name"
                 required
-                pattern="[A-Za-z ]+"
               />
             </div>
             <div class="mb-4">
@@ -575,7 +479,6 @@
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green"
                 :placeholder="user.surname"
                 required
-                pattern="[A-Za-z ]+"
               />
             </div>
             <button
@@ -594,9 +497,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { useRouter } from "vue-router"; 
-
-const router = useRouter(); 
 
 const user = ref(null)
 const showJobAdvertModal = ref(false)
@@ -607,22 +507,6 @@ const passwordFormError = ref('')
 const nameFormError = ref('')
 const nameFormSuccess = ref('')
 const adverts = ref([])
-
-const showOldPassword = ref(false);
-const showNewPassword = ref(false);
-const showConfirmPassword = ref(false);
-
-const toggleOldPasswordVisibility = () => {
-  showOldPassword.value = !showOldPassword.value;
-};
-
-const toggleNewPasswordVisibility = () => {
-  showNewPassword.value = !showNewPassword.value;
-};
-
-const toggleConfirmPasswordVisibility = () => {
-  showConfirmPassword.value = !showConfirmPassword.value;
-};
 
 const jobAdvert = ref({
   Company_name: '',
@@ -638,6 +522,11 @@ const jobAdvert = ref({
   city: '',
   workTime: '',
   salary: '',
+})
+
+const changePasswordForm = ref({
+  old_password: '',
+  new_password: '',
 })
 
 const changeNameForm = ref({
@@ -764,67 +653,43 @@ const deleteAdvert = async (advertId) => {
   }
 }
 
-
-const changePasswordForm = ref({
-  old_password: '',
-  new_password: '',
-  confirm_password: ''
-});
-
-
 const changePassword = async () => {
   try {
-    // Clear previous error
-    passwordFormError.value = '';
-
-    // Check if all fields are filled
-    if (!changePasswordForm.value.old_password || 
-        !changePasswordForm.value.new_password || 
-        !changePasswordForm.value.confirm_password) {
-      passwordFormError.value = 'Please fill in all fields.';
-      return;
+    if (!changePasswordForm.value.old_password || !changePasswordForm.value.new_password) {
+      passwordFormError.value = 'Please fill in all fields.'
+      return
     }
 
-    // Check if new password matches confirmation
-    if (changePasswordForm.value.new_password !== changePasswordForm.value.confirm_password) {
-      passwordFormError.value = 'New password and confirm password do not match.';
-      return;
-    }
-
-    const email = localStorage.getItem('userEmail');
+    const email = localStorage.getItem('userEmail')
     if (!email) {
-      throw new Error('User email not found in localStorage');
+      throw new Error('User email not found in localStorage')
     }
 
-    // Prepare request data
     const requestData = {
       email,
       old_password: changePasswordForm.value.old_password,
-      new_password: changePasswordForm.value.new_password
-    };
+      new_password: changePasswordForm.value.new_password,
+    }
 
-    // Make API request to change the password
     const response = await axios.post(
       'http://127.0.0.1:5000/password_change',
       requestData
-    );
+    )
 
-    // Handle response
     if (response.data.error) {
-      passwordFormError.value = response.data.error;
+      passwordFormError.value = response.data.error
     } else {
-      passwordFormError.value = '';
-      showChangePasswordModal.value = false;
-      console.log('Password changed successfully.');
+      passwordFormError.value = ''
+      showChangePasswordModal.value = false
     }
   } catch (error) {
     console.error(
       'Error changing password:',
       error.response ? error.response.data : error.message
-    );
-    passwordFormError.value = error.response?.data?.message || 'An error occurred.';
+    )
+    passwordFormError.value = error.response?.data?.message || 'An error occurred.'
   }
-};
+}
 
 // New Method to handle name and surname change
 const changeName = async () => {
