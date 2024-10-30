@@ -59,11 +59,11 @@ def check_toxicity(message):
     scores = detoxify_model.predict(message)
     # Define threshold levels; adjust as necessary
     thresholds = {
-        'toxicity': 0.85,
-        'severe_toxicity': 0.75,
+        'toxicity': 0.65,
+        'severe_toxicity': 0.35,
         'obscene': 0.8,
-        'insult': 0.8,
-        'threat': 0.75
+        'insult': 0.7,
+        'threat': 0.7,
     }
     # Flag message as toxic if any score exceeds thresholds
     for category, threshold in thresholds.items():
@@ -158,6 +158,7 @@ def register():
         'location': data.get('location'),
         'email_confirmed': False  # Initially set to False
     }
+
     users.insert_one(user)
 
     # Generate a 6-digit OTP
