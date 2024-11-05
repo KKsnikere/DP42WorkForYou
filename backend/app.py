@@ -537,15 +537,20 @@ def get_applicants(job_id):
 
 def delete_old_jobs():
     # Get the current date and calculate the cutoff date (6 months ago)
-    cutoff_date = datetime.now() - timedelta(days=6 * 30)  # Roughly 6 months
+    cutoff_date = datetime.now() - timedelta(days=6 * 30)  
     # Delete documents older than 6 months
     result = jobAdvert.delete_many({"date": {"$lt": cutoff_date}})
     print(f"Deleted {result.deleted_count} job advertisements older than 6 months.")
 
+def delete_all_tokens():
+    # Delete all documents in the collection
+    result = tokenlist.delete_many({})
+    print(f"Deleted {result.deleted_count} Tokens")
+
 # Run the delete function within the application context
 with app.app_context():
     delete_old_jobs()
-
+    delete_all_tokens()
 
 
 if __name__ == "__main__":
