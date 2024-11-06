@@ -105,13 +105,54 @@
           </button>
           <!-- See aplications -->
           <router-link to="/user-applications">
-        <button
-          v-if="user.user_type === 'individual'"
-          class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
-        >
-          My applications
-        </button>
-      </router-link>
+            <button
+              v-if="user.user_type === 'individual'"
+              class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+            >
+              My applications
+            </button>
+          </router-link>
+
+          <!-- Delete account button -->
+
+          <button class="bg-accent w-48 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-dark"
+          @click="openModal()"
+          >
+            Delete account
+          </button>
+          <!-- Modal Background Overlay -->
+          <div id="deleteAccountModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+            <!-- Modal Content -->
+            <div class="bg-white rounded-lg shadow-lg w-80 p-6 space-y-4">
+              <h2 class="text-lg font-semibold text-gray-800">Delete Account</h2>
+              <p class="text-sm text-gray-600">Are you sure you want to delete your account? This action cannot be undone.</p>
+    
+            <!-- Password Input -->
+            <input
+              type="password"
+              id="passwordInput"
+              placeholder="Enter your password"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+            />
+
+            <!-- Buttons -->
+            <div class="flex justify-center space-x-20">
+              <button
+                @click="confirmDelete()"
+                class="bg-red text-gray-700 py-1 px-4 rounded hover:bg-rose-600 transition duration-200"
+              >
+                Delete
+              </button>
+              <button
+                @click="closeModal()"
+                class="bg-gray-200 text-gray-700 py-1 px-4 rounded hover:bg-gray-300 transition duration-200"
+              >
+                Cancel
+              </button>
+
+            </div>
+          </div>
+        </div>
         </div>
         <!-- User adverts -->
         <div 
@@ -769,6 +810,53 @@
       )
     }
   }
+
+
+  function openModal() {
+    document.getElementById('deleteAccountModal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('deleteAccountModal').classList.add('hidden');
+  }
+
+  async function confirmDelete() {
+  const password = document.getElementById('passwordInput').value;
+
+  console.log('Password entered:', password); // Check the captured password
+
+  try {
+    console.log('Sending delete request to /delete-account...');
+
+    const response = await fetch('http://localhost:5000/delete-account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ password }),
+    });
+
+    console.log('Response status:', response.status); // Log the response status
+
+    if (response.ok) {
+      console.log('Account deleted successfully.');
+      alert('Account deleted successfully.');
+      window.location.href = '/';
+    } else {
+      console.warn('Failed to delete account:', response.statusText); // Log the failure reason
+      alert('Failed to delete account. Please check your password.');
+    }
+  } catch (error) {
+    console.error('Error during account deletion:', error); // Log any caught errors
+    alert('An error occurred.');
+  }
+
+  closeModal();
+  console.log('Modal closed after delete attempt.');
+}
+
+  
   
   
   const changePasswordForm = ref({
@@ -776,8 +864,7 @@
     new_password: '',
     confirm_password: ''
   });
-  
-  
+
   const changePassword = async () => {
     try {
       // Clear previous error
@@ -879,7 +966,4 @@
   onMounted(fetchUserData)
   </script>
   
-  <style>
-  /* Add any additional styles if needed */
-  </style>
   

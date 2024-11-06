@@ -207,6 +207,7 @@ def login():
         # Create a response with the token
         response = make_response(jsonify({'message': 'Login successful', 'email': data['email']}))
         response.set_cookie('token', token, httponly=True, samesite='Strict')
+        session['user_id'] = str(user['_id'])
 
         return response
     else:
@@ -250,6 +251,24 @@ def get_user_applications():
     return jsonify(applications_with_job_details), 200
 
 
+@app.route('/delete-account', methods=['POST'])
+def delete_account():
+    user_id = session.get('user_id')  # Get user ID from session
+    data = request.get_json()
+    password = data.get('password')
+    user = users.find_one({'_id': ObjectId(user_id)})
+
+    # Check if user exists and validate password
+    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):  # No encoding on user['password']
+        # Delete user account
+        users.delete_one({'_id': ObjectId(user_id)})
+        
+        # Log the user out after deletion
+        logout()
+        
+        return jsonify({'message': 'Account successfully deleted'}), 200
+    else:
+        return jsonify({'error': 'Invalid password'}), 403
 
 @app.route('/jobs/<id>', methods=['GET', 'DELETE'])
 def manage_product_by_id(id):

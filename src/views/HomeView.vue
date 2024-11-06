@@ -162,7 +162,7 @@
             <p class="mt-4 line-clamp-[7]">{{ job.description }}</p>
           </div>
           <div class="flex">
-            <router-link :to="'/Jobs/' + job.id" class="bg-accent hover:scale-110 text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform shadow-dark">
+            <router-link :to="'/Jobs/' + job.id" class="bg-accent  text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform hover:scale-110 active:scale-100 transition-transform shadow-dark">
               See more
             </router-link>
             <button
