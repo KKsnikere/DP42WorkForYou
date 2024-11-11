@@ -55,6 +55,11 @@ const routes = [
     component:() => import("../views/Myapplications.vue"),
     meta: { requiresAuth: true }
   },
+  {
+    path: '/help',
+    name: 'Help',
+    component:() => import("../views/HelpView.vue"),
+  }
 ];
 
 // Create router
