@@ -62,7 +62,11 @@
             </svg>
             </div>
             <div v-if="isOneOpen" class="pl-8 text-gray-600">
-                <p>Navigation trough Home:</p>
+                <p class="text-lg font-bold text-center mb-4">Hi! This part will help you navigate through Home page of our website.</p>
+                <p class="mb-5">• To get to the main page with all adwerts you need to register or log in.</p>
+                <img src="../assets/Images/Help1.png" class="w-9/12 mt-2 shadow mb-5">
+                <p class="mb-5">• When you click on the 'Login/Register' button, you will see a choose window. Choose necessary option.</p>
+                <img src="../assets/Images/Help2.png" class="w-9/12 mt-2 shadow mb-5">
 
             </div>
 
