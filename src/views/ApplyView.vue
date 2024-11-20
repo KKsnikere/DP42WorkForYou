@@ -91,7 +91,7 @@
           <!-- Custom Button Style -->
           <button
             type="button"
-            class="w-full bg-green text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-dark hover:scale-110 transition duration-150 ease-in-out"
+            class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
           >
             Choose Files
           </button>
@@ -110,7 +110,7 @@
       <div class="flex justify-end mt-8">
         <button
           type="submit"
-          class="bg-accent text-gray-700 font-semibold py-2 px-6 rounded-lg shadow-dark hover:scale-110 transition ease-in-out duration-150"
+          class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition ease-in-out duration-150"
         >
           Apply
         </button>
@@ -257,7 +257,7 @@ const submitApplication = async () => {
   }
 }
 
-// Fetch job details and user data when the component mounts
+
 onMounted(() => {
   fetchJobDetails()
   fetchUserData()
