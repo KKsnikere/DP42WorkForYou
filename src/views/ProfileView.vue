@@ -827,11 +827,13 @@
 
   try {
     console.log('Sending delete request to /delete-account...');
+    const userEmail = localStorage.getItem('userEmail');
 
     const response = await fetch('http://localhost:5000/delete-account', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userEmail}`,
       },
       credentials: 'include',
       body: JSON.stringify({ password }),

@@ -253,22 +253,45 @@ def get_user_applications():
 
 @app.route('/delete-account', methods=['POST'])
 def delete_account():
-    user_id = session.get('user_id')  # Get user ID from session
+    # Get user ID from session
+    user_id = session.get('user_id')
     data = request.get_json()
     password = data.get('password')
+    email = request.headers.get('Authorization').split(' ')[1]
+    print(f"Received email: {email}, Received password: {password}")
+
+    # Retrieve the user from the database
     user = users.find_one({'_id': ObjectId(user_id)})
+    print(f"Found user: {user}")
+
+    # Find all job adverts associated with the user's email
+    adverts = jobAdvert.find({'email': email})
+    print(f"Job adverts to delete: {list(adverts)}")
 
     # Check if user exists and validate password
-    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):  # No encoding on user['password']
+    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
         # Delete user account
         users.delete_one({'_id': ObjectId(user_id)})
         
+        # Delete all job adverts associated with the user's email
+        jobAdvert.delete_many({'email': email})
+        print(f"Deleted job adverts associated with email: {email}")
+
+        # Delete all applications associated with the user's email (if you have an applications collection)
+        applications.delete_many({'email': email})
+        print(f"Deleted applications associated with email: {email}")
+
         # Log the user out after deletion
         logout()
-        
+
         return jsonify({'message': 'Account successfully deleted'}), 200
     else:
+        print("Invalid password or user not found")
         return jsonify({'error': 'Invalid password'}), 403
+
+
+   
+
 
 @app.route('/jobs/<id>', methods=['GET', 'DELETE'])
 def manage_product_by_id(id):
