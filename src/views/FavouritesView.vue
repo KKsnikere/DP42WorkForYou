@@ -1,45 +1,49 @@
 <template>
-    <div class="container mx-auto">
-      <h1 class="text-3xl font-bold mb-4 mt-4 ml-5">Your Favorites</h1>
-      <div v-if="favorites.length === 0" class="text-center">
-        <img src="../assets/Images/Bheart.png" class="w-96 h-96  m-auto opacity-10">
-        <p class="mr-10 -mt-16">You have no favorites yet</p>
-      </div>
-      <div v-else class="flex flex-wrap justify-center">
-        <div
-          v-for="favorite in favorites"
-          :key="favorite._id.$oid"
-          class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl w-80 m-5 h-96 flex flex-col justify-between"
-        >
-          <div>
-            <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
-              {{ favorite.Job_title }}
-            </h1>
-            <div class="flex items-center mt-2">
-              <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {{ favorite.Company_name }}
-              </h2>
-            </div>
-            <p class="mt-4 line-clamp-[7]">{{ favorite.description }}</p>
+  <div class="container mx-auto dark:bg-dark-primary">
+    <h1 class="text-3xl font-bold mb-4 mt-4 ml-5 text-gray-800 dark:bg-dark-primary dark:text-white">Your Favorites</h1>
+    
+    <div v-if="favorites.length === 0" class="text-center text-gray-500 dark:text-gray-300 dark:bg-dark-primary">
+      <img src="../assets/Images/Bheart.png" class="w-96 h-96 m-auto opacity-10">
+      <p class="mr-10 -mt-16">You have no favorites yet</p>
+    </div>
+
+    <div v-else class="flex flex-wrap justify-center dark:bg-dark-primary">
+      <div
+        v-for="favorite in favorites"
+        :key="favorite._id.$oid"
+        class="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl w-80 m-5 h-96 flex flex-col justify-between"
+      >
+        <div>
+          <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis text-gray-800 dark:text-white">
+            {{ favorite.Job_title }}
+          </h1>
+          <div class="flex items-center mt-2">
+            <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis text-gray-700 dark:text-gray-300">
+              {{ favorite.Company_name }}
+            </h2>
           </div>
-          <div class="flex justify-between items-end">
-            <router-link
-              :to="'/Jobs/' + favorite.id"
-              class="bg-accent hover:bg-accent text-gray-700 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform shadow-dark"
-            >
-              See more
-            </router-link>
-            <button
-              @click="removeFavorite(favorite._id.$oid)"
-              class="bg-red hover:bg-red text-gray-700 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform shadow-dark"
-            >
-              Remove
-            </button>
-          </div>
+          <p class="mt-4 line-clamp-[7] text-gray-700 dark:text-gray-300">{{ favorite.description }}</p>
+        </div>
+
+        <div class="flex justify-between items-end">
+          <router-link
+            :to="'/Jobs/' + favorite.id"
+            class="bg-accent hover:bg-accent text-gray-700 dark:text-gray-300 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform shadow-dark"
+          >
+            See more
+          </router-link>
+          <button
+            @click="removeFavorite(favorite._id.$oid)"
+            class="bg-red hover:bg-red text-gray-700 dark:text-gray-300 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-75 transition-transform shadow-dark"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script setup>
   import { ref, onMounted } from 'vue'

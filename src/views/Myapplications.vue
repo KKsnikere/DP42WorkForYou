@@ -1,24 +1,26 @@
 <template>
-    <div class="p-4">
-      <h1 class="text-2xl font-semibold mb-4">My Applications</h1>
-      <div v-if="applications.length === 0" class="text-gray-500">No applications found.</div>
+  <div class="p-4">
+    <h1 class="text-2xl font-semibold mb-4 text-gray-800 dark:bg-dark-primary dark:text-white">My Applications</h1>
+    
+    <div v-if="applications.length === 0" class="text-gray-500 dark:text-gray-300">No applications found.</div>
   
-      <div v-for="application in applications" :key="application.jobId" class="bg-white p-4 shadow rounded mb-4">
-        <h2 class="text-xl font-bold mb-2">{{ application.Job_title }}</h2>
-        <p><strong>Company:</strong> {{ application.Company_name }}</p>
-        <p><strong>Salary:</strong> ${{ application.salary }}</p>
-        <p><strong>Your Message:</strong> {{ application.message }}</p>
+    <div v-for="application in applications" :key="application.jobId" class="bg-white dark:bg-gray-800 p-4 shadow rounded mb-4">
+      <h2 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">{{ application.Job_title }}</h2>
+      <p class="text-gray-700 dark:text-gray-300"><strong>Company:</strong> {{ application.Company_name }}</p>
+      <p class="text-gray-700 dark:text-gray-300"><strong>Salary:</strong> ${{ application.salary }}</p>
+      <p class="text-gray-700 dark:text-gray-300"><strong>Your Message:</strong> {{ application.message }}</p>
   
-        <!-- Button to navigate to the job detail page -->
-        <router-link :to="`/jobs/${application.jobId}`">
-          <button class="mt-4 bg-accent text-white font-semibold py-2 px-4 rounded hover:scale-110 active:scale-100 transition-transform">
-            View Job Details
-          </button>
-        </router-link>
-      </div>
+      <!-- Button to navigate to the job detail page -->
+      <router-link :to="`/jobs/${application.jobId}`">
+        <button class="mt-4 bg-accent text-white font-semibold py-2 px-4 rounded hover:scale-110 active:scale-100 transition-transform">
+          View Job Details
+        </button>
+      </router-link>
     </div>
-  </template>
-  
+  </div>
+</template>
+
+
   <script>
   import axios from 'axios';
   import { useRouter } from "vue-router";

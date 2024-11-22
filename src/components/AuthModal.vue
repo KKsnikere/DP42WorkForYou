@@ -1,12 +1,12 @@
 <template>
   <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-30">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <div class="flex justify-between items-center border-b pb-3 mb-4">
-        <h3 class="text-2xl font-semibold text-gray-800">Sign in options</h3>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md dark:bg-dark-secondary dark:text-gray-100">
+      <div class="flex justify-between items-center border-b pb-3 mb-4 dark:border-dark-accent">
+        <h3 class="text-2xl font-semibold text-gray-800 dark:text-dark-accent">Sign in options</h3>
 
-          <button 
+        <button 
           v-if="step !== 'verifyOtp'"
-          @click="$emit('close')" class="text-gray-600 hover:text-red focus:outline-none">
+          @click="$emit('close')" class="text-gray-600 hover:text-red focus:outline-none dark:text-gray-200 dark:hover:text-dark-red">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -15,11 +15,11 @@
 
       <!-- Registration and login form -->
       <div v-if="step === 'choose'" class="space-y-4">
-        <div v-if="loginError" class="text-red text-sm mt-2">Incorrect password or email</div>
-        <button @click="step = 'login'" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark">
+        <div v-if="loginError" class="text-red text-sm mt-2 dark:text-red-400">{{ loginError }}</div>
+        <button @click="step = 'login'" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark dark:bg-dark-greener dark:text-gray-100 dark:hover:bg-dark-greener">
           Log In
         </button>
-        <button @click="setRegisterChoice" class="w-full bg-accent text-gray-700 py-2 px-4 font-medium rounded-lg hover:bg-accent transition duration-200 shadow-dark">
+        <button @click="setRegisterChoice" class="w-full bg-accent text-gray-700 py-2 px-4 font-medium rounded-lg hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
           Register
         </button>
       </div>
@@ -31,16 +31,14 @@
             type="button"
             @click.prevent="userType = 'individual'"
             :class="userType === 'individual' ? 'bg-accent' : 'bg-green'"
-            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
-          >
+            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
             Private Person
           </button>
           <button
             type="button"
             @click.prevent="userType = 'organisation'"
             :class="userType === 'organisation' ? 'bg-accent' : 'bg-green'"
-            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark"
-          >
+            class="w-full text-gray-700 py-2 px-4 rounded-lg hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
             Organisation
           </button>
         </div>
@@ -50,7 +48,7 @@
             v-model="name"
             type="text"
             placeholder="Name"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
             pattern="[A-Za-z ]+"
           />
@@ -58,31 +56,32 @@
             v-model="surname"
             type="text"
             placeholder="Surname"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
             pattern="[A-Za-z ]+"
           />
         </div>
+
         <div v-else>
           <input
             v-model="orgName"
             type="text"
             placeholder="Organisation Name"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
           />
           <input
             v-model="regNumber"
             type="text"
             placeholder="Registration Number"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
           />
           <input
             v-model="location"
             type="text"
             placeholder="Location"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 mt-6 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
           />
         </div>
@@ -91,16 +90,17 @@
           v-model="email"
           type="email"
           placeholder="Email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
           required
         />
-<!-- Password with Show/Hide Button -->
+
+        <!-- Password with Show/Hide Button -->
         <div class="relative">
           <input
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
-            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+            class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
             required
             minlength="8"
           />
@@ -119,100 +119,89 @@
             />
           </button>
         </div>
-        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
           Register
         </button>
 
-        <div class="mt-4 text-sm text-gray-600">
-        <span>Already have an account? </span>
-        <button @click="step = 'login'" class="text-blue-600">Login</button>
-      </div>
+        <div class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+          <span>Already have an account? </span>
+          <button @click="step = 'login'" class="text-blue-600">Login</button>
+        </div>
       </form>
 
       <!-- OTP Verification Form -->
       <form v-if="step === 'verifyOtp'" @submit.prevent="verifyOtp" class="space-y-4">
-        <h3 class="text-lg font-semibold text-gray-800">Enter OTP</h3>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-dark-accent">Enter OTP</h3>
         <input
           v-model="otp"
           type="text"
           placeholder="Enter OTP sent to your email"
-          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
           required
         />
-        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
           Verify OTP
         </button>
 
-        <div v-if="otpError" class="text-red text-sm mt-2">{{ otpError }}</div>
+        <div v-if="otpError" class="text-red text-sm mt-2 dark:text-red-400">{{ otpError }}</div>
       </form>
 
       <!-- Login form -->
-<form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
-  <input
-    v-model="email"
-    type="email"
-    placeholder="Email"
-    class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-    required
-  />
-
-  <!-- Password input with Show/Hide Button and Error Message -->
-  <div class="space-y-1">
-    <div class="relative flex items-center">
-      <input
-        v-model="password"
-        :type="showPassword ? 'text' : 'password'"
-        placeholder="Password"
-        class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200"
-        required
-        minlength="8"
-      />
-      <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
-        <img
-          v-if="showPassword"
-          src="../assets/Images/showP.png"
-          alt="Show password"
-          class="h-6 w-6"
+      <form v-if="step === 'login'" @submit.prevent="login" class="space-y-4">
+        <input
+          v-model="email"
+          type="email"
+          placeholder="Email"
+          class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+          required
         />
-        <img
-          v-else
-          src="../assets/Images/hideP.png"
-          alt="Hide password"
-          class="h-6 w-6"
-        />
-      </button>
-    </div>
 
-    <!-- Error message section, displayed below the input field -->
-    <div v-if="unauthorizedError" class="text-red text-sm mt-2">{{ unauthorizedError }}</div>
+        <!-- Password input with Show/Hide Button and Error Message -->
+        <div class="space-y-1">
+          <div class="relative flex items-center">
+            <input
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              class="w-full p-3 border rounded-lg focus:outline-none focus:border-green transition duration-200 dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+              required
+              minlength="8"
+            />
+            <button type="button" @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+              <img
+                v-if="showPassword"
+                src="../assets/Images/showP.png"
+                alt="Show password"
+                class="h-6 w-6"
+              />
+              <img
+                v-else
+                src="../assets/Images/hideP.png"
+                alt="Hide password"
+                class="h-6 w-6"
+              />
+            </button>
+          </div>
 
-  <div v-if="loginError" role="alert" class="pt-6">
-    <div class="bg-rose-400 text-white font-bold rounded-t px-4 py-1">
-      Alert
-    </div>
-    <div class="border border-t-0 border-rose-300 rounded-b bg-rose-100 px-4 py-2 text-rose-600">
-      {{ loginError }}
-    </div>
-  </div>
+          <!-- Error message section, displayed below the input field -->
+          <div v-if="unauthorizedError" class="text-red text-sm mt-2 dark:text-red-400">{{ unauthorizedError }}</div>
+        </div>
 
+        <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
+          Log In
+        </button>
 
-
-
-  </div>
-
-  <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark">
-    Log In
-  </button>
-
-  <div class="mt-4 text-sm text-gray-600">
-    <span>Don't have an account? </span>
-    <button @click="step = 'registerChoice'" class="text-blue-600">Register</button>
-  </div>
-</form>
+        <div class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+          <span>Don't have an account? </span>
+          <button @click="step = 'registerChoice'" class="text-blue-600">Register</button>
+        </div>
+      </form>
 
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';

@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Applicants for Job: {{ jobTitle }}</h1>
+    <h1 class="text-2xl font-bold mb-6 text-white">Applicants for Job: {{ jobTitle }}</h1>
     <div v-if="error" class="text-red-500 mb-4">{{ error }}</div>
     <div v-if="loading" class="text-gray-500">Loading applicants...</div>
 
@@ -8,17 +8,17 @@
       <div
         v-for="applicant in applicants"
         :key="applicant.email"
-        class="bg-white shadow-md rounded-lg p-4 transition-transform duration-200 hover:shadow-xl"
+        class="bg-gray-800 shadow-md rounded-lg p-4 transition-transform duration-200 hover:shadow-xl"
       >
-        <h2 class="text-lg font-semibold">{{ applicant.name }} {{ applicant.surname }}</h2>
+        <h2 class="text-lg font-semibold text-white">{{ applicant.name }} {{ applicant.surname }}</h2>
 
         <!-- Enhanced Email Link with Copy Icon -->
         <div class="flex items-center">
-          <p class="text-sm mr-2">
+          <p class="text-sm mr-2 text-gray-300">
             <strong>Email: </strong> 
             <a 
               :href="'mailto:' + applicant.email" 
-              class="text-blue-600 hover:text-blue-800 font-medium transition duration-200"
+              class="text-blue-400 hover:text-blue-600 font-medium transition duration-200"
             >
               {{ applicant.email }}
             </a>
@@ -27,16 +27,16 @@
             src="../assets/Images/copy.png" 
             alt="Copy Email" 
             @click="copyEmail(applicant.email)" 
-            class="w-6 h-6 cursor-pointer transition duration-200 hover:opacity-80" 
+            class="w-6 h-6 cursor-pointer transition duration-200 hover:opacity-80"
           />
         </div>
 
-        <p class="text-sm"><strong>Phone: </strong> {{ applicant.phone }}</p>
+        <p class="text-sm text-gray-300"><strong>Phone: </strong> {{ applicant.phone }}</p>
 
         <!-- Message Box -->
-        <div class="bg-gray-100 border border-gray-300 rounded-lg p-3 mt-2">
-          <strong>Message:</strong>
-          <p class="text-sm">{{ applicant.message }}</p>
+        <div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mt-2">
+          <strong class="text-white">Message:</strong>
+          <p class="text-sm text-gray-300">{{ applicant.message }}</p>
         </div>
 
         <div v-if="applicant.files.length > 0" class="mt-2">

@@ -4,10 +4,9 @@ import Header from './components/Header.vue';
 </script>
 
 <template>
-  <div>
-    <Header />
+  <Header />
+  <div class="dark:bg-dark-primary">
     <RouterView />
-    <router-view /> 
   </div>
 </template>
 
@@ -26,24 +25,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 body {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
-.dark {
-  background-color: #121212;
-  color: white;
-}
 
-.dark .bg-blue-500 {
-  background-color: #3b82f6;
-}
-
-.dark .text-white {
-  color: #e5e5e5;
-}
 </style>
 
 

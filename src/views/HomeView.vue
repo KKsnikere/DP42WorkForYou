@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center space-y-4 py-4">
+  <div class="flex flex-col justify-center items-center space-y-4 py-4 dark:bg-dark-primary">
     <!-- Filter Buttons -->
     <div class="flex flex-wrap justify-center items-center space-x-4">
       <div v-for="(filter, index) in filters" :key="index" class="relative">
@@ -8,10 +8,10 @@
           @click.stop
           @click="togglePopup(index)"
           :class="{
-            'bg-accent hover:scale-110 text-slate-600': showPopup === index,
-            'bg-gray-200': showPopup !== index,
+            'bg-accent hover:scale-110 text-slate-600 dark:bg-accent-dark dark:text-white': showPopup === index,
+            'bg-gray-200 dark:bg-gray-700': showPopup !== index,
           }"
-          class="px-3 py-2 rounded transition text-gray-700 font-medium duration-150 ease-in-out mx-2 my-2 hover:scale-110 shadow-dark"
+          class="px-3 py-2 rounded transition text-gray-700 dark:text-gray-300 font-medium duration-150 ease-in-out mx-2 my-2 hover:scale-110 shadow-dark"
         >
           {{ filter.name }}
         </button>
@@ -20,32 +20,32 @@
             v-if="showPopup === index"
             v-click-outside="closePopup"
             ref="popup"
-            class="absolute bg-white shadow-lg p-4 mt-2 rounded z-10 w-48 -ml-8 leading-6"
+            class="absolute bg-white dark:bg-gray-800 shadow-lg p-4 mt-2 rounded z-10 w-48 -ml-8 leading-6"
           >
             <div
               v-for="(option, optionIndex) in filter.options"
               :key="optionIndex"
               class="flex items-center space-x-2 py-1"
             >
-            <input
-  type="checkbox"
-  v-model="selectedFilters[filter.key]"
-  :value="option"
-  :id="`${filter.key}-${optionIndex}`"
-  class="form-checkbox h-4 w-4 text-acce border-gray-300 rounded focus:ring-2 focus:ring-accent transition duration-150 ease-in-out"
-  @change="applyFilters"
-/>
+              <input
+                type="checkbox"
+                v-model="selectedFilters[filter.key]"
+                :value="option"
+                :id="`${filter.key}-${optionIndex}`"
+                class="form-checkbox h-4 w-4 text-acce border-gray-300 rounded focus:ring-2 focus:ring-accent transition duration-150 ease-in-out"
+                @change="applyFilters"
+              />
               <label
                 :for="`${filter.key}-${optionIndex}`"
                 :class="{ 'font-bold': isSelected(filter.key, option) }"
-                class="text-gray-700"
+                class="text-gray-700 dark:text-gray-300"
               >
                 {{ option }}
               </label>
             </div>
             <button
               @click="togglePopup(null)"
-              class="mt-2 text-sm text-gray-700 close-button"
+              class="mt-2 text-sm text-gray-700 dark:text-gray-300 close-button"
             >
               Close
             </button>
@@ -53,116 +53,123 @@
         </transition>
       </div>
     </div>
+
     <!-- Action Buttons -->
     <div class="flex justify-center items-center space-x-4">
-
       <div class="flex justify-center items-center space-x-4">
-      <button
-        @click="clearFilters"
-        class="w-10 h-10 mt-2 hover:scale-110 bg-white rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
-      >
-        <img
-          src="../assets/Images/clearF.png"
-          alt="Clear Filter"
-          class="w-8 h-8 hover:scale-110"
-        />
-      </button>
-      <div class="relative inline-block text-left">
-        <div>
-          <button
-            @click="toggleSortMenu"
-            v-click-outside="closeSortMenu"
-            class="inline-flex justify-between w-full rounded-md shadow-dark bg-accent hover:scale-110 text-gray-700 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
-            id="options-menu"
-            aria-haspopup="true"
-            aria-expanded="true"
-          >
-            Sort
-            <svg
-              class="-mr-1 ml-2 h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+        <button
+          @click="clearFilters"
+          class="w-10 h-10 mt-2 hover:scale-110 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
+        >
+          <img
+            src="../assets/Images/clearF.png"
+            alt="Clear Filter"
+            class="w-8 h-8 hover:scale-110"
+          />
+        </button>
+
+        <div class="relative inline-block text-left">
+          <div>
+            <button
+              @click="toggleSortMenu"
+              v-click-outside="closeSortMenu"
+              class="inline-flex justify-between w-full rounded-md shadow-dark bg-accent dark:bg-dark-accent hover:scale-110 text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
+              id="options-menu"
+              aria-haspopup="true"
+              aria-expanded="true"
             >
-              <path
-                fill-rule="evenodd"
-                d="M5.23 7.21a.75.75 0 01.1 1.06L3.58 10h13.84l-1.75-1.73a.75.75 0 111.06-1.06l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 01-1.06-1.06L17.42 12H3.58l1.75 1.73a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-        <transition name="fade">
-          <div
-            v-if="isSortMenuOpen"
-            class="absolute right-0 z-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            <div class="py-1" role="none">
-              <button
-                @click="sortJobs('newest')"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                role="menuitem"
+              Sort
+              <svg
+                class="-mr-1 ml-2 h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
               >
-                Newest to Oldest
-              </button>
-              <button
-                @click="sortJobs('oldest')"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                role="menuitem"
-              >
-                Oldest to Newest
-              </button>
-            </div>
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 01.1 1.06L3.58 10h13.84l-1.75-1.73a.75.75 0 111.06-1.06l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 01-1.06-1.06L17.42 12H3.58l1.75 1.73a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
           </div>
-        </transition>
+
+          <transition name="fade">
+            <div
+              v-if="isSortMenuOpen"
+              class="absolute right-0 z-10 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu"
+            >
+              <div class="py-1" role="none">
+                <button
+                  @click="sortJobs('newest')"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                  role="menuitem"
+                >
+                  Newest to Oldest
+                </button>
+                <button
+                  @click="sortJobs('oldest')"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                  role="menuitem"
+                >
+                  Oldest to Newest
+                </button>
+              </div>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
-    </div>
-<!-- Container for search input aligned to the left -->
+
+    <!-- Search Input -->
     <div class="flex justify-start mt-3">
       <input
         v-model="searchQuery"
         @input="debounceSearch"
         placeholder="Search job advertisements..."
-        class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green w-80"
+        class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-green w-80 dark:bg-gray-700 dark:text-white"
       />
     </div>
-    <!--Items per page-->
+
+    <!-- Items per page -->
     <div class="flex justify-start">
-      <label for="itemsPerPage" class="mr-2 text-gray-700 font-medium mt-2">Items per page:</label>
+      <label for="itemsPerPage" class="mr-2 text-gray-700 dark:text-gray-300 font-medium mt-2">Items per page:</label>
       <select
         id="itemsPerPage"
         v-model="itemsPerPage"
         @change="currentPage = 1"
-        class="p-2 border border-gray-300 rounded"
+        class="p-2 border border-gray-300 dark:border-gray-700 rounded dark:bg-gray-700 dark:text-white"
       >
         <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
           {{ option }}
         </option>
       </select>
     </div>
-    <div v-if="loading" class="text-center">Searching...</div>
 
+    <!-- Loading Indicator -->
+    <div v-if="loading" class="text-center text-gray-700 dark:text-white">Searching...</div>
+
+    <!-- Filtered Jobs -->
     <div v-else-if="filteredJobs.length > 0">
       <div class="flex flex-wrap justify-center">
-        <div v-for="job in paginatedJobs" :key="job._id.$oid" class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
+        <div v-for="job in paginatedJobs" :key="job._id.$oid" class="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-80 m-5 h-96 flex flex-col justify-between">
           <div>
-            <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis">
+            <h1 class="text-3xl font-bold overflow-hidden whitespace-nowrap overflow-ellipsis text-gray-800 dark:text-white">
               {{ job.Job_title }}
             </h1>
             <div class="flex items-center mt-2">
-              <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
+              <h2 class="text-lg font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis text-gray-600 dark:text-gray-300">
                 {{ job.Company_name }}
               </h2>
             </div>
-            <p class="mt-4 line-clamp-[7]">{{ job.description }}</p>
+            <p class="mt-4 line-clamp-[7] text-gray-700 dark:text-gray-300">{{ job.description }}</p>
           </div>
           <div class="flex">
-            <router-link :to="'/Jobs/' + job.id" class="bg-accent  text-gray-700 font-medium py-2 px-4 rounded cursor-pointer transform hover:scale-110 active:scale-100 transition-transform shadow-dark">
+            <router-link :to="'/Jobs/' + job.id" class="bg-accent dark:bg-dark-accent text-gray-700 dark:text-gray-200 font-medium py-2 px-4 rounded cursor-pointer transform hover:scale-110 active:scale-100 transition-transform shadow-dark">
               See more
             </router-link>
             <button
@@ -185,32 +192,34 @@
       </div>
     </div>
 
-    <div v-else-if="filteredJobs.length === 0" class="text-center mt-4">
+    <!-- No Results Found -->
+    <div v-else-if="filteredJobs.length === 0" class="text-center mt-4 text-gray-700 dark:text-gray-300">
       No search results found
     </div>
 
-      <!-- Pagination Controls -->
-  <div class="flex justify-center mt-4 space-x-2">
-    <button
-      @click="prevPage"
-      :disabled="currentPage === 1"
-      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
-    >
-      Previous
-    </button>
-    <span class="flex items-center">
-      Page {{ currentPage }} of {{ totalPages }}
-    </span>
-    <button
-      @click="nextPage"
-      :disabled="currentPage === totalPages"
-      class="bg-accent text-white px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
-    >
-      Next
-    </button>
-  </div>
+    <!-- Pagination Controls -->
+    <div class="flex justify-center mt-4 space-x-2">
+      <button
+        @click="prevPage"
+        :disabled="currentPage === 1"
+        class="bg-accent text-white dark:bg-dark-accent px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
+      >
+        Previous
+      </button>
+      <span class="flex items-center text-gray-700 dark:text-gray-300">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+      <button
+        @click="nextPage"
+        :disabled="currentPage === totalPages"
+        class="bg-accent text-white dark:bg-dark-accent px-4 py-2 rounded transition-opacity duration-200 disabled:opacity-50"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </template>
+
 
   <script setup>
   import { ref, onMounted, computed } from "vue";

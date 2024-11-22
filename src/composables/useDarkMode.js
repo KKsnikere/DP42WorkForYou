@@ -1,27 +1,25 @@
-import { ref, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 
-export function useDarkMode() {
-  // Check if dark mode is in localStorage
-  const isDarkMode = ref(localStorage.getItem('darkMode') === 'true' || false);
+export const useDarkMode = () => {
+  const isDark = ref(false);
 
-  // Watch the state and apply dark mode class to <html> element
-  watchEffect(() => {
-    if (isDarkMode.value) {
-      document.documentElement.classList.add('dark'); // Add dark class to root element
-      localStorage.setItem('darkMode', 'true');        // Store preference in localStorage
-    } else {
-      document.documentElement.classList.remove('dark'); // Remove dark class from root element
-      localStorage.setItem('darkMode', 'false');          // Store preference in localStorage
+  const toggleDarkMode = () => {
+    isDark.value = !isDark.value;
+    document.documentElement.classList.toggle('dark', isDark.value);
+    localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+  };
+
+  const initializeDarkMode = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      isDark.value = true;
+      document.documentElement.classList.add('dark');
     }
+  };
+
+  onMounted(() => {
+    initializeDarkMode();
   });
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    isDarkMode.value = !isDarkMode.value;
-  };
-
-  return {
-    isDarkMode,
-    toggleDarkMode
-  };
-}
+  return { isDark, toggleDarkMode };
+};

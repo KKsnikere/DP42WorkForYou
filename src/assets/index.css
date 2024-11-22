@@ -2,31 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #3490dc;        /* Light primary */
-  --secondary-color: #ffed4a;      /* Light secondary */
-  --accent-color: #38c172;         /* Light accent */
-  --red: #D8ABAB;
-  --green: #abced9;
-  --darker: #97b6bf;
-  --greener: #75967f;
-}
 
-/* Define Dark Mode Colors */
-[data-theme="dark"] {
-  --primary-color: #1e3a8a;        /* Dark primary */
-  --secondary-color: #f9d718;      /* Dark secondary */
-  --accent-color: #2d6a4f;         /* Dark accent */
-  --red: #9e7777;                  /* Dark red */
-  --green: #7e9c98;                /* Dark green */
-  --darker: #6a8890;               /* Dark darker */
-  --greener: #4e5e56;              /* Dark greener */
-}
-
-  @layer base {
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
+}

@@ -1,6 +1,6 @@
 <template>
-  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-300 mt-8">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800 border-b-2 pb-4">{{ job.Job_title }}</h1>
+  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-gray-800 shadow-lg rounded-lg border border-gray-600 mt-8 dark:bg-dark-primary">
+    <h1 class="text-3xl font-bold mb-6 text-white border-b-2 pb-4">{{ job.Job_title }}</h1>
 
     <!-- Form for submitting the application -->
     <form @submit.prevent="submitApplication" class="space-y-6">
@@ -8,41 +8,41 @@
 
       <!-- Form fields -->
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Name</label>
+        <label class="block text-gray-300 font-semibold mb-2">Name</label>
         <input
           type="text"
           v-model="applicant.name"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-200"
+          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
           readonly
         />
       </div>
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Surname</label>
+        <label class="block text-gray-300 font-semibold mb-2">Surname</label>
         <input
           type="text"
           v-model="applicant.surname"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-200"
+          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
           readonly
         />
       </div>
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Email</label>
+        <label class="block text-gray-300 font-semibold mb-2">Email</label>
         <input
           type="email"
           v-model="applicant.email"
           required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-200"
+          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
           readonly
         />
       </div>
 
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Phone</label>
+        <label class="block text-gray-300 font-semibold mb-2">Phone</label>
         <div class="flex items-center space-x-2">
           <!-- Country Code Select -->
-          <select v-model="selectedCountryCode" class="border border-gray-300 rounded-md px-1 py-2 text-sm">
+          <select v-model="selectedCountryCode" class="border border-gray-600 rounded-md px-1 py-2 text-sm bg-gray-700 text-white">
             <option v-for="code in countryCodes" :key="code.value" :value="code.value">
               {{ code.label }} ({{ code.value }})
             </option>
@@ -56,29 +56,29 @@
             maxlength="10"
             pattern="[0-9]*"
             @input="applicant.phone = applicant.phone.replace(/[^0-9]/g, '').slice(0, 10)"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-700 text-white"
           />
         </div>
       </div>
 
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Message</label>
+        <label class="block text-gray-300 font-semibold mb-2">Message</label>
         <textarea
           v-model="applicant.message"
           rows="4"
-          class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-gray-700 text-white"
           placeholder="Tell us why you're a good fit"
         ></textarea>
       </div>
 
       <!-- Display Error Message for Backend Validation -->
-      <div v-if="backendError" class="text-red text-sm mt-1">
+      <div v-if="backendError" class="text-red-400 text-sm mt-1">
         {{ backendError }}
       </div>
 
       <!-- File Upload -->
       <div>
-        <label class="block text-gray-700 font-semibold mb-2">Upload Files</label>
+        <label class="block text-gray-300 font-semibold mb-2">Upload Files</label>
 
         <div class="relative w-full max-w-sm">
           <!-- Hidden File Input -->
@@ -98,9 +98,9 @@
         </div>
 
         <!-- Display Selected Files -->
-        <div v-if="files.length" class="mt-2 text-gray-600">
+        <div v-if="files.length" class="mt-2 text-gray-400">
           <p class="font-semibold text-sm">Selected Files:</p>
-          <ul class="list-disc pl-5 text-gray-800">
+          <ul class="list-disc pl-5 text-gray-300">
             <li v-for="file in files" :key="file.name">{{ file.name }}</li>
           </ul>
         </div>
@@ -118,11 +118,11 @@
     </form>
   </div>
 
-  <div v-else-if="error" class="text-center text-red mt-10">
+  <div v-else-if="error" class="text-center text-red-400 mt-10">
     <p>Error loading job details. Please try again later.</p>
   </div>
 
-  <div v-else class="text-center text-gray-600 mt-10">
+  <div v-else class="text-center text-gray-400 mt-10">
     <p>Loading...</p>
   </div>
 </template>
