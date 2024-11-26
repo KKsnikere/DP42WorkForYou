@@ -28,21 +28,6 @@
         </p>
       </div>
     </div>
-
-    <!-- Categories -->
-    <div class="mt-16">
-      <h2 class="text-3xl font-bold text-accent text-center mb-8 dark:text-dark-accent">Popular categories of work</h2>
-      <div class="flex flex-wrap justify-center space-x-4">
-        <button
-          v-for="category in popularCategories"
-          :key="category"
-          @click="goToCategory(category)"
-          class="bg-darker text-gray-100 py-2 px-4 rounded-lg shadow-dark hover:bg-greener transition duration-200 dark:bg-dark-darker dark:hover:bg-dark-greener"
-        >
-          {{ category }}
-        </button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -50,20 +35,7 @@
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   
-  const router = useRouter()
-  const popularCategories = ref([
-    'Programmers',
-    'Engineers',
-    'Marketing',
-    'Education',
-    'Cybersecurity',
-    'Artificial intelligence'
-  ])
   
-  const goToCategory = (category) => {
-    // Перенаправление на страницу поиска с предустановленным фильтром по категории
-    router.push({ name: 'Home', query: { profession: category } })
-  }
   </script>
   
   
