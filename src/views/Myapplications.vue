@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="p-4 h-screen">
     <h1 class="text-2xl font-semibold mb-4 text-gray-800 dark:bg-dark-primary dark:text-white">My Applications</h1>
     
     <div v-if="applications.length === 0" class="text-gray-500 dark:text-gray-300">No applications found.</div>

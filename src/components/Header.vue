@@ -59,11 +59,28 @@
         </button>
         <li class="flex items-center gap-3 text-gray-500 dark:text-gray-300">
           <router-link to="/favourites" class="py-2 px-4 flex items-center gap-3 hover:text-dark-greener cursor-pointer dark:hover:text-dark-greener">
-            <img src="../assets/Images/heart.svg" alt="Favorite" width="25" height="25" />
+            <img src="../assets/Images/heart.svg" 
+              alt="Favorite" 
+              class="w-6 h-6 dark:hidden" />
+            
+            <img src="../assets/Images/DarkHeart.svg" 
+              alt="Favorite" 
+              class="w-6 h-6 hidden dark:block"
+              />
+
             <p class="text-base">Favourites</p>
           </router-link>
           <router-link to="/profile" class="flex items-center gap-3 hover:text-dark-greener cursor-pointer mr-5 dark:hover:text-dark-greener">
-            <img src="../assets/Images/Profile.png" alt="Profile" width="30" height="30" />
+            <img src="../assets/Images/Profile.png" 
+              alt="Profile" 
+              class="w-7 h-7 dark:hidden"
+            />
+
+            <img src="../assets/Images/DarkProfile.png" 
+              alt="Profile" 
+              class="w-7 h-7 hidden dark:block"
+            />
+
             <p class="text-sm">Profile</p>
           </router-link>
           <button

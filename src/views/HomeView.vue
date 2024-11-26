@@ -59,13 +59,19 @@
       <div class="flex justify-center items-center space-x-4">
         <button
           @click="clearFilters"
-          class="w-10 h-10 mt-2 hover:scale-110 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center border mb-2 transition-colors transform hover:bg-red-200 hover:text-gray-700 shadow-lg transform active:scale-75 transition-transform shadow-dark"
+          class="w-10 h-10 mt-2 hover:scale-110 bg-white dark:bg-gray-800 rounded-lg flex items-center justify-center mb-2  hover:bg-red-200 hover:text-gray-700 transform active:scale-75 transition-transform shadow-dark"
         >
-          <img
-            src="../assets/Images/clearF.png"
-            alt="Clear Filter"
-            class="w-8 h-8 hover:scale-110"
-          />
+        <img
+          src="../assets/Images/clearF.png"
+          alt="Clear Filter"
+          class="w-8 h-8 hover:scale-110 dark:hidden"
+        />
+        <!-- Dark mode image -->
+        <img
+          src="../assets/Images/DarkclearF.png"
+          alt="Clear Filter"
+          class="w-8 h-8 hover:scale-110 hidden dark:block"
+        />
         </button>
 
         <div class="relative inline-block text-left">
@@ -73,7 +79,7 @@
             <button
               @click="toggleSortMenu"
               v-click-outside="closeSortMenu"
-              class="inline-flex justify-between w-full rounded-md shadow-dark bg-accent dark:bg-dark-accent hover:scale-110 text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
+              class="inline-flex justify-between w-full shadow-dark bg-accent dark:bg-dark-accent hover:scale-110 text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded mx-2 transform active:scale-75 transition-transform"
               id="options-menu"
               aria-haspopup="true"
               aria-expanded="true"

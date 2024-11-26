@@ -1,6 +1,7 @@
 <template>
-  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-gray-800 shadow-lg rounded-lg border border-gray-600 mt-8 dark:bg-dark-primary">
-    <h1 class="text-3xl font-bold mb-6 text-white border-b-2 pb-4">{{ job.Job_title }}</h1>
+  <div class="h-8 bg-white dark:bg-dark-primary"></div>
+  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-600 mt-8 dark:bg-dark-secondary">
+    <h1 class="text-3xl font-bold mb-6 text-dark-primary dark:text-white border-b-2 pb-4">{{ job.Job_title }}</h1>
 
     <!-- Form for submitting the application -->
     <form @submit.prevent="submitApplication" class="space-y-6">
@@ -8,41 +9,41 @@
 
       <!-- Form fields -->
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Name</label>
+        <label class="block text-gray-500 dark:text-white font-semibold mb-2">Name</label>
         <input
           type="text"
           v-model="applicant.name"
           required
-          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
+          class="w-full px-4 py-2 border rounded-md shadow-sm border-gray-600 bg-gray-200 dark:bg-gray-700 text-black  dark:text-white"
           readonly
         />
       </div>
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Surname</label>
+        <label class="block text-gray-500 dark:text-white font-semibold mb-2">Surname</label>
         <input
           type="text"
           v-model="applicant.surname"
           required
-          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
+          class="w-full px-4 py-2  rounded-md shadow-sm border border-gray-600 bg-gray-200 dark:bg-gray-700 text-black  dark:text-white"
           readonly
         />
       </div>
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Email</label>
+        <label class="block dark:text-white text-gray-500 font-semibold mb-2">Email</label>
         <input
           type="email"
           v-model="applicant.email"
           required
-          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-white"
+          class="w-full px-4 py-2 border  rounded-md shadow-sm border-gray-600 bg-gray-200 dark:bg-gray-700 text-black  dark:text-white"
           readonly
         />
       </div>
 
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Phone</label>
+        <label class="block dark:text-white  text-gray-500 font-semibold mb-2">Phone</label>
         <div class="flex items-center space-x-2">
           <!-- Country Code Select -->
-          <select v-model="selectedCountryCode" class="border border-gray-600 rounded-md px-1 py-2 text-sm bg-gray-700 text-white">
+          <select v-model="selectedCountryCode" class="border rounded-md px-1 py-2 text-sm border-gray-600 bg-white dark:bg-gray-900  dark:text-white text-black">
             <option v-for="code in countryCodes" :key="code.value" :value="code.value">
               {{ code.label }} ({{ code.value }})
             </option>
@@ -56,17 +57,18 @@
             maxlength="10"
             pattern="[0-9]*"
             @input="applicant.phone = applicant.phone.replace(/[^0-9]/g, '').slice(0, 10)"
-            class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-700 text-white"
-          />
+            class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm text-sm   bg-white dark:bg-gray-900 text-black dark:text-white"
+            placeholder="123456789"
+            />
         </div>
       </div>
 
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Message</label>
+        <label class="block dark:text-white text-gray-500 font-semibold mb-2">Message</label>
         <textarea
           v-model="applicant.message"
           rows="4"
-          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-gray-700 text-white"
+          class="w-full px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:ring-2 resize-none bg-white dark:bg-gray-900 text-black"
           placeholder="Tell us why you're a good fit"
         ></textarea>
       </div>
@@ -78,7 +80,7 @@
 
       <!-- File Upload -->
       <div>
-        <label class="block text-gray-300 font-semibold mb-2">Upload Files</label>
+        <label class="block text-gray-500 font-semibold mb-2">Upload Files</label>
 
         <div class="relative w-full max-w-sm">
           <!-- Hidden File Input -->
@@ -99,8 +101,8 @@
 
         <!-- Display Selected Files -->
         <div v-if="files.length" class="mt-2 text-gray-400">
-          <p class="font-semibold text-sm">Selected Files:</p>
-          <ul class="list-disc pl-5 text-gray-300">
+          <p class="font-semibold text-black text-sm">Selected Files:</p>
+          <ul class="list-disc pl-5 text-gray-800">
             <li v-for="file in files" :key="file.name">{{ file.name }}</li>
           </ul>
         </div>

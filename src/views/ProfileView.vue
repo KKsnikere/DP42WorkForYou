@@ -1,5 +1,7 @@
 <template>
-  <div id="app" class="dark:bg-dark-primary">
+  <ProfileEditModal />
+  <div class="h-8 bg-white dark:bg-dark-primary"></div>
+  <div id="app" class="h-screen dark:bg-dark-primary">
     <div class="container mx-auto px-4 dark:bg-dark-primary">
       <!-- Main profile container that will be hidden on small screens -->
       <div class=" dark:bg-dark-secondary shadow-md rounded-3xl p-6 mx-4 border border-accent md:block hidden">
@@ -12,6 +14,7 @@
               @click="triggerFileUpload"
             >
               <!-- If there's a profile image -->
+
               <img
                 v-if="user.profileImageUrl"
                 :src="user.profileImageUrl"
@@ -22,7 +25,7 @@
               <!-- If there's no profile image -->
               <div
                 v-else
-                class="w-full h-full bg-white dark:bg-gray-600 flex items-center justify-center text-gray-500 rounded-full"
+                class="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-500 rounded-full"
               >
                 <span>No Image</span>
               </div>
@@ -49,31 +52,31 @@
             </div>
           </div>
           <!-- User information -->
-          <div class="info-item text-gray-300">
+          <div class="info-item text-gray-600">
             <span class="font-semibold">Email: </span>
             <span class="break-words">{{ user.email }}</span>
           </div>
-          <div class="info-item text-gray-300">
+          <div class="info-item text-gray-600">
             <span class="font-semibold">User Type: </span>
             <span class="break-words">{{ user.user_type }}</span>
           </div>
-          <div v-if="user.name" class="info-item text-gray-300">
+          <div v-if="user.name" class="info-item text-gray-600">
             <span class="font-semibold">Name: </span>
             <span class="break-words">{{ user.name }}</span>
           </div>
-          <div v-if="user.surname" class="info-item text-gray-300">
+          <div v-if="user.surname" class="info-item text-gray-600">
             <span class="font-semibold">Surname: </span>
             <span class="break-words">{{ user.surname }}</span>
           </div>
-          <div v-if="user.org_name" class="info-item text-gray-300">
+          <div v-if="user.org_name" class="info-item text-gray-600">
             <span class="font-semibold">Organization Name: </span>
             <span class="break-words">{{ user.org_name }}</span>
           </div>
-          <div v-if="user.reg_number" class="info-item text-gray-300">
+          <div v-if="user.reg_number" class="info-item text-gray-600">
             <span class="font-semibold">Registration Number: </span>
             <span class="break-words">{{ user.reg_number }}</span>
           </div>
-          <div v-if="user.location" class="info-item text-gray-300">
+          <div v-if="user.location" class="info-item text-gray-600">
             <span class="font-semibold">Location: </span>
             <span class="break-words">{{ user.location }}</span>
           </div>
@@ -87,6 +90,7 @@
             >
               + Add Job Advert
             </button>
+
             <!-- Change Password button -->
             <button
               @click="showChangePasswordModal = true"
@@ -397,6 +401,7 @@
   import { ref, onMounted } from 'vue'
   import axios from 'axios'
   import { useRouter } from "vue-router"; 
+  import ProfileEditModal from '../components/EditProfile.vue';
   
   const router = useRouter(); 
   

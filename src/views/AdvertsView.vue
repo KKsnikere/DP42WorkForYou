@@ -1,6 +1,7 @@
 <template>
   <!-- Job Details -->
-  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white dark:bg-dark-primary shadow-md rounded-lg border border-gray-300 dark:border-gray-700 mt-8">
+  <div class="h-8 bg-white dark:bg-dark-primary"></div>
+  <div v-if="job" class="max-w-4xl mx-auto p-6 bg-white dark:bg-dark-primary shadow-md rounded-lg border border-gray-300 dark:border-gray-700 h-screen">
     <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-4">{{ job.Job_title }}</h1>
     
     <div class="mb-6">
