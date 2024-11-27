@@ -15,7 +15,7 @@
 
       <!-- Registration and login form -->
       <div v-if="step === 'choose'" class="space-y-4">
-        <div v-if="loginError" class="text-red text-sm mt-2 dark:text-red-400">{{ loginError }}</div>
+        <div v-if="loginError" class="text-red text-sm mt-2 dark:text-red">{{ loginError }}</div>
         <button @click="step = 'login'" class="w-full bg-green text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-green transition duration-200 shadow-dark dark:bg-dark-greener dark:text-gray-100 dark:hover:bg-dark-greener">
           Log In
         </button>
@@ -119,6 +119,7 @@
             />
           </button>
         </div>
+        <div v-if="registrationError" class="text-red text-sm mt-2 dark:text-red-400">{{ registrationError }}</div>
 
         <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
           Register
@@ -186,6 +187,7 @@
 
           <!-- Error message section, displayed below the input field -->
           <div v-if="unauthorizedError" class="text-red text-sm mt-2 dark:text-red-400">{{ unauthorizedError }}</div>
+          <div v-if="loginError" class="text-red text-sm mt-2 dark:text-red">{{ loginError }}</div>
         </div>
 
         <button type="submit" class="w-full bg-accent text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-accent transition duration-200 shadow-dark dark:bg-dark-accent dark:text-gray-200 dark:hover:bg-dark-accent">
@@ -224,6 +226,7 @@ export default {
       password: '',
       otp: '',
       loginError: '',
+      registrationError: '',  
       otpError: '',
       unauthorizedError: '', // New property for unauthorized email error
       showPassword: false
@@ -258,6 +261,12 @@ export default {
         this.step = 'verifyOtp';  // Move to OTP verification step
       } catch (error) {
         console.error('Registration error:', error.response.data);
+
+        if (error.response?.status === 400) { // Assuming 409 Conflict for user already exists
+          this.registrationError = 'A user with this email already exists.';
+        } else {
+          this.registrationError = 'An unexpected error occurred. Please try again.';
+        }
       }
     },
     async verifyOtp() {
