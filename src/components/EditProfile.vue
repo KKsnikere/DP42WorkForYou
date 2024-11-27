@@ -246,6 +246,7 @@ const showNewPassword = ref(false);
 const showConfirmPassword = ref(false);
 const emit = defineEmits();
 
+const passwordFormSuccess = ref("")
 const nameFormError = ref("");
 const nameFormSuccess = ref("");
 const passwordFormError = ref("");

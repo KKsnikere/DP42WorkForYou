@@ -141,42 +141,6 @@
             >
               Delete account
             </button>
-            <!-- Modal Background Overlay -->
-            <div
-              id="deleteAccountModal"
-              class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
-            >
-              <!-- Modal Content -->
-              <div class="bg-gray-800 rounded-lg shadow-lg w-80 p-6 space-y-4">
-                <h2 class="text-lg font-semibold text-white">Delete Account</h2>
-                <p class="text-sm text-gray-300">
-                  Are you sure you want to delete your account? This action
-                  cannot be undone.
-                </p>
-                <!-- Password Input -->
-                <input
-                  type="password"
-                  id="passwordInput"
-                  placeholder="Enter your password"
-                  class="w-full border border-gray-500 rounded-md px-3 py-2 text-sm text-gray-300"
-                />
-                <!-- Buttons -->
-                <div class="flex justify-center space-x-20">
-                  <button
-                    @click="confirmDelete()"
-                    class="bg-red-600 text-white py-1 px-4 rounded hover:bg-rose-700 transition duration-200"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    @click="closeModal()"
-                    class="bg-gray-700 text-white py-1 px-4 rounded hover:bg-gray-600 transition duration-200"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
           <!-- User adverts -->
           <div v-if="user.user_type === 'organisation'" class="mt-8">
@@ -295,7 +259,7 @@
           <!-- Button to trigger modal -->
           <button
             @click="showEditModal = true"
-            class="bg-blue-500 text-white p-2 hover:bg-blue-600 transition rounded-lg"
+            class="dark:bg-blue-600 bg-accent text-white w-full font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
           >
             Edit Profile
           </button>
@@ -317,7 +281,7 @@
           <router-link to="/user-applications">
             <button
               v-if="user.user_type === 'individual'"
-              class="bg-accent text-gray-700 font-semibold py-2 rounded-lg w-full dark:bg-accent-dark dark:text-gray-300"
+              class="dark:bg-blue-600 bg-accent text-white w-full font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
             >
               My applications
             </button>
@@ -376,6 +340,44 @@
         </div>
       </div>
     </div>
+
+<!--Deleteacc modal-->
+    <div
+      id="deleteAccountModal"
+      class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+    >
+      <!-- Modal Content -->
+      <div class="bg-gray-800 rounded-lg shadow-lg w-80 p-6 space-y-4">
+        <h2 class="text-lg font-semibold text-white">Delete Account</h2>
+        <p class="text-sm text-gray-300">
+          Are you sure you want to delete your account? This action cannot be
+          undone.
+        </p>
+        <!-- Password Input -->
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Enter your password"
+          class="w-full border border-gray-500 rounded-md px-3 py-2 text-sm text-gray-300"
+        />
+        <!-- Buttons -->
+        <div class="flex justify-center space-x-20">
+          <button
+            @click="confirmDelete()"
+            class="bg-red-600 text-white py-1 px-4 rounded hover:bg-rose-700 transition duration-200"
+          >
+            Delete
+          </button>
+          <button
+            @click="closeModal()"
+            class="bg-gray-700 text-white py-1 px-4 rounded hover:bg-gray-600 transition duration-200"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Job Advert Modal -->
     <div
       v-if="showJobAdvertModal"
