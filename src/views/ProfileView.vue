@@ -119,7 +119,8 @@
               Add job advert
             </button>
 
-            <router-link to="/user-applications">
+            <router-link to="/user-applications"
+            class="w-full sm:w-48">
               <button
                 v-if="user.user_type === 'individual'"
                 class="dark:bg-blue-600 bg-accent text-white w-full sm:w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"

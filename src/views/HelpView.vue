@@ -134,9 +134,9 @@
 
       <!-- Main Contacts Info -->
       <div v-if="isConOpen" class="pl-6 text-gray-700 dark:text-gray-300 space-y-2">
-        <p>• E-mail: official@gmail.com</p>
-        <p>• Contact number: +371 22222222</p>
-        <p>• Address: Address street 1, Riga, Latvia</p>
+        <p>• E-mail: Work4U@gmail.com</p>
+        <p>• Contact number: +371 23277692</p>
+        <p>• Address: Mazcenu aleja 31, Jaunmarupe</p>
       </div>
     </section>
   </div>
