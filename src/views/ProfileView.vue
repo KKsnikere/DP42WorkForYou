@@ -2,37 +2,32 @@
   <div class="h-8 bg-white dark:bg-dark-primary"></div>
   <div id="app" class="h-screen dark:bg-dark-primary">
     <div class="container mx-auto px-4 dark:bg-dark-primary">
-      <!-- Main profile container that will be hidden on small screens -->
       <div
-        class="dark:bg-dark-secondary shadow-md rounded-3xl p-6 mx-4 border border-accent md:block hidden"
+        class="dark:bg-dark-secondary shadow-md rounded-3xl p-6 mx-4 border border-accent"
       >
         <h1 class="text-3xl font-bold mb-6 text-center text-white">
           User Profile
         </h1>
         <div v-if="user" class="space-y-4 dark:bg-dark-secondary">
-          <div class="flex justify-center mb-4 dark:bg-dark-secondary">
-            <!-- Profile Image or placeholder -->
+          <!-- Profile Image -->
+          <div class="flex justify-center mb-4">
             <div
               class="relative w-32 h-32 rounded-full cursor-pointer mb-10"
               @click="triggerFileUpload"
             >
-              <!-- If there's a profile image -->
-
+              <!-- Profile Image or placeholder -->
               <img
                 v-if="user.profileImageUrl"
                 :src="user.profileImageUrl"
                 alt="Profile Image"
                 class="w-full h-full rounded-full object-cover"
               />
-
-              <!-- If there's no profile image -->
               <div
                 v-else
                 class="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-500 rounded-full"
               >
                 <span>No Image</span>
               </div>
-
               <!-- Overlay and "+" icon on hover -->
               <div
                 class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 text-white rounded-full transition duration-200 hover:bg-opacity-50"
@@ -43,7 +38,6 @@
                   +
                 </div>
               </div>
-
               <!-- Hidden file input -->
               <input
                 type="file"
@@ -54,6 +48,7 @@
               />
             </div>
           </div>
+
           <!-- User information -->
           <div class="info-item text-gray-600 dark:text-gray-300">
             <span class="font-semibold">Email: </span>
@@ -98,14 +93,14 @@
             <span class="font-semibold">Location: </span>
             <span class="break-words">{{ user.location }}</span>
           </div>
+
           <!-- Buttons container -->
           <div
             class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-4 sm:space-y-0 mt-6 items-center"
           >
-            <!-- Button to trigger modal -->
             <button
               @click="showEditModal = true"
-              class="dark:bg-blue-600 bg-accent text-white w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
+              class="dark:bg-blue-600 bg-accent text-white w-full sm:w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
             >
               Edit Profile
             </button>
@@ -116,35 +111,34 @@
               @close="showEditModal = false"
             />
 
-            <!-- Add Job Advert button -->
             <button
               v-if="user.user_type === 'organisation'"
               @click="showJobAdvertModal = true"
-              class="bg-green-600 text-white w-48 font-semibold py-2 px-6 text-nowrap rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
+              class="dark:bg-blue-600 bg-accent text-white w-full sm:w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
             >
-              + Add Job Advert
+              Add job advert
             </button>
 
-            <!-- See applications -->
             <router-link to="/user-applications">
               <button
                 v-if="user.user_type === 'individual'"
-                class="dark:bg-blue-600 bg-accent text-white w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
+                class="dark:bg-blue-600 bg-accent text-white w-full sm:w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
               >
                 My applications
               </button>
             </router-link>
-            <!-- Delete account button -->
+
             <button
-              class="bg-red-600 text-white w-48 font-semibold py-2 dark:bg-dark-red bg-dark-red px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
+              class="bg-rose-400 text-white w-full sm:w-48 font-semibold py-2 dark:bg-dark-red px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
               @click="openModal()"
             >
               Delete account
             </button>
           </div>
+
           <!-- User adverts -->
           <div v-if="user.user_type === 'organisation'" class="mt-8">
-            <h2 class="text-2xl font-bold mb-4 mt-20 text-center sm:text-left">
+            <h2 class="text-2xl font-bold mb-4 text-center sm:text-left dark:text-white">
               My Adverts
             </h2>
             <div
@@ -156,9 +150,7 @@
                 :key="advert._id"
                 class="bg-white border border-slate-200 rounded-3xl px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl hover:scale-103 w-full sm:w-80 m-5 h-auto flex flex-col justify-between dark:bg-gray-800 dark:border-gray-700 dark:text-white"
               >
-                <h3
-                  class="text-xl font-semibold overflow-ellipsis overflow-hidden"
-                >
+                <h3 class="text-xl font-semibold overflow-ellipsis overflow-hidden">
                   {{ advert.Job_title }}
                 </h3>
                 <p class="overflow-ellipsis overflow-hidden">
@@ -167,20 +159,16 @@
                 <p class="text-gray-600 dark:text-gray-400">
                   City: {{ advert.city }}
                 </p>
-
-                <!-- Buttons container to align see more and delete button -->
                 <div class="flex justify-between mt-2">
-                  <!-- See more button -->
                   <router-link
                     :to="'/applicants/' + advert.id"
-                    class="bg-accent hover:scale-110 text-center w-36 h-10 items-center content-center xl:p-0 text-gray-700 font-medium py-2 px-4 rounded-lg cursor-pointer transform active:scale-100 transition-transform shadow-dark dark:bg-accent-dark dark:text-gray-300"
+                    class="bg-accent dark:bg-blue-600 hover:scale-110 text-center w-36 h-10 text-white font-medium py-2 px-4 rounded-lg dark:bg-accent-dark dark:text-white"
                   >
                     See applicants
                   </router-link>
-                  <!-- Delete button -->
                   <button
                     @click="deleteAdvert(advert.id)"
-                    class="bg-red text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110 dark:bg-red-600 dark:text-white"
+                    class="dark:bg-dark-red bg-rose-300 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red transition duration-200 shadow-dark hover:scale-110 dark:bg-red-600 dark:text-white"
                   >
                     Delete
                   </button>
@@ -188,160 +176,12 @@
               </div>
             </div>
             <div v-else>
-              <p>No adverts found.</p>
+              <p class="dark:text-white">No adverts found.</p>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Profile for small screens -->
-      <div
-        v-if="user"
-        class="block md:hidden p-4 dark:bg-gray-900 dark:text-white"
-      >
-        <h1 class="text-3xl font-bold mb-6 text-center">User Profile</h1>
-        <div class="flex justify-center mb-4">
-          <div
-            class="relative w-32 h-32 rounded-full cursor-pointer mb-10"
-            @click="triggerFileUpload"
-          >
-            <img
-              v-if="user.profileImageUrl"
-              :src="user.profileImageUrl"
-              alt="Profile Image"
-              class="w-full h-full rounded-full object-cover"
-            />
-            <div
-              v-else
-              class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-full dark:bg-gray-600"
-            >
-              <span>No Image</span>
-            </div>
-            <input
-              type="file"
-              ref="fileInput"
-              accept="image/*"
-              @change="handleFileUpload"
-              class="hidden"
-            />
-          </div>
-        </div>
-        <div class="info-item text-white">
-          <span class="font-semibold text-white">Email: </span>
-          <span class="break-words text-white">{{ user.email }}</span>
-        </div>
-        <div class="info-item">
-          <span class="font-semibold">User Type: </span>
-          <span class="break-words">{{ user.user_type }}</span>
-        </div>
-        <div v-if="user.name" class="info-item">
-          <span class="font-semibold">Name: </span>
-          <span class="break-words">{{ user.name }}</span>
-        </div>
-        <div v-if="user.surname" class="info-item">
-          <span class="font-semibold">Surname: </span>
-          <span class="break-words">{{ user.surname }}</span>
-        </div>
-        <div v-if="user.org_name" class="info-item">
-          <span class="font-semibold">Organization Name: </span>
-          <span class="break-words">{{ user.org_name }}</span>
-        </div>
-        <div v-if="user.reg_number" class="info-item">
-          <span class="font-semibold">Registration Number: </span>
-          <span class="break-words">{{ user.reg_number }}</span>
-        </div>
-        <div v-if="user.location" class="info-item">
-          <span class="font-semibold">Location: </span>
-          <span class="break-words">{{ user.location }}</span>
-        </div>
-
-        <div class="flex flex-col space-y-4 mt-6">
-          <!-- Button to trigger modal -->
-          <button
-            @click="showEditModal = true"
-            class="dark:bg-blue-600 bg-accent text-white w-full font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
-          >
-            Edit Profile
-          </button>
-
-          <!-- Modal Component -->
-          <EditProfileModal
-            v-if="showEditModal"
-            @close="showEditModal = false"
-          />
-
-          <button
-            v-if="user.user_type === 'organisation'"
-            @click="showJobAdvertModal = true"
-            class="bg-green text-gray-700 font-semibold py-2 rounded-lg dark:bg-green-600 dark:text-gray-100"
-          >
-            + Add Job Advert
-          </button>
-
-          <router-link to="/user-applications">
-            <button
-              v-if="user.user_type === 'individual'"
-              class="dark:bg-blue-600 bg-accent text-white w-full font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
-            >
-              My applications
-            </button>
-          </router-link>
-
-          <button
-            class="bg-red-600 text-white font-semibold w-full py-2 dark:bg-dark-red bg-dark-red px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
-            @click="openModal()"
-          >
-            Delete account
-          </button>
-        </div>
-        <div v-if="user.user_type === 'organisation'" class="mt-8">
-          <h2 class="text-2xl font-bold mb-4 mt-6 dark:text-white">
-            My Adverts
-          </h2>
-          <div v-if="adverts.length > 0" class="flex flex-wrap">
-            <div
-              v-for="advert in adverts"
-              :key="advert._id"
-              class="bg-white border border-slate-200 rounded-3xl px-5 py-5 m-2 w-full sm:w-80 flex flex-col dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-            >
-              <h3
-                class="text-xl font-semibold overflow-ellipsis overflow-hidden"
-              >
-                {{ advert.Job_title }}
-              </h3>
-              <p class="overflow-ellipsis overflow-hidden">
-                {{ advert.description }}
-              </p>
-              <p class="text-gray-600 dark:text-gray-400">
-                City: {{ advert.city }}
-              </p>
-              <div class="flex justify-between mt-2">
-                <router-link
-                  :to="'/applicants/' + advert.id"
-                  class="bg-accent text-gray-700 font-medium py-2 px-4 rounded-lg dark:bg-accent-dark dark:text-gray-300"
-                  >See applicants</router-link
-                >
-                <button
-                  @click="deleteAdvert(advert.id)"
-                  class="bg-red text-gray-700 font-semibold w-10 h-10 p-0 rounded-lg flex items-center justify-center dark:bg-red-600 dark:text-white"
-                >
-                  <img
-                    src="../assets/Images/trash-can.svg"
-                    alt="Delete"
-                    class="w-6 h-6"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div v-else>
-            <p>No adverts found.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-<!--Deleteacc modal-->
+      <!--Deleteacc modal-->
     <div
       id="deleteAccountModal"
       class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
@@ -377,115 +217,179 @@
         </div>
       </div>
     </div>
-
-    <!-- Job Advert Modal -->
-    <div
-      v-if="showJobAdvertModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-    >
+      <!-- Job Advert Modal -->
       <div
-        class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full max-h-full overflow-y-auto relative mx-4 dark:bg-gray-800 dark:text-white"
+        v-if="showJobAdvertModal"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
       >
-        <button
-          @click="showJobAdvertModal = false"
-          class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 dark:text-gray-300"
+        <div
+          class="bg-white dark:bg-dark-primary p-8 rounded-lg shadow-lg max-w-lg w-full max-h-full overflow-y-auto relative mx-4"
         >
-          &times;
-        </button>
-        <h2 class="text-2xl font-bold mb-4 text-center dark:text-white">
-          Create Job Advert
-        </h2>
-        <!-- Error Message -->
-        <p v-if="formError" class="text-red-500 mb-4">{{ formError }}</p>
-        <!-- Form -->
-        <form @submit.prevent="createJobAdvert">
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Company Name</label
-            >
-            <input
-              type="text"
-              v-model="jobAdvert.Company_name"
-              class="w-full px-3 py-2 border rounded-lg bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              readonly
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Description</label
-            >
-            <textarea
-              v-model="jobAdvert.description"
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green dark:bg-gray-700 dark:text-white"
-              required
-            ></textarea>
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Job Title</label
-            >
-            <input
-              type="text"
-              v-model="jobAdvert.Job_title"
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none dark:bg-gray-700 dark:text-white"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Location</label
-            >
-            <input
-              type="text"
-              v-model="jobAdvert.city"
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none dark:bg-gray-700 dark:text-white"
-              required
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Job Type</label
-            >
-            <select
-              v-model="jobAdvert.job_type"
-              class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-              required
-            >
-              <option value="Full-Time">Full-Time</option>
-              <option value="Part-Time">Part-Time</option>
-              <option value="Freelance">Freelance</option>
-            </select>
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 font-semibold mb-2 dark:text-gray-300"
-              >Experience</label
-            >
-            <input
-              type="text"
-              v-model="jobAdvert.experience"
-              class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-              required
-            />
-          </div>
-          <div class="flex justify-end">
+          <button
+            @click="showJobAdvertModal = false"
+            class="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
+          >
+            &times;
+          </button>
+          <h2 class="text-2xl font-bold mb-4 text-center dark:text-white">Create Job Advert</h2>
+          <!-- Error Message -->
+          <p v-if="formError" class="text-red-500 mb-4">{{ formError }}</p>
+          <!-- Form -->
+          <form @submit.prevent="createJobAdvert">
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Company Name</label>
+              <input
+                type="text"
+                v-model="jobAdvert.Company_name"
+                class="w-full px-3 py-2 border rounded-lg bg-gray-200  dark:bg-dark-primary dark:border-dark-accent dark:text-gray-100"
+                readonly
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Description</label>
+              <textarea
+                v-model="jobAdvert.description"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              ></textarea>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Job Title</label>
+              <input
+                type="text"
+                v-model="jobAdvert.Job_title"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Phone Number</label>
+              <input
+                type="text"
+                v-model="jobAdvert.phone_number"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Registration Number</label>
+              <input
+                type="text"
+                v-model="jobAdvert.reg_nr"
+                class="w-full px-3 py-2 border rounded-lg bg-gray-200  dark:bg-dark-primary dark:border-dark-accent dark:text-gray-100"
+                readonly
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Address</label>
+              <input
+                type="text"
+                v-model="jobAdvert.address"
+                class="w-full px-3 py-2 border rounded-lg bg-gray-200  dark:bg-dark-primary dark:border-dark-accent dark:text-gray-100"
+                readonly
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Email</label>
+              <input
+                type="text"
+                v-model="jobAdvert.email"
+                class="w-full px-3 py-2 border rounded-lg bg-gray-200  dark:bg-dark-primary dark:border-dark-accent dark:text-gray-100"
+                readonly
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Work Type</label>
+              <select
+                v-model="jobAdvert.worktype"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              >
+                <option value="Part-Time">Part-Time</option>
+                <option value="Full-time">Full-Time</option>
+                <option value="One-time">One-time</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Profession</label>
+              <select
+                v-model="jobAdvert.profession"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              >
+                <option value="Programmer">Programmer</option>
+                <option value="Biotechnology">Biotechnology</option>
+                <option value="DevOps">DevOps</option>
+                <option value="AI">AI</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Networking">Networking</option>
+                <option value="Educator">Educator</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="VR">VR</option>
+                <option value="Management">Management</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Type of Work</label>
+              <select
+                v-model="jobAdvert.typeOfwork"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              >
+                <option value="Online">Online</option>
+                <option value="In-office">In-office</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">City</label>
+              <select
+                v-model="jobAdvert.city"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              >
+                <option value="Liepaja">Liepaja</option>
+                <option value="Ogre">Ogre</option>
+                <option value="Bauska">Bauska</option>
+                <option value="Jurmala">Jurmala</option>
+                <option value="Tukums">Tukums</option>
+                <option value="Ventspils">Ventspils</option>
+                <option value="Riga">Riga</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Work Time</label>
+              <select
+                v-model="jobAdvert.workTime"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              >
+                <option value="Workdays">Workdays</option>
+                <option value="Weekend">Weekend</option>
+                <option value="Schedule">Schedule</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2 dark:text-gray-300">Salary</label>
+              <input
+                type="number"
+                v-model="jobAdvert.salary"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green  dark:bg-dark-secondary dark:border-dark-accent dark:text-gray-100"
+                required
+              />
+            </div>
             <button
               type="submit"
-              class="bg-green text-white px-6 py-2 rounded-lg hover:bg-green-600 transition dark:bg-green-600"
+              class="dark:bg-blue-600 bg-accent text-white w-full sm:w-48 font-semibold py-2 px-6 rounded-lg hover:scale-110 transition duration-200 shadow-lg hover:shadow-xl"
             >
-              Submit
+              Create Job Advert
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
   </div>
+</div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from "vue";
