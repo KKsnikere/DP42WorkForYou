@@ -7,7 +7,17 @@
       <div>
         <!-- Logo -->
         <router-link to="/home">
-          <img src="../assets/Images/logo2.svg" alt="Logo" class="w-60 -ml-8" />
+          <img
+            src="../assets/Images/logo2.svg"
+            alt="Logo"
+            class="w-60 hover:scale-110 dark:hidden"
+          />
+          <!-- Dark mode image -->
+          <img
+            src="../assets/Images/logodark.png"
+            alt="logo"
+            class="w-60 hover:scale-110 hidden dark:block"
+          />
         </router-link>
       </div>
     </div>

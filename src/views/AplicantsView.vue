@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-6">
+  <div class="container mx-auto p-6 h-screen">
     <h1 class="text-2xl font-bold mb-6 text-white">Applicants for Job: {{ jobTitle }}</h1>
     <div v-if="error" class="text-red-500 mb-4">{{ error }}</div>
     <div v-if="loading" class="text-gray-500">Loading applicants...</div>

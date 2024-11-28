@@ -12,7 +12,7 @@
   
       <!-- Button to navigate to the job detail page -->
       <router-link :to="`/jobs/${application.jobId}`">
-        <button class="mt-4 bg-accent text-white font-semibold py-2 px-4 rounded hover:scale-110 active:scale-100 transition-transform">
+        <button class="mt-4 dark:bg-blue-600 bg-accent text-white font-semibold py-2 px-4 rounded hover:scale-110 active:scale-100 transition-transform">
           View Job Details
         </button>
       </router-link>
