@@ -26,10 +26,11 @@
 
     <!-- Apply and Back Buttons -->
     <div class="flex mt-10 space-x-4">
-      <button class="transform hover:scale-110 transition">
+      <button 
+      class="transform hover:scale-110 transition">
         <router-link 
           :to="`/apply/${jobId}`"
-          class="bg-accent text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
+          class="bg-accent dark:bg-dark-accent text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded cursor-pointer transform active:scale-100 transition-transform hover:scale-110 shadow-dark"
         >
           Apply
         </router-link>
@@ -39,7 +40,7 @@
       <button class="transform active:scale-100 transition-transform hover:scale-110 shadow-dark">
         <router-link
           to="/home"
-          class="bg-red text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded cursor-pointer"
+          class="bg-red dark:bg-dark-red text-gray-700 dark:text-gray-200 font-bold py-2 px-4 rounded cursor-pointer"
         >
           Back
         </router-link>
@@ -75,7 +76,6 @@
   const token = document.cookie.split('; ').find(row => row.startsWith('token='));
   return token !== undefined;
 };
-
   
   const fetchJobDetails = async () => {
     try {

@@ -448,7 +448,7 @@ const changeNameForm = ref({
   surname: "",
 });
 
-const fileInput = ref(null); // Reference to the file input element
+const fileInput = ref(null);
 
 // Method to trigger the file input click
 const triggerFileUpload = () => {
@@ -463,14 +463,14 @@ const handleFileUpload = async (event) => {
       const formData = new FormData();
       formData.append("file", file);
 
-      // Upload the file to the API
+
       const response = await axios.post(
         "https://gachi.gay/api/upload",
         formData
       );
 
       const data = response.data;
-      const imageUrl = data.link; // Get the image URL from the response
+      const imageUrl = data.link; 
 
       // Save the image URL on the server
       await axios.post("http://127.0.0.1:5000/update_profile_image", {
@@ -478,7 +478,7 @@ const handleFileUpload = async (event) => {
         profileImageUrl: imageUrl,
       });
 
-      // Update the image URL on the client, adding a timestamp to prevent caching
+
       user.value.profileImageUrl = `${imageUrl}?t=${new Date().getTime()}`;
     } catch (error) {
       console.error(
@@ -583,7 +583,7 @@ function closeModal() {
 async function confirmDelete() {
   const password = document.getElementById("passwordInput").value;
 
-  console.log("Password entered:", password); // Check the captured password
+  console.log("Password entered:", password); 
 
   try {
     console.log("Sending delete request to /delete-account...");
@@ -599,18 +599,18 @@ async function confirmDelete() {
       body: JSON.stringify({ password }),
     });
 
-    console.log("Response status:", response.status); // Log the response status
+      console.log("Response status:", response.status); 
 
     if (response.ok) {
       console.log("Account deleted successfully.");
       alert("Account deleted successfully.");
       window.location.href = "/";
     } else {
-      console.warn("Failed to delete account:", response.statusText); // Log the failure reason
+      console.warn("Failed to delete account:", response.statusText); 
       alert("Failed to delete account. Please check your password.");
     }
   } catch (error) {
-    console.error("Error during account deletion:", error); // Log any caught errors
+    console.error("Error during account deletion:", error); 
     alert("An error occurred.");
   }
 
@@ -626,10 +626,10 @@ const changePasswordForm = ref({
 
 const changePassword = async () => {
   try {
-    // Clear previous error
+    
     passwordFormError.value = "";
 
-    // Check if all fields are filled
+
     if (
       !changePasswordForm.value.old_password ||
       !changePasswordForm.value.new_password ||
@@ -639,7 +639,7 @@ const changePassword = async () => {
       return;
     }
 
-    // Check if new password matches confirmation
+    
     if (
       changePasswordForm.value.new_password !==
       changePasswordForm.value.confirm_password
@@ -654,20 +654,20 @@ const changePassword = async () => {
       throw new Error("User email not found in localStorage");
     }
 
-    // Prepare request data
+    
     const requestData = {
       email,
       old_password: changePasswordForm.value.old_password,
       new_password: changePasswordForm.value.new_password,
     };
 
-    // Make API request to change the password
+    
     const response = await axios.post(
       "http://127.0.0.1:5000/password_change",
       requestData
     );
 
-    // Handle response
+    
     if (response.data.error) {
       passwordFormError.value = response.data.error;
     } else {
@@ -685,7 +685,7 @@ const changePassword = async () => {
   }
 };
 
-// New Method to handle name and surname change
+
 const changeName = async () => {
   try {
     if (!changeNameForm.value.name || !changeNameForm.value.surname) {

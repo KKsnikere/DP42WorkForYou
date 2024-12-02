@@ -57,7 +57,4 @@
   };
   </script>
   
-  <style scoped>
-  /* Custom styling */
-  </style>
   

@@ -12,7 +12,6 @@
       >
         <h2 class="text-lg font-semibold text-white">{{ applicant.name }} {{ applicant.surname }}</h2>
 
-        <!-- Enhanced Email Link with Copy Icon -->
         <div class="flex items-center">
           <p class="text-sm mr-2 text-gray-300">
             <strong>Email: </strong> 
@@ -73,22 +72,22 @@ export default {
     return {
       applicants: [],
       jobId: this.$route.params.id,
-      jobTitle: '', // New property for job title
+      jobTitle: '', 
       loading: false,
       error: null,
     };
   },
 
   async created() {
-    await this.fetchJobTitle(); // Fetch the job title first
-    await this.fetchApplicants(); // Then fetch applicants
+    await this.fetchJobTitle(); 
+    await this.fetchApplicants(); 
   },
   methods: {
     async fetchJobTitle() {
       this.loading = true;
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/jobs/${this.jobId}`); // Adjust API endpoint as necessary
-        this.jobTitle = response.data.Job_title; // Assign the job title from the response
+        const response = await axios.get(`http://127.0.0.1:5000/jobs/${this.jobId}`); 
+        this.jobTitle = response.data.Job_title;
       } catch (error) {
         console.log("Error fetching job title:", error);
         this.error = "Failed to fetch job title.";
@@ -110,7 +109,7 @@ export default {
 
         this.applicants = response.data.map(applicant => ({
           ...applicant,
-          files: applicant.files || [], // Ensure files is an array
+          files: applicant.files || [],
         }));
         
       } catch (error) {

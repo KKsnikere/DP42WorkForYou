@@ -34,12 +34,9 @@
         <div>
           <h3 class="text-lg font-semibold  dark:text-blue-400 text-gray-700 mb-4">Follow Us</h3>
           <div class="flex justify-center space-x-4">
-            <!-- Social Media Icons -->
             <a href="https://www.facebook.com" class="dark:text-gray-400 text-gray-600 dark:hover:text-blue-300 hover:text-dark-green transition duration-300">
               <span class="material-icons">Facebook</span>
             </a>
-
-            <!-- Add more icons as needed -->
           </div>
         </div>
       </div>

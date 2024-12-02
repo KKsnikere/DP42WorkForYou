@@ -10,7 +10,7 @@
           @click.stop
           @click="togglePopup(index)"
           :class="{
-            'bg-accent hover:scale-110 text-slate-600 dark:bg-accent-dark dark:text-white':
+            'bg-accent dark:bg-dark-accent hover:scale-110 text-slate-600 dark:bg-accent-dark dark:text-white':
               showPopup === index,
             'bg-gray-200 dark:bg-gray-700': showPopup !== index,
           }"
@@ -221,7 +221,7 @@
       </div>
     </div>
 
-    <!-- No Results Found -->
+    
     <div
       v-else-if="filteredJobs.length === 0"
       class="text-center mt-4 text-gray-700 dark:text-gray-300"
@@ -230,7 +230,7 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div class="flex justify-center mt-4 space-x-2">
+    <div class="flex justify-center mt-4 space-x-2 mb-5">
       <button
         @click="prevPage"
         :disabled="currentPage === 1"
@@ -341,7 +341,7 @@ const toggleLikeJob = (jobId) => {
   const job = jobs.value[jobIndex];
 
   if (job.liked) {
-    // Unlike the job
+  
     axios
       .post("http://127.0.0.1:5000/delete-favorite", {
         jobId: jobId,
@@ -354,7 +354,7 @@ const toggleLikeJob = (jobId) => {
         console.error("Error removing job from favorites:", error);
       });
   } else {
-    // Like the job
+
     axios
       .post("http://127.0.0.1:5000/add-favorite", {
         job_id: jobId,
@@ -453,7 +453,7 @@ const sortJobs = async (order) => {
     const response = await axios.get(
       `http://127.0.0.1:5000/jobs?${queryString}&sort=${order}`
     );
-    jobs.value = response.data; // Update the jobs list with sorted jobs
+    jobs.value = response.data; 
   } catch (error) {
     console.error("Error fetching sorted jobs:", error);
   }

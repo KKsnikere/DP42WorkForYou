@@ -73,7 +73,7 @@
         ></textarea>
       </div>
 
-      <!-- Display Error Message for Backend Validation -->
+
       <div v-if="backendError" class="text-red-400 text-sm mt-1">
         {{ backendError }}
       </div>
@@ -83,14 +83,13 @@
         <label class="block text-gray-500 font-semibold mb-2">Upload Files</label>
 
         <div class="relative w-full max-w-sm">
-          <!-- Hidden File Input -->
           <input
             type="file"
             multiple
             @change="handleFileUpload"
             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
-          <!-- Custom Button Style -->
+        
           <button
             type="button"
             class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
@@ -139,7 +138,7 @@ const route = useRoute()
 const jobId = route.params.id
 const router = useRouter(); 
 
-// Define applicant data
+
 const applicant = ref({
   name: '',
   surname: '',
@@ -203,7 +202,7 @@ const fetchUserData = async () => {
     const response = await axios.post('http://127.0.0.1:5000/user', { email })
     const user = response.data
 
-    // Auto-fill applicant fields if user data is available
+
     applicant.value.name = user.name || ''
     applicant.value.surname = user.surname || ''
     applicant.value.email = user.email || ''
@@ -223,15 +222,15 @@ const submitApplication = async () => {
   try {
     const formData = new FormData()
 
-    // Combine country code and phone number before appending
+    
     const fullPhoneNumber = `${selectedCountryCode.value}${applicant.value.phone}`
 
     formData.append('name', applicant.value.name)
     formData.append('surname', applicant.value.surname)
     formData.append('email', applicant.value.email)
-    formData.append('phone', fullPhoneNumber)  // Append combined phone number
+    formData.append('phone', fullPhoneNumber)  
     formData.append('message', applicant.value.message)
-    formData.append('jobId', jobId)  // Add jobId to formData
+    formData.append('jobId', jobId) 
 
     // Append files to formData
     for (let i = 0; i < files.value.length; i++) {
@@ -251,7 +250,7 @@ const submitApplication = async () => {
   } catch (err) {
     // Handle error from backend
     if (err.response && err.response.data && err.response.data.error) {
-      backendError.value = err.response.data.error // Display backend error message
+      backendError.value = err.response.data.error 
     } else {
       console.error('Error submitting application:', err)
       alert('Failed to submit application.')
